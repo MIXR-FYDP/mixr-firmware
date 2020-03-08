@@ -33,7 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLE_BUFFER_SIZE 2000
+#define SAMPLE_BUFFER_SIZE 10000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -61,9 +61,13 @@ uint32_t I2S_RxBuffer_L[SAMPLE_BUFFER_SIZE];
 uint32_t I2S_RxBuffer_R[SAMPLE_BUFFER_SIZE];
 uint32_t I2S_RxBuffer_L_Index = 0;
 uint32_t I2S_RxBuffer_R_Index = 0;
-uint16_t I2S_Rx_pData[2];
-uint8_t RecievedState = 0;
-uint32_t RecievedCount = 0;
+
+// uint32_t I2S_RxBuffer[SAMPLE_BUFFER_SIZE];
+// uint32_t I2S_RxBuffer_Index = 0;
+// uint32_t I2S_RxChannel[SAMPLE_BUFFER_SIZE];
+// uint16_t I2S_Rx_pData[2];
+// uint8_t RecievedState = 0;
+// uint32_t RecievedCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,6 +95,7 @@ static void MX_USB_OTG_FS_PCD_Init(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
   // RCC->CSR |= RCC_CSR_RMVF;
   /* USER CODE END 1 */
@@ -127,43 +132,84 @@ int main(void)
   // MX_USART2_UART_Init();
   // MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-
-  HAL_StatusTypeDef status;
-  // status = HAL_I2S_Receive(&hi2s1, data, 1, 100);
-
-  // if(status == HAL_OK) {
-  //   HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, 1);
-  // } else {
-  //   HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, 1);
-  // }
-
-  while(RecievedCount < SAMPLE_BUFFER_SIZE) {
-    HAL_I2S_Receive_IT(&hi2s1, I2S_Rx_pData, 1);
-    while(RecievedState == 0);
-    RecievedState = 0;
-    // uint16_t data[2];
-    // HAL_I2S_Receive(&hi2s1, data, 2, 100);
-    // ws[count] = READ_BIT(hi2s1.Instance->SR, SPI_SR_CHSIDE);
-    // if(ws[count] == 0)
-    //   data_full_0[count] = (int32_t) data[0] << 16 | data[1];
-    // else 
-    //   data_full_0[count] = 0;
-    // //SEGGER_RTT_printf(0, "%d, %d\r\n",ws[count], data_full_0[count]);
-    // data_full_0[count] = data_full_0[count] >> 8;
-    // count++;
-  }
+  // HAL_Delay(1000);
+  // HAL_GPIO_WritePin(ADC_nRESET_GPIO_Port, ADC_nRESET_Pin, GPIO_PIN_SET);
+  // HAL_Delay(1000);
 
   uint16_t count = 0;
+  // while(count < 2) {
+  //   SEGGER_RTT_printf(0, "Data: %d, Status: %d\r\n", data[count], status[count]);
+  //   count++;
+  // }
+
+  uint8_t channel = 0;
+  uint8_t last_channel = 0;
+  // uint16_t srl[SAMPLE_BUFFER_SIZE] = {0};
+  // uint16_t srr[SAMPLE_BUFFER_SIZE] = {0};
+
+  uint16_t data[2] = {0};
+  uint16_t status[2] = {0};
+
   while(count < SAMPLE_BUFFER_SIZE) {
-    SEGGER_RTT_printf(0, "%d, %d\r\n", I2S_RxBuffer_L[count], I2S_RxBuffer_R[count]);
+    HAL_I2S_Receive(&hi2s1, data, status, 1, 100);
+
+    // I2S_RxBuffer[I2S_RxBuffer_Index] = ((int32_t) data[0] << 16 | data[1]) >> 8;
+    // I2S_RxChannel[I2S_RxBuffer_Index] = status[0];
+    // I2S_RxBuffer_Index++;
+
+    if(status[0] == status[1]) {
+      channel = (uint8_t) status[0] & 0x4;
+      if(channel != last_channel) {
+        switch(channel) {
+          case 0x0:
+            // srl[I2S_RxBuffer_L_Index] = status[0];
+            I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8;
+            break;
+          case 0x4:
+            // srr[I2S_RxBuffer_R_Index] = status[0];
+            I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8; 
+            break;
+        }
+        last_channel = channel;
+      }
+      else {
+        // SEGGER_RTT_printf(0, "%s\r\n", "DUPLICATE");
+      }
+    }
+    else {
+      // SEGGER_RTT_printf(0, "%s\r\n", "CHANNEL MISMATCH");
+    }
     count++;
   }
 
   // count = 0;
-  // while(count < 256) {
-  //   SEGGER_RTT_printf(0, "%d\r\n", data_full_1[count]);
+  // while(count < SAMPLE_BUFFER_SIZE) {
+  //   if(I2S_RxChannel[count] & 0x4) {
+  //     SEGGER_RTT_printf(0, "%d, %d\r\n", count, I2S_RxBuffer[count]);
+  //   }
+  //   // if (srl[count] != srr[count]) {
+  //   // SEGGER_RTT_printf(0, "%d: %X %X\r\n", count, srl[count], srr[count]);
+  //   // }
+  //   HAL_Delay(1);
   //   count++;
   // }
+
+  SEGGER_RTT_printf(0, "Samples Printed\n");
+
+  // while(RecievedCount < SAMPLE_BUFFER_SIZE) {
+  //   HAL_I2S_Receive_IT(&hi2s1, I2S_Rx_pData, 1);
+  //   while(RecievedState == 0);
+  //   RecievedState = 0;
+  // }
+
+  count = 0;
+  uint32_t limit = (I2S_RxBuffer_L_Index > I2S_RxBuffer_R_Index) ? I2S_RxBuffer_R_Index : I2S_RxBuffer_L_Index;
+  while(count < limit) {
+    // SEGGER_RTT_printf(0, "%d '%X' , %d '%X'\r\n", I2S_RxBuffer_L[count], srl[count], I2S_RxBuffer_R[count], srr[count]);
+    SEGGER_RTT_printf(0, "%d, %d, %d\r\n", count, I2S_RxBuffer_L[count], I2S_RxBuffer_R[count]);
+    HAL_Delay(1);
+    count++;
+  }
 
   /* USER CODE END 2 */
 
@@ -179,22 +225,20 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef* hi2s)
-{
-  RecievedState = 1;
-  __HAL_I2S_DISABLE_IT(&hi2s1, I2S_IT_RXNE);
-  // HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4);
-  // switch(READ_BIT(hi2s1.Instance->SR, I2S_FLAG_CHSIDE)) {
-  switch(!HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4)) {
-    case 0x1:
-      I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = (int32_t) I2S_Rx_pData[0] << 16 | I2S_Rx_pData[1];
-      break;
-    case 0x0:
-      I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = (int32_t) I2S_Rx_pData[0] << 16 | I2S_Rx_pData[1];
-      break;
-  }
-  RecievedCount++;
-}
+// void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef* hi2s)
+// {
+//   RecievedState = 1;
+//   __HAL_I2S_DISABLE_IT(&hi2s1, I2S_IT_RXNE);
+//   switch(hi2s1.Instance->SR & 0x4) {
+//     case 0x0:
+//       I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = (int32_t) I2S_Rx_pData[0] << 16 | I2S_Rx_pData[1];
+//       break;
+//     case 0x4:
+//       I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = (int32_t) I2S_Rx_pData[0] << 16 | I2S_Rx_pData[1];
+//       break;
+//   }
+//   RecievedCount++;
+// }
 
 /**
   * @brief System Clock Configuration
@@ -255,6 +299,68 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
+
+// void SystemClock_Config(void)
+// {
+//   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+//   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+//   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+//   /** Configure the main internal regulator output voltage 
+//   */
+//   __HAL_RCC_PWR_CLK_ENABLE();
+//   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+//   /** Initializes the CPU, AHB and APB busses clocks 
+//   */
+//   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+//   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+//   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+//   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+//   RCC_OscInitStruct.PLL.PLLM = 25;
+//   RCC_OscInitStruct.PLL.PLLN = 432;
+//   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+//   RCC_OscInitStruct.PLL.PLLQ = 9;
+//   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+//   /** Activate the Over-Drive mode 
+//   */
+//   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+//   /** Initializes the CPU, AHB and APB busses clocks 
+//   */
+//   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+//                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+//   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+//   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+//   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
+//   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
+
+//   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7) != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+//   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
+//                               |RCC_PERIPHCLK_SDMMC2|RCC_PERIPHCLK_I2S
+//                               |RCC_PERIPHCLK_CLK48;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
+//   PeriphClkInitStruct.PLLI2SDivQ = 1;
+//   PeriphClkInitStruct.I2sClockSelection = RCC_I2SCLKSOURCE_PLLI2S;
+//   PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+//   PeriphClkInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+//   PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLL;
+//   PeriphClkInitStruct.Sdmmc2ClockSelection = RCC_SDMMC2CLKSOURCE_CLK48;
+//   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+// }
 
 /**
   * @brief I2S1 Initialization Function
@@ -524,13 +630,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, DEBUG_LED_0_Pin|LED_1_Pin|LED_2_Pin|LED_3_Pin 
-                          |FLASH_NRESET_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(ADC_nRESET_GPIO_Port, ADC_nRESET_Pin, GPIO_PIN_SET);
-
   /*Configure GPIO pins : DEBUG_LED_0_Pin LED_1_Pin LED_2_Pin LED_3_Pin 
                            FLASH_NRESET_Pin */
   GPIO_InitStruct.Pin = DEBUG_LED_0_Pin|LED_1_Pin|LED_2_Pin|LED_3_Pin 
@@ -558,6 +657,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, DEBUG_LED_0_Pin|LED_1_Pin|LED_2_Pin|LED_3_Pin 
+                          |FLASH_NRESET_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(ADC_nRESET_GPIO_Port, ADC_nRESET_Pin, GPIO_PIN_SET);
 
 }
 

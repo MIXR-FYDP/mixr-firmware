@@ -117,8 +117,8 @@ void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     /* I2S1 interrupt Init */
-    HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(SPI1_IRQn);
+    // HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
+    // HAL_NVIC_EnableIRQ(SPI1_IRQn);
   /* USER CODE BEGIN SPI1_MspInit 1 */
 
   /* USER CODE END SPI1_MspInit 1 */

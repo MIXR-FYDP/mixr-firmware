@@ -866,9 +866,10 @@ HAL_StatusTypeDef HAL_I2S_Transmit(I2S_HandleTypeDef *hi2s, uint16_t *pData, uin
   *         in continuous way and as the I2S is not disabled at the end of the I2S transaction.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout)
+HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t* status, uint16_t Size, uint32_t Timeout)
 {
   uint32_t tmpreg_cfgr;
+  uint16_t* tmp_status;
 
   if ((pData == NULL) || (Size == 0U))
   {
@@ -888,6 +889,7 @@ HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint
   hi2s->State = HAL_I2S_STATE_BUSY_RX;
   hi2s->ErrorCode = HAL_I2S_ERROR_NONE;
   hi2s->pRxBuffPtr = pData;
+  tmp_status = status;
 
   tmpreg_cfgr = hi2s->Instance->I2SCFGR & (SPI_I2SCFGR_DATLEN | SPI_I2SCFGR_CHLEN);
 
@@ -931,6 +933,8 @@ HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint
     }
 
     (*hi2s->pRxBuffPtr) = (uint16_t)hi2s->Instance->DR;
+    (*tmp_status) = (uint16_t)hi2s->Instance->SR;
+    tmp_status++;
     hi2s->pRxBuffPtr++;
     hi2s->RxXferCount--;
 
