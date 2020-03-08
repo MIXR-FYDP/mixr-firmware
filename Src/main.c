@@ -39,7 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLE_BUFFER_SIZE 10000
+#define SAMPLE_COUNT 262144
+#define SAMPLE_BUFFER_SIZE 128
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -99,10 +100,6 @@ FRESULT scan_files (char* path);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  //Fatfs object
-  FATFS FatFs;
-  //File object
-  FIL fil;
 
   /* USER CODE END 1 */
 
@@ -138,16 +135,45 @@ int main(void)
   // MX_USART2_UART_Init();
   // MX_USB_OTG_FS_PCD_Init();
   MX_FATFS_Init();
-  /* USER CODE BEGIN 2 */
+  
+  BSP_SD_Init();
+  HAL_Delay(1000);
+
+  /* Init FatFS and data files. */
+  FATFS FatFs;
+  FIL ch0, ch1;
+  FRESULT fres;
+
+  fres = f_mount(&FatFs, "/", 1); //1=mount now
+  if (fres != FR_OK) {
+    myprintf("f_mount error (%i)\r\n", fres);
+    Error_Handler();
+  }
+
+  fres = f_open(&ch0, "0.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+  if(fres == FR_OK) {
+    myprintf("I was able to open '0.txt' for writing\r\n");
+  } else {
+    myprintf("f_open error (%i)\r\n", fres);
+  }
+
+  fres = f_open(&ch1, "1.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+  if(fres == FR_OK) {
+    myprintf("I was able to open '1.txt' for writing\r\n");
+  } else {
+    myprintf("f_open error (%i)\r\n", fres);
+  }
     
   /* I2S Acquisition */
-  uint16_t count = 0;
+  uint32_t count = 0;
   uint8_t channel = 0;
   uint8_t last_channel = 0;
   uint16_t data[2] = {0};
   uint16_t status[2] = {0};
+  uint32_t bw0;
+  uint32_t bw1;
 
-  while(count < SAMPLE_BUFFER_SIZE) {
+  while(count < SAMPLE_COUNT) {
     HAL_I2S_Receive(&hi2s1, data, status, 1, 100);
     if(status[0] == status[1]) {
       channel = (uint8_t) status[0] & 0x4;
@@ -161,9 +187,15 @@ int main(void)
             break;
         }
         last_channel = channel;
+        count++;
       }
     }
-    count++;
+    if(count % (SAMPLE_BUFFER_SIZE * 2) == 0 && count != 0) {
+      I2S_RxBuffer_L_Index = 0;
+      I2S_RxBuffer_R_Index = 0;
+      f_write(&ch0, I2S_RxBuffer_L, 512, &bw0);
+      f_write(&ch1, I2S_RxBuffer_R, 512, &bw1);
+    }
   }
 
   count = 0;
@@ -174,94 +206,72 @@ int main(void)
     count++;
   }
 
-  /* SD Card Initialization and test. */
-  FRESULT fres;
+  /* FatFS teardown */
 
-  BSP_SD_Init();
-  HAL_Delay(1000);
+  FILINFO f0, f1;
 
-  HAL_SD_CardStateTypeDef sd_status = HAL_SD_GetCardState(&hsd2);
-  SEGGER_RTT_printf(0, "Status: %d\n", sd_status );
+  f_stat("0.txt", &f0);
+  SEGGER_RTT_printf(0, "File size: %d", f0.fsize);
+  f_stat("1.txt", &f1);
+  SEGGER_RTT_printf(0, "File size: %d", f1.fsize);
 
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  /* USER CODE END WHILE */
-
-  /* USER CODE BEGIN 3 */
-  fres = f_mount(&FatFs, "/", 1); //1=mount now
-  if (fres != FR_OK) {
-    myprintf("f_mount error (%i)\r\n", fres);
-    while(1);
-  }
-
-  DWORD free_clusters, free_sectors, total_sectors;
-
-  FATFS* getFreeFs;
-
-  fres = f_getfree("", &free_clusters, &getFreeFs);
-  if (fres != FR_OK) {
-    myprintf("f_getfree error (%i)\r\n", fres);
-    while(1);
-  }
-
-  total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
-  free_sectors = free_clusters * getFreeFs->csize;
-
-  myprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
-
-  if (fres == FR_OK) {
-      strcpy(buffer, "/");
-      fres = scan_files(buffer);
-  }
-
-  //Try to open file
-  fres = f_open(&fil, "test.txt", FA_READ);
-  if (fres != FR_OK) {
-    myprintf("f_open error (%i)\r\n", fres);
-    while(1);
-  }
-  myprintf("I was able to open 'test.txt' for reading!\r\n");
-
-  BYTE readBuf[30];
-  
-  //We can either use f_read OR f_gets to get data out of files
-  //f_gets is a wrapper on f_read that does some string formatting for us
-  TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
-  if(rres != 0) {
-    myprintf("Read string from 'test.txt' contents: ");
-    SEGGER_RTT_WriteString(0, readBuf);
-    SEGGER_RTT_WriteString(0, "\r\n");
-
-  } else {
-    myprintf("f_gets error (%i)\r\n", fres);
-  }
-  
-  //Close file, don't forget this!
-  f_close(&fil);
-
-  fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
-  if(fres == FR_OK) {
-    myprintf("I was able to open 'write.txt' for writing\r\n");
-  } else {
-    myprintf("f_open error (%i)\r\n", fres);
-  }
-
-  strncpy((char*)readBuf, "hello from mixr!", 19);
-  UINT bytesWrote; 
-  fres = f_write(&fil, readBuf, 19, &bytesWrote);
-  if(fres == FR_OK) {
-    myprintf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
-  } else {
-    myprintf("f_write error (%i)\r\n");
-  }
-
-  //Close file, don't forget this!
-  f_close(&fil);
-
-  //De-mount drive
+  f_close(&ch0);
+  f_close(&ch1);
   f_mount(NULL, "", 0);
+
+  /* SD Card Initialization and test. */
+
+  // if (fres == FR_OK) {
+  //     strcpy(buffer, "/");
+  //     fres = scan_files(buffer);
+  // }
+
+  // //Try to open file
+  // fres = f_open(&fil, "test.txt", FA_READ);
+  // if (fres != FR_OK) {
+  //   myprintf("f_open error (%i)\r\n", fres);
+  //   while(1);
+  // }
+  // myprintf("I was able to open 'test.txt' for reading!\r\n");
+
+  // BYTE readBuf[30];
+  
+  // //We can either use f_read OR f_gets to get data out of files
+  // //f_gets is a wrapper on f_read that does some string formatting for us
+  // TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
+  // if(rres != 0) {
+  //   myprintf("Read string from 'test.txt' contents: ");
+  //   SEGGER_RTT_WriteString(0, readBuf);
+  //   SEGGER_RTT_WriteString(0, "\r\n");
+
+  // } else {
+  //   myprintf("f_gets error (%i)\r\n", fres);
+  // }
+  
+  // //Close file, don't forget this!
+  // f_close(&fil);
+
+  // fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+  // if(fres == FR_OK) {
+  //   myprintf("I was able to open 'write.txt' for writing\r\n");
+  // } else {
+  //   myprintf("f_open error (%i)\r\n", fres);
+  // }
+
+  // strncpy((char*)readBuf, "hello from mixr!", 19);
+  // UINT bytesWrote; 
+  // fres = f_write(&fil, readBuf, 19, &bytesWrote);
+  // if(fres == FR_OK) {
+  //   myprintf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
+  // } else {
+  //   myprintf("f_write error (%i)\r\n");
+  // }
+
+  // //Close file, don't forget this!
+  // f_close(&fil);
+
+  // //De-mount drive
+  // f_mount(NULL, "", 0);
   
   while (1)
   {
