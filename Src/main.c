@@ -9,10 +9,10 @@
   * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                             www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -20,10 +20,16 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "fatfs.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+
 #include "SEGGER_RTT.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,7 +39,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLE_BUFFER_SIZE 10000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,7 +52,7 @@ I2S_HandleTypeDef hi2s1;
 
 QSPI_HandleTypeDef hqspi;
 
-MMC_HandleTypeDef hmmc2;
+SD_HandleTypeDef hsd2;
 
 SPI_HandleTypeDef hspi4;
 
@@ -57,17 +62,8 @@ UART_HandleTypeDef huart2;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* USER CODE BEGIN PV */
-uint32_t I2S_RxBuffer_L[SAMPLE_BUFFER_SIZE];
-uint32_t I2S_RxBuffer_R[SAMPLE_BUFFER_SIZE];
-uint32_t I2S_RxBuffer_L_Index = 0;
-uint32_t I2S_RxBuffer_R_Index = 0;
+char buffer[256];
 
-// uint32_t I2S_RxBuffer[SAMPLE_BUFFER_SIZE];
-// uint32_t I2S_RxBuffer_Index = 0;
-// uint32_t I2S_RxChannel[SAMPLE_BUFFER_SIZE];
-// uint16_t I2S_Rx_pData[2];
-// uint8_t RecievedState = 0;
-// uint32_t RecievedCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,12 +71,14 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2S1_Init(void);
 static void MX_QUADSPI_Init(void);
-static void MX_SDMMC2_MMC_Init(void);
+static void MX_SDMMC2_SD_Init(void);
 static void MX_SPI4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 /* USER CODE BEGIN PFP */
+void myprintf(const char *fmt, ...);
+FRESULT scan_files (char* path);
 
 /* USER CODE END PFP */
 
@@ -95,9 +93,12 @@ static void MX_USB_OTG_FS_PCD_Init(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
-  // RCC->CSR |= RCC_CSR_RMVF;
+  //Fatfs object
+  FATFS FatFs;
+  //File object
+  FIL fil;
+
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
@@ -126,90 +127,22 @@ int main(void)
   MX_GPIO_Init();
   MX_I2S1_Init();
   // MX_QUADSPI_Init();
-  // MX_SDMMC2_MMC_Init();
+  MX_SDMMC2_SD_Init();
   // MX_SPI4_Init();
   // MX_USART1_UART_Init();
   // MX_USART2_UART_Init();
   // MX_USB_OTG_FS_PCD_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-  // HAL_Delay(1000);
-  // HAL_GPIO_WritePin(ADC_nRESET_GPIO_Port, ADC_nRESET_Pin, GPIO_PIN_SET);
-  // HAL_Delay(1000);
+  FRESULT fres;
 
-  uint16_t count = 0;
-  // while(count < 2) {
-  //   SEGGER_RTT_printf(0, "Data: %d, Status: %d\r\n", data[count], status[count]);
-  //   count++;
-  // }
+  uint8_t sd_status = BSP_SD_Init();
+  HAL_Delay(1000);
 
-  uint8_t channel = 0;
-  uint8_t last_channel = 0;
-  // uint16_t srl[SAMPLE_BUFFER_SIZE] = {0};
-  // uint16_t srr[SAMPLE_BUFFER_SIZE] = {0};
+  SEGGER_RTT_printf(0, "SD INIT: %d\n", sd_status);
 
-  uint16_t data[2] = {0};
-  uint16_t status[2] = {0};
-
-  while(count < SAMPLE_BUFFER_SIZE) {
-    HAL_I2S_Receive(&hi2s1, data, status, 1, 100);
-
-    // I2S_RxBuffer[I2S_RxBuffer_Index] = ((int32_t) data[0] << 16 | data[1]) >> 8;
-    // I2S_RxChannel[I2S_RxBuffer_Index] = status[0];
-    // I2S_RxBuffer_Index++;
-
-    if(status[0] == status[1]) {
-      channel = (uint8_t) status[0] & 0x4;
-      if(channel != last_channel) {
-        switch(channel) {
-          case 0x0:
-            // srl[I2S_RxBuffer_L_Index] = status[0];
-            I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8;
-            break;
-          case 0x4:
-            // srr[I2S_RxBuffer_R_Index] = status[0];
-            I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8; 
-            break;
-        }
-        last_channel = channel;
-      }
-      else {
-        // SEGGER_RTT_printf(0, "%s\r\n", "DUPLICATE");
-      }
-    }
-    else {
-      // SEGGER_RTT_printf(0, "%s\r\n", "CHANNEL MISMATCH");
-    }
-    count++;
-  }
-
-  // count = 0;
-  // while(count < SAMPLE_BUFFER_SIZE) {
-  //   if(I2S_RxChannel[count] & 0x4) {
-  //     SEGGER_RTT_printf(0, "%d, %d\r\n", count, I2S_RxBuffer[count]);
-  //   }
-  //   // if (srl[count] != srr[count]) {
-  //   // SEGGER_RTT_printf(0, "%d: %X %X\r\n", count, srl[count], srr[count]);
-  //   // }
-  //   HAL_Delay(1);
-  //   count++;
-  // }
-
-  SEGGER_RTT_printf(0, "Samples Printed\n");
-
-  // while(RecievedCount < SAMPLE_BUFFER_SIZE) {
-  //   HAL_I2S_Receive_IT(&hi2s1, I2S_Rx_pData, 1);
-  //   while(RecievedState == 0);
-  //   RecievedState = 0;
-  // }
-
-  count = 0;
-  uint32_t limit = (I2S_RxBuffer_L_Index > I2S_RxBuffer_R_Index) ? I2S_RxBuffer_R_Index : I2S_RxBuffer_L_Index;
-  while(count < limit) {
-    // SEGGER_RTT_printf(0, "%d '%X' , %d '%X'\r\n", I2S_RxBuffer_L[count], srl[count], I2S_RxBuffer_R[count], srr[count]);
-    SEGGER_RTT_printf(0, "%d, %d, %d\r\n", count, I2S_RxBuffer_L[count], I2S_RxBuffer_R[count]);
-    HAL_Delay(1);
-    count++;
-  }
+  HAL_SD_CardStateTypeDef status = HAL_SD_GetCardState(&hsd2);
+  SEGGER_RTT_printf(0, "Status: %d\n", status );
 
   /* USER CODE END 2 */
 
@@ -218,27 +151,145 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    HAL_GPIO_TogglePin(DEBUG_LED_0_GPIO_Port, DEBUG_LED_0_Pin);
-    HAL_Delay(500);
+
     /* USER CODE BEGIN 3 */
+    fres = f_mount(&FatFs, "/", 1); //1=mount now
+    if (fres != FR_OK) {
+      myprintf("f_mount error (%i)\r\n", fres);
+      while(1);
+    }
+
+    DWORD free_clusters, free_sectors, total_sectors;
+
+    FATFS* getFreeFs;
+
+    fres = f_getfree("", &free_clusters, &getFreeFs);
+    if (fres != FR_OK) {
+      myprintf("f_getfree error (%i)\r\n", fres);
+      while(1);
+    }
+ 
+    total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
+    free_sectors = free_clusters * getFreeFs->csize;
+
+    myprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
+
+    if (fres == FR_OK) {
+        strcpy(buffer, "/");
+        fres = scan_files(buffer);
+    }
+
+    // FILINFO fno;
+
+    // fres = f_stat("hello_world.txt", &fno);
+
+    // switch (fres) {
+    //   case FR_OK:
+    //       myprintf("Size: %lu\n", fno.fsize);
+    //       myprintf("Timestamp: %u/%02u/%02u, %02u:%02u\n",
+    //              (fno.fdate >> 9) + 1980, fno.fdate >> 5 & 15, fno.fdate & 31,
+    //              fno.ftime >> 11, fno.ftime >> 5 & 63);
+    //       myprintf("Attributes: %c%c%c%c%c\n",
+    //              (fno.fattrib & AM_DIR) ? 'D' : '-',
+    //              (fno.fattrib & AM_RDO) ? 'R' : '-',
+    //              (fno.fattrib & AM_HID) ? 'H' : '-',
+    //              (fno.fattrib & AM_SYS) ? 'S' : '-',
+    //              (fno.fattrib & AM_ARC) ? 'A' : '-');
+    //       break;
+
+    //   case FR_NO_FILE:
+    //       myprintf("It is not exist.\n");
+    //       break;
+
+    //   default:
+    //       myprintf("An error occured. (%d)\n", fres);
+    // }
+
+    //Try to open file
+    fres = f_open(&fil, "test.txt", FA_READ);
+    if (fres != FR_OK) {
+      myprintf("f_open error (%i)\r\n", fres);
+      while(1);
+    }
+    myprintf("I was able to open 'test.txt' for reading!\r\n");
+
+    BYTE readBuf[30];
+    
+    //We can either use f_read OR f_gets to get data out of files
+    //f_gets is a wrapper on f_read that does some string formatting for us
+    TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
+    if(rres != 0) {
+      myprintf("Read string from 'test.txt' contents: ");
+      SEGGER_RTT_WriteString(0, readBuf);
+      SEGGER_RTT_WriteString(0, "\r\n");
+
+    } else {
+      myprintf("f_gets error (%i)\r\n", fres);
+    }
+    
+    //Close file, don't forget this!
+    f_close(&fil);
+
+    fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+    if(fres == FR_OK) {
+      myprintf("I was able to open 'write.txt' for writing\r\n");
+    } else {
+      myprintf("f_open error (%i)\r\n", fres);
+    }
+
+    strncpy((char*)readBuf, "hello from mixr!", 19);
+    UINT bytesWrote; 
+    fres = f_write(&fil, readBuf, 19, &bytesWrote);
+    if(fres == FR_OK) {
+      myprintf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
+    } else {
+      myprintf("f_write error (%i)\r\n");
+    }
+
+    //Close file, don't forget this!
+    f_close(&fil);
+
+    //De-mount drive
+    f_mount(NULL, "", 0);
+    
+    while(1);
   }
+
   /* USER CODE END 3 */
 }
 
-// void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef* hi2s)
-// {
-//   RecievedState = 1;
-//   __HAL_I2S_DISABLE_IT(&hi2s1, I2S_IT_RXNE);
-//   switch(hi2s1.Instance->SR & 0x4) {
-//     case 0x0:
-//       I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = (int32_t) I2S_Rx_pData[0] << 16 | I2S_Rx_pData[1];
-//       break;
-//     case 0x4:
-//       I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = (int32_t) I2S_Rx_pData[0] << 16 | I2S_Rx_pData[1];
-//       break;
-//   }
-//   RecievedCount++;
-// }
+FRESULT scan_files (
+    char* path        /* Start node to be scanned (***also used as work area***) */
+)
+{
+    FRESULT res;
+    DIR dir;
+    UINT i;
+    static FILINFO fno;
+
+
+    res = f_opendir(&dir, path);                       /* Open the directory */
+    if (res == FR_OK) {
+        for (;;) {
+            res = f_readdir(&dir, &fno);                   /* Read a directory item */
+            if (res != FR_OK || fno.fname[0] == 0) break;  /* Break on error or end of dir */
+            // if (fno.fattrib & AM_DIR) {                    /* It is a directory */
+            //     i = strlen(path);
+            //     sprintf(&path[i], "/%s", fno.fname);
+            //     myprintf("%s\n", fno.fname);
+            //     res = scan_files(path);                    /* Enter the directory */
+            //     if (res != FR_OK) break;
+            //     path[i] = 0;
+            // } else {                                       /* It is a file. */
+            SEGGER_RTT_WriteString(0, fno.fname);
+            SEGGER_RTT_WriteString(0, "\r\n");
+            //}
+        }
+        f_closedir(&dir);
+    }
+
+    return res;
+}
 
 /**
   * @brief System Clock Configuration
@@ -274,8 +325,8 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
   {
@@ -299,68 +350,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
-// void SystemClock_Config(void)
-// {
-//   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-//   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-//   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-
-//   /** Configure the main internal regulator output voltage 
-//   */
-//   __HAL_RCC_PWR_CLK_ENABLE();
-//   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-//   /** Initializes the CPU, AHB and APB busses clocks 
-//   */
-//   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-//   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-//   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-//   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-//   RCC_OscInitStruct.PLL.PLLM = 25;
-//   RCC_OscInitStruct.PLL.PLLN = 432;
-//   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-//   RCC_OscInitStruct.PLL.PLLQ = 9;
-//   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-//   /** Activate the Over-Drive mode 
-//   */
-//   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-//   /** Initializes the CPU, AHB and APB busses clocks 
-//   */
-//   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-//                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-//   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-//   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-//   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
-//   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
-
-//   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7) != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-//   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
-//                               |RCC_PERIPHCLK_SDMMC2|RCC_PERIPHCLK_I2S
-//                               |RCC_PERIPHCLK_CLK48;
-//   PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
-//   PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
-//   PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
-//   PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
-//   PeriphClkInitStruct.PLLI2SDivQ = 1;
-//   PeriphClkInitStruct.I2sClockSelection = RCC_I2SCLKSOURCE_PLLI2S;
-//   PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-//   PeriphClkInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
-//   PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLL;
-//   PeriphClkInitStruct.Sdmmc2ClockSelection = RCC_SDMMC2CLKSOURCE_CLK48;
-//   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-//   {
-//     Error_Handler();
-//   }
-// }
 
 /**
   * @brief I2S1 Initialization Function
@@ -435,7 +424,7 @@ static void MX_QUADSPI_Init(void)
   * @param None
   * @retval None
   */
-static void MX_SDMMC2_MMC_Init(void)
+static void MX_SDMMC2_SD_Init(void)
 {
 
   /* USER CODE BEGIN SDMMC2_Init 0 */
@@ -445,21 +434,13 @@ static void MX_SDMMC2_MMC_Init(void)
   /* USER CODE BEGIN SDMMC2_Init 1 */
 
   /* USER CODE END SDMMC2_Init 1 */
-  hmmc2.Instance = SDMMC2;
-  hmmc2.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
-  hmmc2.Init.ClockBypass = SDMMC_CLOCK_BYPASS_DISABLE;
-  hmmc2.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
-  hmmc2.Init.BusWide = SDMMC_BUS_WIDE_1B;
-  hmmc2.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
-  hmmc2.Init.ClockDiv = 0;
-  if (HAL_MMC_Init(&hmmc2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_MMC_ConfigWideBusOperation(&hmmc2, SDMMC_BUS_WIDE_4B) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  hsd2.Instance = SDMMC2;
+  hsd2.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+  hsd2.Init.ClockBypass = SDMMC_CLOCK_BYPASS_DISABLE;
+  hsd2.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+  hsd2.Init.BusWide = SDMMC_BUS_WIDE_1B;
+  hsd2.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  hsd2.Init.ClockDiv = 0;
   /* USER CODE BEGIN SDMMC2_Init 2 */
 
   /* USER CODE END SDMMC2_Init 2 */
@@ -630,6 +611,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, DEBUG_LED_0_Pin|LED_1_Pin|LED_2_Pin|LED_3_Pin 
+                          |FLASH_NRESET_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(ADC_nRESET_GPIO_Port, ADC_nRESET_Pin, GPIO_PIN_SET);
+
   /*Configure GPIO pins : DEBUG_LED_0_Pin LED_1_Pin LED_2_Pin LED_3_Pin 
                            FLASH_NRESET_Pin */
   GPIO_InitStruct.Pin = DEBUG_LED_0_Pin|LED_1_Pin|LED_2_Pin|LED_3_Pin 
@@ -658,16 +646,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, DEBUG_LED_0_Pin|LED_1_Pin|LED_2_Pin|LED_3_Pin 
-                          |FLASH_NRESET_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(ADC_nRESET_GPIO_Port, ADC_nRESET_Pin, GPIO_PIN_SET);
-
 }
 
 /* USER CODE BEGIN 4 */
+void myprintf(const char *fmt, ...) {
+  va_list args;
+  va_start(args, fmt);
+  SEGGER_RTT_printf(0, fmt, &args);
+  va_end(args);
+}
 
 /* USER CODE END 4 */
 
