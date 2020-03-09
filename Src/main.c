@@ -40,7 +40,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SAMPLE_COUNT 262144
-#define SAMPLE_BUFFER_SIZE 128
+#define SAMPLE_BUFFER_SIZE 16384
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -150,6 +150,19 @@ int main(void)
     Error_Handler();
   }
 
+  /* SDIO 4bit
+  * 
+  * After FATFS_LinkDriver (called by MX_FATFS_INIT()), mount filesystem then
+  * try to enable 4bit mode with HAL_SD_ConfigWideBusOperation()
+  *
+  * Also enable hardware flow control and SD clock div = 3 or 4
+  */
+  
+  if (HAL_SD_ConfigWideBusOperation(&hsd2, SDMMC_BUS_WIDE_4B) != HAL_OK)
+  {
+    myprintf("Could not config wide bus operation!\r\n");
+  }
+
   fres = f_open(&ch0, "0.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
   if(fres == FR_OK) {
     myprintf("I was able to open '0.txt' for writing\r\n");
@@ -193,28 +206,15 @@ int main(void)
     if(count % (SAMPLE_BUFFER_SIZE * 2) == 0 && count != 0) {
       I2S_RxBuffer_L_Index = 0;
       I2S_RxBuffer_R_Index = 0;
-      f_write(&ch0, I2S_RxBuffer_L, 512, &bw0);
-      f_write(&ch1, I2S_RxBuffer_R, 512, &bw1);
+      fres = f_write(&ch0, I2S_RxBuffer_L, SAMPLE_BUFFER_SIZE * 4, &bw0);
+      if(fres != FR_OK) {
+        myprintf("not good\r\n");
+      }
+      f_write(&ch1, I2S_RxBuffer_R, SAMPLE_BUFFER_SIZE * 4, &bw1);
     }
   }
 
-  count = 0;
-  uint32_t limit = (I2S_RxBuffer_L_Index > I2S_RxBuffer_R_Index) ? I2S_RxBuffer_R_Index : I2S_RxBuffer_L_Index;
-  while(count < limit) {
-    SEGGER_RTT_printf(0, "%d, %d, %d\r\n", count, I2S_RxBuffer_L[count], I2S_RxBuffer_R[count]);
-    HAL_Delay(1);
-    count++;
-  }
-
   /* FatFS teardown */
-
-  FILINFO f0, f1;
-
-  f_stat("0.txt", &f0);
-  SEGGER_RTT_printf(0, "File size: %d", f0.fsize);
-  f_stat("1.txt", &f1);
-  SEGGER_RTT_printf(0, "File size: %d", f1.fsize);
-
   f_close(&ch0);
   f_close(&ch1);
   f_mount(NULL, "", 0);
@@ -321,6 +321,62 @@ FRESULT scan_files (
   * @brief System Clock Configuration
   * @retval None
   */
+// void SystemClock_Config(void)
+// {
+//   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+//   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+//   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+//   /** Configure the main internal regulator output voltage 
+//   */
+//   __HAL_RCC_PWR_CLK_ENABLE();
+//   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+//   /** Initializes the CPU, AHB and APB busses clocks 
+//   */
+//   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+//   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+//   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+//   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+//   RCC_OscInitStruct.PLL.PLLM = 25;
+//   RCC_OscInitStruct.PLL.PLLN = 192;
+//   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+//   RCC_OscInitStruct.PLL.PLLQ = 4;
+//   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+//   /** Initializes the CPU, AHB and APB busses clocks 
+//   */
+//   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+//                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+//   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+//   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+//   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
+//   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
+
+//   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+//   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
+//                               |RCC_PERIPHCLK_SDMMC2|RCC_PERIPHCLK_I2S
+//                               |RCC_PERIPHCLK_CLK48;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
+//   PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
+//   PeriphClkInitStruct.PLLI2SDivQ = 1;
+//   PeriphClkInitStruct.I2sClockSelection = RCC_I2SCLKSOURCE_PLLI2S;
+//   PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+//   PeriphClkInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+//   PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLL;
+//   PeriphClkInitStruct.Sdmmc2ClockSelection = RCC_SDMMC2CLKSOURCE_SYSCLK;
+//   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+//   {
+//     Error_Handler();
+//   }
+// }
+
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -330,7 +386,7 @@ void SystemClock_Config(void)
   /** Configure the main internal regulator output voltage 
   */
   __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
   /** Initializes the CPU, AHB and APB busses clocks 
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
@@ -338,10 +394,16 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 25;
-  RCC_OscInitStruct.PLL.PLLN = 192;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
+  RCC_OscInitStruct.PLL.PLLN = 432;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 9;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Activate the Over-Drive mode 
+  */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
@@ -354,7 +416,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7) != HAL_OK)
   {
     Error_Handler();
   }
@@ -370,7 +432,7 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLL;
-  PeriphClkInitStruct.Sdmmc2ClockSelection = RCC_SDMMC2CLKSOURCE_SYSCLK;
+  PeriphClkInitStruct.Sdmmc2ClockSelection = RCC_SDMMC2CLKSOURCE_CLK48;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -465,8 +527,8 @@ static void MX_SDMMC2_SD_Init(void)
   hsd2.Init.ClockBypass = SDMMC_CLOCK_BYPASS_DISABLE;
   hsd2.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
   hsd2.Init.BusWide = SDMMC_BUS_WIDE_1B;
-  hsd2.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
-  hsd2.Init.ClockDiv = 0;
+  hsd2.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_ENABLE;
+  hsd2.Init.ClockDiv = 3;
   /* USER CODE BEGIN SDMMC2_Init 2 */
 
   /* USER CODE END SDMMC2_Init 2 */
