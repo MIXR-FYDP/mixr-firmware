@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
   29:Src/SEGGER_RTT.c **** * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND             *
   30:Src/SEGGER_RTT.c **** * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,        *
   31:Src/SEGGER_RTT.c **** * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF           *
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 2
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 2
 
 
   32:Src/SEGGER_RTT.c **** * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE           *
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
   86:Src/SEGGER_RTT.c **** 
   87:Src/SEGGER_RTT.c **** #ifndef   BUFFER_SIZE_DOWN
   88:Src/SEGGER_RTT.c ****   #define BUFFER_SIZE_DOWN                                16    // Size of the buffer for terminal 
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 3
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 3
 
 
   89:Src/SEGGER_RTT.c **** #endif
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  143:Src/SEGGER_RTT.c **** #endif
  144:Src/SEGGER_RTT.c **** 
  145:Src/SEGGER_RTT.c **** #ifndef   MIN
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 4
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 4
 
 
  146:Src/SEGGER_RTT.c ****   #define MIN(a, b)         (((a) < (b)) ? (a) : (b))
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  200:Src/SEGGER_RTT.c **** 
  201:Src/SEGGER_RTT.c **** #if SEGGER_RTT_ALIGNMENT
  202:Src/SEGGER_RTT.c ****   #define SEGGER_RTT_CB_ALIGN(Var)  SEGGER_RTT_ALIGN(Var, SEGGER_RTT_ALIGNMENT)
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 5
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 5
 
 
  203:Src/SEGGER_RTT.c **** #else
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  257:Src/SEGGER_RTT.c **** 
  258:Src/SEGGER_RTT.c **** /*********************************************************************
  259:Src/SEGGER_RTT.c **** *
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 6
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 6
 
 
  260:Src/SEGGER_RTT.c **** *       _DoInit()
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  314:Src/SEGGER_RTT.c **** *    The caller is responsible for managing the write chunk sizes as
  315:Src/SEGGER_RTT.c **** *    _WriteBlocking() will block until all data has been posted successfully.
  316:Src/SEGGER_RTT.c **** *
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 7
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 7
 
 
  317:Src/SEGGER_RTT.c **** *  Parameters
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  371:Src/SEGGER_RTT.c **** /*********************************************************************
  372:Src/SEGGER_RTT.c **** *
  373:Src/SEGGER_RTT.c **** *       _WriteNoCheck()
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 8
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 8
 
 
  374:Src/SEGGER_RTT.c **** *
@@ -478,7 +478,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  428:Src/SEGGER_RTT.c ****     };
  429:Src/SEGGER_RTT.c ****     pRing->WrOff = NumBytes - Rem;
  430:Src/SEGGER_RTT.c **** #else
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 9
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 9
 
 
  431:Src/SEGGER_RTT.c ****     NumBytesAtOnce = Rem;
@@ -538,7 +538,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  478:Src/SEGGER_RTT.c ****   unsigned r;
   35              		.loc 1 478 3 view .LVU3
  479:Src/SEGGER_RTT.c ****   //
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 10
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 10
 
 
  480:Src/SEGGER_RTT.c ****   // Avoid warnings regarding volatile access order.  It's not a problem
@@ -598,7 +598,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
   79              		.syntax unified
   80              		.thumb
   81              		.thumb_func
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 11
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 11
 
 
   82              		.fpu fpv5-d16
@@ -658,7 +658,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  124 0018 4068     		ldr	r0, [r0, #4]
  125              	.LVL12:
  411:Src/SEGGER_RTT.c ****     pRing->WrOff = WrOff + NumBytes;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 12
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 12
 
 
  126              		.loc 1 411 5 is_stmt 0 view .LVU34
@@ -718,7 +718,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  166              		.loc 1 435 18 is_stmt 0 view .LVU48
  167 0044 EC60     		str	r4, [r5, #12]
  438:Src/SEGGER_RTT.c **** 
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 13
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 13
 
 
  168              		.loc 1 438 1 view .LVU49
@@ -778,7 +778,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  214 0010 1AE0     		b	.L12
  215              	.LVL25:
  216              	.L9:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 14
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 14
 
 
  343:Src/SEGGER_RTT.c ****     }
@@ -838,7 +838,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  256              		.loc 1 358 21 is_stmt 0 view .LVU74
  257 0038 A044     		add	r8, r8, r4
  258              	.LVL32:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 15
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 15
 
 
  359:Src/SEGGER_RTT.c ****     WrOff           += NumBytesToWrite;
@@ -898,7 +898,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  295              		.loc 1 341 23 view .LVU92
  296 0050 621E     		subs	r2, r4, #1
  297              	.LVL39:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 16
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 16
 
 
  341:Src/SEGGER_RTT.c ****     } else {
@@ -958,7 +958,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  343 0006 8DF80430 		strb	r3, [sp, #4]
  457:Src/SEGGER_RTT.c ****   _WriteBlocking(pRing, (const char*)ac, 2u);
  344              		.loc 1 457 3 is_stmt 1 view .LVU104
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 17
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 17
 
 
  457:Src/SEGGER_RTT.c ****   _WriteBlocking(pRing, (const char*)ac, 2u);
@@ -1018,7 +1018,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  391 0004 1A61     		str	r2, [r3, #16]
  277:Src/SEGGER_RTT.c ****   //
  392              		.loc 1 277 3 is_stmt 1 view .LVU115
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 18
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 18
 
 
  277:Src/SEGGER_RTT.c ****   //
@@ -1078,7 +1078,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  293:Src/SEGGER_RTT.c ****   p->aDown[0].WrOff         = 0u;
  428              		.loc 1 293 3 is_stmt 1 view .LVU135
  293:Src/SEGGER_RTT.c ****   p->aDown[0].WrOff         = 0u;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 19
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 19
 
 
  429              		.loc 1 293 29 is_stmt 0 view .LVU136
@@ -1138,7 +1138,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  493:Src/SEGGER_RTT.c **** /*********************************************************************
  494:Src/SEGGER_RTT.c **** *
  495:Src/SEGGER_RTT.c **** *       Public code
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 20
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 20
 
 
  496:Src/SEGGER_RTT.c **** *
@@ -1198,7 +1198,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  498              		.loc 1 526 3 view .LVU152
  527:Src/SEGGER_RTT.c ****   SEGGER_RTT_BUFFER_UP*   pRing;
  499              		.loc 1 527 3 view .LVU153
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 21
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 21
 
 
  528:Src/SEGGER_RTT.c **** #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
@@ -1258,7 +1258,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  550:Src/SEGGER_RTT.c ****       *pBuffer++ = *pSrc++;
  551:Src/SEGGER_RTT.c ****     };
  552:Src/SEGGER_RTT.c **** #else
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 22
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 22
 
 
  553:Src/SEGGER_RTT.c ****     SEGGER_RTT_MEMCPY(pBuffer, pRing->pBuffer + RdOff, NumBytesRem);
@@ -1318,7 +1318,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  546              		.loc 1 591 3 is_stmt 1 view .LVU172
  547              		.loc 1 591 6 is_stmt 0 view .LVU173
  548 002e 2EB1     		cbz	r6, .L24
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 23
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 23
 
 
  592:Src/SEGGER_RTT.c ****     pRing->RdOff = RdOff;
@@ -1378,7 +1378,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  590 0064 5168     		ldr	r1, [r2, #4]
  591 0066 3246     		mov	r2, r6
  592 0068 3944     		add	r1, r1, r7
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 24
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 24
 
 
  593 006a 4046     		mov	r0, r8
@@ -1438,7 +1438,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  582:Src/SEGGER_RTT.c ****     pBuffer      += NumBytesRem;
  634              		.loc 1 582 5 view .LVU199
  582:Src/SEGGER_RTT.c ****     pBuffer      += NumBytesRem;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 25
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 25
 
 
  635              		.loc 1 582 18 is_stmt 0 view .LVU200
@@ -1498,7 +1498,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  667              		@ frame_needed = 0, uses_anonymous_args = 0
  668              		.loc 1 615 88 is_stmt 0 view .LVU207
  669 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 26
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 26
 
 
  670              	.LCFI6:
@@ -1558,7 +1558,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  709 001c DC6E     		ldr	r4, [r3, #108]
  710              	.LVL72:
  631:Src/SEGGER_RTT.c ****   NumBytesRead = 0u;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 27
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 27
 
 
  711              		.loc 1 631 3 is_stmt 1 view .LVU222
@@ -1618,7 +1618,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  730              		.loc 1 665 3 is_stmt 1 view .LVU230
  731              		.loc 1 665 6 is_stmt 0 view .LVU231
  732 002c 34BB     		cbnz	r4, .L47
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 28
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 28
 
 
  733              	.LVL76:
@@ -1678,7 +1678,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  761 0048 134B     		ldr	r3, .L48
  762 004a 03EB010A 		add	r10, r3, r1
  763 004e DAF86860 		ldr	r6, [r10, #104]
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 29
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 29
 
 
  636:Src/SEGGER_RTT.c ****     NumBytesRem = MIN(NumBytesRem, BufferSize);
@@ -1738,7 +1738,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  802              		.loc 1 657 13 view .LVU257
  803 007a D3E7     		b	.L39
  804              	.LVL87:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 30
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 30
 
 
  805              	.L47:
@@ -1798,7 +1798,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  694:Src/SEGGER_RTT.c **** *    Reads characters from SEGGER real-time-terminal control block
  695:Src/SEGGER_RTT.c **** *    which have been previously stored by the application.
  696:Src/SEGGER_RTT.c **** *    Used to do the same operation that J-Link does, to transfer 
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 31
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 31
 
 
  697:Src/SEGGER_RTT.c **** *    RTT data via other channels, such as TCP/IP or UART.
@@ -1858,7 +1858,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  876 0012 FFF7FEFF 		bl	SEGGER_RTT_ReadUpBufferNoLock
  877              	.LVL93:
  722:Src/SEGGER_RTT.c ****   //
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 32
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 32
 
 
  723:Src/SEGGER_RTT.c ****   // Finish up.
@@ -1918,7 +1918,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  910              		.loc 1 746 84 is_stmt 0 view .LVU280
  911 0000 10B5     		push	{r4, lr}
  912              	.LCFI8:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 33
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 33
 
 
  913              		.cfi_def_cfa_offset 8
@@ -1978,7 +1978,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  954              		.section	.text.SEGGER_RTT_WriteWithOverwriteNoLock,"ax",%progbits
  955              		.align	1
  956              		.global	SEGGER_RTT_WriteWithOverwriteNoLock
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 34
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 34
 
 
  957              		.syntax unified
@@ -2038,7 +2038,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  985              		.loc 1 787 3 view .LVU295
  788:Src/SEGGER_RTT.c ****   unsigned              Avail;
  986              		.loc 1 788 3 view .LVU296
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 35
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 35
 
 
  789:Src/SEGGER_RTT.c **** #if SEGGER_RTT_MEMCPY_USE_BYTELOOP
@@ -2098,7 +2098,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1025              		.loc 1 804 11 view .LVU311
  1026 0036 013B     		subs	r3, r3, #1
  1027              	.LVL101:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 36
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 36
 
 
  1028              		.loc 1 804 11 view .LVU312
@@ -2158,7 +2158,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1070              		.loc 1 806 18 view .LVU326
  1071 0060 294A     		ldr	r2, .L67
  1072 0062 0244     		add	r2, r2, r0
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 37
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 37
 
 
  1073 0064 936A     		ldr	r3, [r2, #40]
@@ -2218,7 +2218,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1112              		.loc 1 817 16 is_stmt 0 view .LVU338
  1113 0092 06EB4603 		add	r3, r6, r6, lsl #1
  1114 0096 DA00     		lsls	r2, r3, #3
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 38
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 38
 
 
  1115 0098 1B4B     		ldr	r3, .L67
@@ -2278,7 +2278,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1139 00bc 2246     		mov	r2, r4
  1140 00be 4146     		mov	r1, r8
  1141 00c0 1844     		add	r0, r0, r3
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 39
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 39
 
 
  1142 00c2 FFF7FEFF 		bl	memcpy
@@ -2338,7 +2338,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  832:Src/SEGGER_RTT.c **** #endif
  1187              		.loc 1 832 7 is_stmt 1 view .LVU356
  832:Src/SEGGER_RTT.c **** #endif
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 40
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 40
 
 
  1188              		.loc 1 832 20 is_stmt 0 view .LVU357
@@ -2398,7 +2398,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  879:Src/SEGGER_RTT.c **** *    (1) If there is not enough space in the "Up"-buffer, all data is dropped.
  880:Src/SEGGER_RTT.c **** *    (2) For performance reasons this function does not call Init()
  881:Src/SEGGER_RTT.c **** *        and may only be called after RTT has been initialized.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 41
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 41
 
 
  882:Src/SEGGER_RTT.c **** *        Either by calling SEGGER_RTT_Init() or calling another RTT API function first.
@@ -2458,7 +2458,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  936:Src/SEGGER_RTT.c ****   }
  937:Src/SEGGER_RTT.c ****   return 0;     // No space in buffer
  938:Src/SEGGER_RTT.c **** }
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 42
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 42
 
 
  939:Src/SEGGER_RTT.c **** #endif
@@ -2518,7 +2518,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1237              		.loc 1 973 3 view .LVU367
  974:Src/SEGGER_RTT.c **** 
  975:Src/SEGGER_RTT.c ****   pData = (const char *)pBuffer;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 43
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 43
 
 
  1238              		.loc 1 975 3 view .LVU368
@@ -2578,7 +2578,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1009:Src/SEGGER_RTT.c ****     //
 1010:Src/SEGGER_RTT.c ****     Status = _WriteBlocking(pRing, pData, NumBytes);
 1011:Src/SEGGER_RTT.c ****     break;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 44
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 44
 
 
 1012:Src/SEGGER_RTT.c ****   default:
@@ -2638,7 +2638,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1294 003c 2046     		mov	r0, r4
  1295 003e FFF7FEFF 		bl	_GetAvailWriteSpace
  1296              	.LVL130:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 45
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 45
 
 
 1003:Src/SEGGER_RTT.c ****     _WriteNoCheck(pRing, pData, Status);
@@ -2698,7 +2698,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1341              		.fpu fpv5-d16
  1343              	SEGGER_RTT_WriteNoLock:
  1344              	.LVL137:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 46
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 46
 
 
  1345              	.LFB11:
@@ -2758,7 +2758,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1052:Src/SEGGER_RTT.c ****   //
 1053:Src/SEGGER_RTT.c ****   // Get "to-host" ring buffer.
 1054:Src/SEGGER_RTT.c ****   //
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 47
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 47
 
 
 1055:Src/SEGGER_RTT.c ****   pRing = &_SEGGER_RTT.aUp[BufferIndex];
@@ -2818,7 +2818,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1085:Src/SEGGER_RTT.c ****     Status = _WriteBlocking(pRing, pData, NumBytes);
 1086:Src/SEGGER_RTT.c ****     break;
 1087:Src/SEGGER_RTT.c ****   default:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 48
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 48
 
 
 1088:Src/SEGGER_RTT.c ****     Status = 0u;
@@ -2878,7 +2878,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1428 0046 FFF7FEFF 		bl	_GetAvailWriteSpace
  1429              	.LVL149:
 1078:Src/SEGGER_RTT.c ****     _WriteNoCheck(pRing, pData, Status);
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 49
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 49
 
 
  1430              		.loc 1 1078 5 is_stmt 1 view .LVU424
@@ -2938,7 +2938,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1475              		.fpu fpv5-d16
  1477              	SEGGER_RTT_WriteDownBuffer:
  1478              	.LVL156:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 50
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 50
 
 
  1479              	.LFB12:
@@ -2998,7 +2998,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1503              	.LVL157:
  1504              	.L86:
  1505              	.LBB4:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 51
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 51
 
 
 1126:Src/SEGGER_RTT.c ****   SEGGER_RTT_LOCK();
@@ -3058,7 +3058,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1546              	.L90:
  1547              		.align	2
  1548              	.L89:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 52
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 52
 
 
  1549 0030 00000000 		.word	_SEGGER_RTT
@@ -3118,7 +3118,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1161:Src/SEGGER_RTT.c ****   INIT();
  1582              		.loc 1 1161 3 view .LVU454
  1583              		.loc 1 1161 3 view .LVU455
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 53
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 53
 
 
  1584 0008 094B     		ldr	r3, .L95
@@ -3178,7 +3178,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1625              		.loc 1 1161 3 is_stmt 1 discriminator 1 view .LVU465
  1626 002a FFF7FEFF 		bl	_DoInit
  1627              	.LVL167:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 54
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 54
 
 
 1161:Src/SEGGER_RTT.c ****   SEGGER_RTT_LOCK();
@@ -3238,7 +3238,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1661 0004 0C46     		mov	r4, r1
 1196:Src/SEGGER_RTT.c ****   unsigned Len;
  1662              		.loc 1 1196 3 is_stmt 1 view .LVU469
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 55
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 55
 
 
 1197:Src/SEGGER_RTT.c **** 
@@ -3298,7 +3298,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1220:Src/SEGGER_RTT.c **** *    (2) For performance reasons this function does not call Init()
 1221:Src/SEGGER_RTT.c **** *        and may only be called after RTT has been initialized.
 1222:Src/SEGGER_RTT.c **** *        Either by calling SEGGER_RTT_Init() or calling another RTT API function first.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 56
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 56
 
 
 1223:Src/SEGGER_RTT.c **** */
@@ -3358,7 +3358,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1241:Src/SEGGER_RTT.c ****   // Output byte if free space is available
 1242:Src/SEGGER_RTT.c ****   //
 1243:Src/SEGGER_RTT.c ****   if (WrOff != pRing->RdOff) {
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 57
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 57
 
 
  1732              		.loc 1 1243 3 is_stmt 1 view .LVU490
@@ -3418,7 +3418,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1777              	.LCFI17:
  1778              		.cfi_restore_state
 1238:Src/SEGGER_RTT.c ****   }
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 58
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 58
 
 
  1779              		.loc 1 1238 11 view .LVU502
@@ -3478,7 +3478,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1811              		.cfi_startproc
  1812              		@ args = 0, pretend = 0, frame = 0
  1813              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 59
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 59
 
 
  1814              		.loc 1 1272 63 is_stmt 0 view .LVU508
@@ -3538,7 +3538,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1852              		.syntax unified
  1853 0018 6200     		lsls	r2, r4, #1
  1854 001a 2244     		add	r2, r2, r4
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 60
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 60
 
 
  1855 001c D100     		lsls	r1, r2, #3
@@ -3598,7 +3598,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1899              	.LVL190:
  1900              		.loc 1 1298 12 is_stmt 0 view .LVU534
  1901 0056 0120     		movs	r0, #1
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 61
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 61
 
 
  1902              	.LVL191:
@@ -3658,7 +3658,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  1941              	.LBE7:
  1942              		.cfi_endproc
  1943              	.LFE16:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 62
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 62
 
 
  1945              		.section	.text.SEGGER_RTT_PutChar,"ax",%progbits
@@ -3718,7 +3718,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1334:Src/SEGGER_RTT.c ****   //
 1335:Src/SEGGER_RTT.c ****   INIT();
  1975              		.loc 1 1335 3 view .LVU549
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 63
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 63
 
 
  1976              		.loc 1 1335 3 view .LVU550
@@ -3778,7 +3778,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1350:Src/SEGGER_RTT.c ****   //
 1351:Src/SEGGER_RTT.c ****   if (pRing->Flags == SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL) {
  2016              		.loc 1 1351 3 is_stmt 1 view .LVU561
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 64
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 64
 
 
  2017              		.loc 1 1351 12 is_stmt 0 view .LVU562
@@ -3838,7 +3838,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2060              	.L124:
 1363:Src/SEGGER_RTT.c ****   } else {
 1364:Src/SEGGER_RTT.c ****     Status = 0;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 65
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 65
 
 
 1365:Src/SEGGER_RTT.c ****   }
@@ -3898,7 +3898,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2100 0086 F7D0     		beq	.L123
  2101 0088 D8E7     		b	.L122
  2102              	.L126:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 66
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 66
 
 
 1364:Src/SEGGER_RTT.c ****   }
@@ -3958,7 +3958,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2137              		.loc 1 1393 3 view .LVU590
  2138              		.loc 1 1393 12 is_stmt 0 view .LVU591
  2139 0004 0122     		movs	r2, #1
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 67
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 67
 
 
  2140 0006 0DF10701 		add	r1, sp, #7
@@ -4018,7 +4018,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1404:Src/SEGGER_RTT.c **** *       SEGGER_RTT_WaitKey
 1405:Src/SEGGER_RTT.c **** *
 1406:Src/SEGGER_RTT.c **** *  Function description
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 68
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 68
 
 
 1407:Src/SEGGER_RTT.c **** *    Waits until at least one character is avaible in the SEGGER RTT buffer.
@@ -4078,7 +4078,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1428:Src/SEGGER_RTT.c **** *       SEGGER_RTT_HasKey
 1429:Src/SEGGER_RTT.c **** *
 1430:Src/SEGGER_RTT.c **** *  Function description
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 69
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 69
 
 
 1431:Src/SEGGER_RTT.c **** *    Checks if at least one character for reading is available in the SEGGER RTT buffer.
@@ -4138,7 +4138,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2250 0014 08BD     		pop	{r3, pc}
  2251              	.LVL216:
  2252              	.L144:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 70
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 70
 
 
 1444:Src/SEGGER_RTT.c ****   RdOff = _SEGGER_RTT.aDown[0].RdOff;
@@ -4198,7 +4198,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2291              		.cfi_def_cfa_offset 4
  2292              		.cfi_offset 4, -4
 1467:Src/SEGGER_RTT.c ****   SEGGER_RTT_BUFFER_DOWN* pRing;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 71
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 71
 
 
  2293              		.loc 1 1467 3 is_stmt 1 view .LVU626
@@ -4258,7 +4258,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1477:Src/SEGGER_RTT.c **** *       SEGGER_RTT_HasDataUp
 1478:Src/SEGGER_RTT.c **** *
 1479:Src/SEGGER_RTT.c **** *  Function description
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 72
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 72
 
 
 1480:Src/SEGGER_RTT.c **** *    Check if there is data remaining to be sent in the given buffer.
@@ -4318,7 +4318,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2379              	.L154:
  2380 001e 00BF     		.align	2
  2381              	.L153:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 73
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 73
 
 
  2382 0020 00000000 		.word	_SEGGER_RTT
@@ -4378,7 +4378,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1517:Src/SEGGER_RTT.c **** 
 1518:Src/SEGGER_RTT.c ****   INIT();
  2416              		.loc 1 1518 3 view .LVU649
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 74
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 74
 
 
  2417              		.loc 1 1518 3 view .LVU650
@@ -4438,7 +4438,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2463 0034 F3DC     		bgt	.L158
  2464              	.L157:
 1527:Src/SEGGER_RTT.c ****   if (BufferIndex < _SEGGER_RTT.MaxNumDownBuffers) {
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 75
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 75
 
 
  2465              		.loc 1 1527 3 is_stmt 1 view .LVU665
@@ -4498,7 +4498,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2508              		.loc 1 1538 3 view .LVU682
 1539:Src/SEGGER_RTT.c **** }
  2509              		.loc 1 1539 1 is_stmt 0 view .LVU683
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 76
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 76
 
 
  2510 005a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
@@ -4558,7 +4558,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1557:Src/SEGGER_RTT.c **** *    >= 0 - O.K. Buffer Index
 1558:Src/SEGGER_RTT.c **** *     < 0 - Error
 1559:Src/SEGGER_RTT.c **** */
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 77
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 77
 
 
 1560:Src/SEGGER_RTT.c **** int SEGGER_RTT_AllocUpBuffer(const char* sName, void* pBuffer, unsigned BufferSize, unsigned Flags)
@@ -4618,7 +4618,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1566:Src/SEGGER_RTT.c ****   do {
  2593              		.loc 1 1566 3 is_stmt 1 view .LVU699
 1567:Src/SEGGER_RTT.c ****     if (_SEGGER_RTT.aUp[BufferIndex].pBuffer == NULL) {
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 78
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 78
 
 
  2594              		.loc 1 1567 5 view .LVU700
@@ -4678,7 +4678,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2640 0062 0B44     		add	r3, r3, r1
  2641 0064 1D62     		str	r5, [r3, #32]
 1576:Src/SEGGER_RTT.c ****     _SEGGER_RTT.aUp[BufferIndex].RdOff        = 0u;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 79
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 79
 
 
  2642              		.loc 1 1576 5 is_stmt 1 view .LVU716
@@ -4738,7 +4738,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2684              	.L173:
  2685 0084 00000000 		.word	_SEGGER_RTT
  2686              	.LBE13:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 80
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 80
 
 
  2687              		.cfi_endproc
@@ -4798,7 +4798,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2716 0004 0F46     		mov	r7, r1
  2717 0006 1646     		mov	r6, r2
  2718 0008 1D46     		mov	r5, r3
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 81
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 81
 
 
 1612:Src/SEGGER_RTT.c ****   int r;
@@ -4858,7 +4858,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2765 003c 1944     		add	r1, r1, r3
  2766 003e 4E60     		str	r6, [r1, #4]
 1620:Src/SEGGER_RTT.c ****       _SEGGER_RTT.aUp[BufferIndex].SizeOfBuffer = BufferSize;
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 82
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 82
 
 
  2767              		.loc 1 1620 7 is_stmt 1 view .LVU748
@@ -4918,7 +4918,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2810              	.LVL259:
  2811              	.L181:
 1614:Src/SEGGER_RTT.c ****   if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumUpBuffers) {
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 83
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 83
 
 
  2812              		.loc 1 1614 3 is_stmt 1 discriminator 1 view .LVU762
@@ -4978,7 +4978,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1654:Src/SEGGER_RTT.c **** *    Buffer 0 is configured on compile-time.
 1655:Src/SEGGER_RTT.c **** *    May only be called once per buffer.
 1656:Src/SEGGER_RTT.c **** *    Buffer name and flags can be reconfigured using the appropriate functions.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 84
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 84
 
 
 1657:Src/SEGGER_RTT.c **** */
@@ -5038,7 +5038,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1664:Src/SEGGER_RTT.c ****     if (BufferIndex > 0u) {
  2889              		.loc 1 1664 5 view .LVU779
  2890              		.loc 1 1664 8 is_stmt 0 view .LVU780
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 85
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 85
 
 
  2891              		.thumb
@@ -5098,7 +5098,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  2936              		.loc 1 1673 5 view .LVU796
  2937              	.LVL267:
  2938              		.loc 1 1673 7 is_stmt 0 view .LVU797
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 86
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 86
 
 
  2939 004e 0020     		movs	r0, #0
@@ -5158,7 +5158,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1688:Src/SEGGER_RTT.c **** *  Parameters
 1689:Src/SEGGER_RTT.c **** *    BufferIndex  Index of the buffer to renamed.
 1690:Src/SEGGER_RTT.c **** *    sName        Pointer to a constant name string.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 87
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 87
 
 
 1691:Src/SEGGER_RTT.c **** *
@@ -5218,7 +5218,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3018              		.loc 1 1702 40 is_stmt 0 view .LVU816
  3019              		.thumb
  3020              		.syntax unified
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 88
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 88
 
 
  3021 0020 0134     		adds	r4, r4, #1
@@ -5278,7 +5278,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3063              		.align	2
  3064              	.L199:
  3065 0040 00000000 		.word	_SEGGER_RTT
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 89
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 89
 
 
  3066              		.cfi_endproc
@@ -5338,7 +5338,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3101              	.L202:
 1731:Src/SEGGER_RTT.c ****   if (BufferIndex < (unsigned)_SEGGER_RTT.MaxNumDownBuffers) {
  3102              		.loc 1 1731 3 view .LVU834
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 90
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 90
 
 
  3103              		.loc 1 1731 42 is_stmt 0 view .LVU835
@@ -5398,7 +5398,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3148              		.loc 1 1740 1 view .LVU847
  3149 0032 38BD     		pop	{r3, r4, r5, pc}
  3150              	.LVL288:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 91
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 91
 
 
  3151              	.L206:
@@ -5458,7 +5458,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3184              		@ args = 0, pretend = 0, frame = 0
  3185              		@ frame_needed = 0, uses_anonymous_args = 0
  3186              		.loc 1 1758 71 is_stmt 0 view .LVU854
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 92
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 92
 
 
  3187 0000 38B5     		push	{r3, r4, r5, lr}
@@ -5518,7 +5518,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3234              		.loc 1 1765 5 is_stmt 1 view .LVU867
  3235              		.syntax unified
  3236              	@ 1765 "Src/SEGGER_RTT.c" 1
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 93
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 93
 
 
  3237 002c 80F31188 		msr   basepri, r0  
@@ -5578,7 +5578,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3282              	.LVL300:
  3283              	.LFB30:
 1772:Src/SEGGER_RTT.c **** 
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 94
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 94
 
 
 1773:Src/SEGGER_RTT.c **** /*********************************************************************
@@ -5638,7 +5638,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3316              		.syntax unified
  3317              	@ 1794 "Src/SEGGER_RTT.c" 1
  3318 0014 EFF31180 		mrs   r0, basepri  
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 95
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 95
 
 
  3319 0018 4FF02001 		mov   r1, #32       
@@ -5698,7 +5698,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3362              		.loc 1 1799 7 view .LVU898
  3363 003a 4FF0FF30 		mov	r0, #-1
  3364              	.LVL308:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 96
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 96
 
 
 1801:Src/SEGGER_RTT.c **** }
@@ -5758,7 +5758,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3407              		.thumb_func
  3408              		.fpu fpv5-d16
  3410              	SEGGER_RTT_SetTerminal:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 97
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 97
 
 
  3411              	.LVL310:
@@ -5818,7 +5818,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3440              		.loc 1 1840 3 view .LVU913
  3441              		.loc 1 1840 9 is_stmt 0 view .LVU914
  3442 000c FF23     		movs	r3, #255
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 98
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 98
 
 
  3443 000e 8DF80430 		strb	r3, [sp, #4]
@@ -5878,7 +5878,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3487              		.loc 1 1850 10 is_stmt 0 view .LVU932
  3488 003c 0128     		cmp	r0, #1
  3489 003e 11D8     		bhi	.L237
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 99
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 99
 
 
 1851:Src/SEGGER_RTT.c ****         _ActiveTerminal = TerminalId;    // Only change active terminal in case of success
@@ -5938,7 +5938,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3528 0054 1C70     		strb	r4, [r3]
 1847:Src/SEGGER_RTT.c ****     } else {                                                                            // Skipping
  3529              		.loc 1 1847 7 is_stmt 1 view .LVU941
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 100
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 100
 
 
  3530 0056 0222     		movs	r2, #2
@@ -5998,7 +5998,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3571              		.loc 1 1861 10 is_stmt 0 view .LVU954
  3572 007a E5E7     		b	.L227
  3573              	.L239:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 101
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 101
 
 
  3574              		.align	2
@@ -6058,7 +6058,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3611 0006 0E46     		mov	r6, r1
 1882:Src/SEGGER_RTT.c ****   int                   Status;
  3612              		.loc 1 1882 3 is_stmt 1 view .LVU957
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 102
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 102
 
 
 1883:Src/SEGGER_RTT.c ****   unsigned              FragLen;
@@ -6118,7 +6118,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3645              	@ 0 "" 2
  3646              	.LVL333:
  3647              		.loc 1 1904 22 view .LVU970
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 103
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 103
 
 
 1905:Src/SEGGER_RTT.c ****     Avail = _GetAvailWriteSpace(pRing);
@@ -6178,7 +6178,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1934:Src/SEGGER_RTT.c ****     case SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL:
 1935:Src/SEGGER_RTT.c ****       //
 1936:Src/SEGGER_RTT.c ****       // If we are in blocking mode, output everything.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 104
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 104
 
 
 1937:Src/SEGGER_RTT.c ****       //
@@ -6238,7 +6238,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1912:Src/SEGGER_RTT.c ****         Status = 0;
  3705              		.loc 1 1912 10 view .LVU987
  3706 0058 8342     		cmp	r3, r0
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 105
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 105
 
 
  3707 005a 01D9     		bls	.L252
@@ -6298,7 +6298,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1927:Src/SEGGER_RTT.c ****       } else {
  3750              		.loc 1 1927 16 view .LVU999
  3751 008c DAE7     		b	.L246
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 106
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 106
 
 
  3752              	.LVL353:
@@ -6358,7 +6358,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3795              		.loc 1 1939 21 is_stmt 0 view .LVU1010
  3796 00c6 4A46     		mov	r2, r9
  3797 00c8 3146     		mov	r1, r6
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 107
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 107
 
 
  3798 00ca 4046     		mov	r0, r8
@@ -6418,7 +6418,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1959:Src/SEGGER_RTT.c **** *
 1960:Src/SEGGER_RTT.c **** *  Function description
 1961:Src/SEGGER_RTT.c **** *    Returns the number of bytes available in the ring buffer.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 108
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 108
 
 
 1962:Src/SEGGER_RTT.c **** *
@@ -6478,7 +6478,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
 1977:Src/SEGGER_RTT.c **** *
 1978:Src/SEGGER_RTT.c **** *  Function description
 1979:Src/SEGGER_RTT.c **** *    Returns the number of bytes currently used in the up buffer.
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 109
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 109
 
 
 1980:Src/SEGGER_RTT.c **** *
@@ -6538,7 +6538,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3914 0014 7047     		bx	lr
  3915              	.LVL376:
  3916              	.L261:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 110
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 110
 
 
 1987:Src/SEGGER_RTT.c ****   unsigned RdOff;
@@ -6598,7 +6598,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  3966              		.align	2
  3967              		.set	.LANCHOR1,. + 0
  3970              	_acUpBuffer:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 111
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 111
 
 
  3971 0000 00000000 		.space	1024
@@ -6648,127 +6648,127 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 1
  4010              		.file 7 "Inc/SEGGER_RTT.h"
  4011              		.file 8 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/string
  4012              		.file 9 "<built-in>"
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 112
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 112
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 SEGGER_RTT.c
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:17     .text._GetAvailWriteSpace:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:24     .text._GetAvailWriteSpace:0000000000000000 _GetAvailWriteSpace
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:78     .text._WriteNoCheck:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:84     .text._WriteNoCheck:0000000000000000 _WriteNoCheck
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:174    .text._WriteBlocking:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:180    .text._WriteBlocking:0000000000000000 _WriteBlocking
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:318    .text._PostTerminalSwitch:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:324    .text._PostTerminalSwitch:0000000000000000 _PostTerminalSwitch
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:366    .text._PostTerminalSwitch:0000000000000020 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:371    .text._DoInit:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:377    .text._DoInit:0000000000000000 _DoInit
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:455    .text._DoInit:0000000000000048 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:17     .text._GetAvailWriteSpace:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:24     .text._GetAvailWriteSpace:0000000000000000 _GetAvailWriteSpace
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:78     .text._WriteNoCheck:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:84     .text._WriteNoCheck:0000000000000000 _WriteNoCheck
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:174    .text._WriteBlocking:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:180    .text._WriteBlocking:0000000000000000 _WriteBlocking
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:318    .text._PostTerminalSwitch:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:324    .text._PostTerminalSwitch:0000000000000000 _PostTerminalSwitch
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:366    .text._PostTerminalSwitch:0000000000000020 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:371    .text._DoInit:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:377    .text._DoInit:0000000000000000 _DoInit
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:455    .text._DoInit:0000000000000048 $d
                             *COM*:00000000000000a8 _SEGGER_RTT
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:465    .text.SEGGER_RTT_ReadUpBufferNoLock:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:472    .text.SEGGER_RTT_ReadUpBufferNoLock:0000000000000000 SEGGER_RTT_ReadUpBufferNoLock
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:649    .text.SEGGER_RTT_ReadUpBufferNoLock:00000000000000a4 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:654    .text.SEGGER_RTT_ReadNoLock:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:661    .text.SEGGER_RTT_ReadNoLock:0000000000000000 SEGGER_RTT_ReadNoLock
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:832    .text.SEGGER_RTT_ReadNoLock:0000000000000098 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:837    .text.SEGGER_RTT_ReadUpBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:844    .text.SEGGER_RTT_ReadUpBuffer:0000000000000000 SEGGER_RTT_ReadUpBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:896    .text.SEGGER_RTT_Read:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:903    .text.SEGGER_RTT_Read:0000000000000000 SEGGER_RTT_Read
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:955    .text.SEGGER_RTT_WriteWithOverwriteNoLock:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:962    .text.SEGGER_RTT_WriteWithOverwriteNoLock:0000000000000000 SEGGER_RTT_WriteWithOverwriteNoLock
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1203   .text.SEGGER_RTT_WriteWithOverwriteNoLock:0000000000000108 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1208   .text.SEGGER_RTT_WriteDownBufferNoLock:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1215   .text.SEGGER_RTT_WriteDownBufferNoLock:0000000000000000 SEGGER_RTT_WriteDownBufferNoLock
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1331   .text.SEGGER_RTT_WriteDownBufferNoLock:0000000000000060 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1336   .text.SEGGER_RTT_WriteNoLock:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1343   .text.SEGGER_RTT_WriteNoLock:0000000000000000 SEGGER_RTT_WriteNoLock
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1465   .text.SEGGER_RTT_WriteNoLock:000000000000006c $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1470   .text.SEGGER_RTT_WriteDownBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1477   .text.SEGGER_RTT_WriteDownBuffer:0000000000000000 SEGGER_RTT_WriteDownBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1549   .text.SEGGER_RTT_WriteDownBuffer:0000000000000030 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1554   .text.SEGGER_RTT_Write:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1561   .text.SEGGER_RTT_Write:0000000000000000 SEGGER_RTT_Write
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1633   .text.SEGGER_RTT_Write:0000000000000030 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1638   .text.SEGGER_RTT_WriteString:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1645   .text.SEGGER_RTT_WriteString:0000000000000000 SEGGER_RTT_WriteString
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1686   .text.SEGGER_RTT_PutCharSkipNoLock:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1693   .text.SEGGER_RTT_PutCharSkipNoLock:0000000000000000 SEGGER_RTT_PutCharSkipNoLock
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1795   .text.SEGGER_RTT_PutCharSkipNoLock:0000000000000050 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1800   .text.SEGGER_RTT_PutCharSkip:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1807   .text.SEGGER_RTT_PutCharSkip:0000000000000000 SEGGER_RTT_PutCharSkip
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1940   .text.SEGGER_RTT_PutCharSkip:000000000000006c $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1946   .text.SEGGER_RTT_PutChar:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:1953   .text.SEGGER_RTT_PutChar:0000000000000000 SEGGER_RTT_PutChar
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2109   .text.SEGGER_RTT_PutChar:0000000000000090 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2115   .text.SEGGER_RTT_GetKey:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2122   .text.SEGGER_RTT_GetKey:0000000000000000 SEGGER_RTT_GetKey
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2174   .text.SEGGER_RTT_WaitKey:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2181   .text.SEGGER_RTT_WaitKey:0000000000000000 SEGGER_RTT_WaitKey
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2209   .text.SEGGER_RTT_HasKey:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2216   .text.SEGGER_RTT_HasKey:0000000000000000 SEGGER_RTT_HasKey
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 113
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:465    .text.SEGGER_RTT_ReadUpBufferNoLock:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:472    .text.SEGGER_RTT_ReadUpBufferNoLock:0000000000000000 SEGGER_RTT_ReadUpBufferNoLock
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:649    .text.SEGGER_RTT_ReadUpBufferNoLock:00000000000000a4 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:654    .text.SEGGER_RTT_ReadNoLock:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:661    .text.SEGGER_RTT_ReadNoLock:0000000000000000 SEGGER_RTT_ReadNoLock
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:832    .text.SEGGER_RTT_ReadNoLock:0000000000000098 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:837    .text.SEGGER_RTT_ReadUpBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:844    .text.SEGGER_RTT_ReadUpBuffer:0000000000000000 SEGGER_RTT_ReadUpBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:896    .text.SEGGER_RTT_Read:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:903    .text.SEGGER_RTT_Read:0000000000000000 SEGGER_RTT_Read
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:955    .text.SEGGER_RTT_WriteWithOverwriteNoLock:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:962    .text.SEGGER_RTT_WriteWithOverwriteNoLock:0000000000000000 SEGGER_RTT_WriteWithOverwriteNoLock
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1203   .text.SEGGER_RTT_WriteWithOverwriteNoLock:0000000000000108 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1208   .text.SEGGER_RTT_WriteDownBufferNoLock:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1215   .text.SEGGER_RTT_WriteDownBufferNoLock:0000000000000000 SEGGER_RTT_WriteDownBufferNoLock
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1331   .text.SEGGER_RTT_WriteDownBufferNoLock:0000000000000060 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1336   .text.SEGGER_RTT_WriteNoLock:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1343   .text.SEGGER_RTT_WriteNoLock:0000000000000000 SEGGER_RTT_WriteNoLock
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1465   .text.SEGGER_RTT_WriteNoLock:000000000000006c $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1470   .text.SEGGER_RTT_WriteDownBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1477   .text.SEGGER_RTT_WriteDownBuffer:0000000000000000 SEGGER_RTT_WriteDownBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1549   .text.SEGGER_RTT_WriteDownBuffer:0000000000000030 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1554   .text.SEGGER_RTT_Write:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1561   .text.SEGGER_RTT_Write:0000000000000000 SEGGER_RTT_Write
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1633   .text.SEGGER_RTT_Write:0000000000000030 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1638   .text.SEGGER_RTT_WriteString:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1645   .text.SEGGER_RTT_WriteString:0000000000000000 SEGGER_RTT_WriteString
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1686   .text.SEGGER_RTT_PutCharSkipNoLock:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1693   .text.SEGGER_RTT_PutCharSkipNoLock:0000000000000000 SEGGER_RTT_PutCharSkipNoLock
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1795   .text.SEGGER_RTT_PutCharSkipNoLock:0000000000000050 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1800   .text.SEGGER_RTT_PutCharSkip:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1807   .text.SEGGER_RTT_PutCharSkip:0000000000000000 SEGGER_RTT_PutCharSkip
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1940   .text.SEGGER_RTT_PutCharSkip:000000000000006c $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1946   .text.SEGGER_RTT_PutChar:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:1953   .text.SEGGER_RTT_PutChar:0000000000000000 SEGGER_RTT_PutChar
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2109   .text.SEGGER_RTT_PutChar:0000000000000090 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2115   .text.SEGGER_RTT_GetKey:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2122   .text.SEGGER_RTT_GetKey:0000000000000000 SEGGER_RTT_GetKey
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2174   .text.SEGGER_RTT_WaitKey:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2181   .text.SEGGER_RTT_WaitKey:0000000000000000 SEGGER_RTT_WaitKey
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2209   .text.SEGGER_RTT_HasKey:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2216   .text.SEGGER_RTT_HasKey:0000000000000000 SEGGER_RTT_HasKey
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 113
 
 
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2268   .text.SEGGER_RTT_HasKey:0000000000000020 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2273   .text.SEGGER_RTT_HasData:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2280   .text.SEGGER_RTT_HasData:0000000000000000 SEGGER_RTT_HasData
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2325   .text.SEGGER_RTT_HasData:0000000000000020 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2330   .text.SEGGER_RTT_HasDataUp:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2337   .text.SEGGER_RTT_HasDataUp:0000000000000000 SEGGER_RTT_HasDataUp
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2382   .text.SEGGER_RTT_HasDataUp:0000000000000020 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2387   .text.SEGGER_RTT_AllocDownBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2394   .text.SEGGER_RTT_AllocDownBuffer:0000000000000000 SEGGER_RTT_AllocDownBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2529   .text.SEGGER_RTT_AllocDownBuffer:0000000000000068 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2535   .text.SEGGER_RTT_AllocUpBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2542   .text.SEGGER_RTT_AllocUpBuffer:0000000000000000 SEGGER_RTT_AllocUpBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2685   .text.SEGGER_RTT_AllocUpBuffer:0000000000000084 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2691   .text.SEGGER_RTT_ConfigUpBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2698   .text.SEGGER_RTT_ConfigUpBuffer:0000000000000000 SEGGER_RTT_ConfigUpBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2827   .text.SEGGER_RTT_ConfigUpBuffer:0000000000000074 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2832   .text.SEGGER_RTT_ConfigDownBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2839   .text.SEGGER_RTT_ConfigDownBuffer:0000000000000000 SEGGER_RTT_ConfigDownBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2961   .text.SEGGER_RTT_ConfigDownBuffer:0000000000000060 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2966   .text.SEGGER_RTT_SetNameUpBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:2973   .text.SEGGER_RTT_SetNameUpBuffer:0000000000000000 SEGGER_RTT_SetNameUpBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3065   .text.SEGGER_RTT_SetNameUpBuffer:0000000000000040 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3070   .text.SEGGER_RTT_SetNameDownBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3077   .text.SEGGER_RTT_SetNameDownBuffer:0000000000000000 SEGGER_RTT_SetNameDownBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3167   .text.SEGGER_RTT_SetNameDownBuffer:0000000000000040 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3172   .text.SEGGER_RTT_SetFlagsUpBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3179   .text.SEGGER_RTT_SetFlagsUpBuffer:0000000000000000 SEGGER_RTT_SetFlagsUpBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3269   .text.SEGGER_RTT_SetFlagsUpBuffer:0000000000000040 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3274   .text.SEGGER_RTT_SetFlagsDownBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3281   .text.SEGGER_RTT_SetFlagsDownBuffer:0000000000000000 SEGGER_RTT_SetFlagsDownBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3371   .text.SEGGER_RTT_SetFlagsDownBuffer:0000000000000040 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3376   .text.SEGGER_RTT_Init:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3383   .text.SEGGER_RTT_Init:0000000000000000 SEGGER_RTT_Init
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3403   .text.SEGGER_RTT_SetTerminal:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3410   .text.SEGGER_RTT_SetTerminal:0000000000000000 SEGGER_RTT_SetTerminal
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3576   .text.SEGGER_RTT_SetTerminal:000000000000007c $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3584   .text.SEGGER_RTT_TerminalOut:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3591   .text.SEGGER_RTT_TerminalOut:0000000000000000 SEGGER_RTT_TerminalOut
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3826   .text.SEGGER_RTT_TerminalOut:00000000000000e4 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3833   .text.SEGGER_RTT_GetAvailWriteSpace:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3840   .text.SEGGER_RTT_GetAvailWriteSpace:0000000000000000 SEGGER_RTT_GetAvailWriteSpace
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3869   .text.SEGGER_RTT_GetAvailWriteSpace:0000000000000014 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3874   .text.SEGGER_RTT_GetBytesInBuffer:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3881   .text.SEGGER_RTT_GetBytesInBuffer:0000000000000000 SEGGER_RTT_GetBytesInBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3947   .text.SEGGER_RTT_GetBytesInBuffer:0000000000000030 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3956   .bss._ActiveTerminal:0000000000000000 _ActiveTerminal
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3957   .bss._ActiveTerminal:0000000000000000 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3959   .bss._acDownBuffer:0000000000000000 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3963   .bss._acDownBuffer:0000000000000000 _acDownBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3966   .bss._acUpBuffer:0000000000000000 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3970   .bss._acUpBuffer:0000000000000000 _acUpBuffer
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3973   .rodata._DoInit.str1.4:0000000000000000 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3982   .rodata._aTerminalId:0000000000000000 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s:3986   .rodata._aTerminalId:0000000000000000 _aTerminalId
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2268   .text.SEGGER_RTT_HasKey:0000000000000020 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2273   .text.SEGGER_RTT_HasData:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2280   .text.SEGGER_RTT_HasData:0000000000000000 SEGGER_RTT_HasData
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2325   .text.SEGGER_RTT_HasData:0000000000000020 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2330   .text.SEGGER_RTT_HasDataUp:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2337   .text.SEGGER_RTT_HasDataUp:0000000000000000 SEGGER_RTT_HasDataUp
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2382   .text.SEGGER_RTT_HasDataUp:0000000000000020 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2387   .text.SEGGER_RTT_AllocDownBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2394   .text.SEGGER_RTT_AllocDownBuffer:0000000000000000 SEGGER_RTT_AllocDownBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2529   .text.SEGGER_RTT_AllocDownBuffer:0000000000000068 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2535   .text.SEGGER_RTT_AllocUpBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2542   .text.SEGGER_RTT_AllocUpBuffer:0000000000000000 SEGGER_RTT_AllocUpBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2685   .text.SEGGER_RTT_AllocUpBuffer:0000000000000084 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2691   .text.SEGGER_RTT_ConfigUpBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2698   .text.SEGGER_RTT_ConfigUpBuffer:0000000000000000 SEGGER_RTT_ConfigUpBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2827   .text.SEGGER_RTT_ConfigUpBuffer:0000000000000074 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2832   .text.SEGGER_RTT_ConfigDownBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2839   .text.SEGGER_RTT_ConfigDownBuffer:0000000000000000 SEGGER_RTT_ConfigDownBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2961   .text.SEGGER_RTT_ConfigDownBuffer:0000000000000060 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2966   .text.SEGGER_RTT_SetNameUpBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:2973   .text.SEGGER_RTT_SetNameUpBuffer:0000000000000000 SEGGER_RTT_SetNameUpBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3065   .text.SEGGER_RTT_SetNameUpBuffer:0000000000000040 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3070   .text.SEGGER_RTT_SetNameDownBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3077   .text.SEGGER_RTT_SetNameDownBuffer:0000000000000000 SEGGER_RTT_SetNameDownBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3167   .text.SEGGER_RTT_SetNameDownBuffer:0000000000000040 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3172   .text.SEGGER_RTT_SetFlagsUpBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3179   .text.SEGGER_RTT_SetFlagsUpBuffer:0000000000000000 SEGGER_RTT_SetFlagsUpBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3269   .text.SEGGER_RTT_SetFlagsUpBuffer:0000000000000040 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3274   .text.SEGGER_RTT_SetFlagsDownBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3281   .text.SEGGER_RTT_SetFlagsDownBuffer:0000000000000000 SEGGER_RTT_SetFlagsDownBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3371   .text.SEGGER_RTT_SetFlagsDownBuffer:0000000000000040 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3376   .text.SEGGER_RTT_Init:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3383   .text.SEGGER_RTT_Init:0000000000000000 SEGGER_RTT_Init
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3403   .text.SEGGER_RTT_SetTerminal:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3410   .text.SEGGER_RTT_SetTerminal:0000000000000000 SEGGER_RTT_SetTerminal
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3576   .text.SEGGER_RTT_SetTerminal:000000000000007c $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3584   .text.SEGGER_RTT_TerminalOut:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3591   .text.SEGGER_RTT_TerminalOut:0000000000000000 SEGGER_RTT_TerminalOut
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3826   .text.SEGGER_RTT_TerminalOut:00000000000000e4 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3833   .text.SEGGER_RTT_GetAvailWriteSpace:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3840   .text.SEGGER_RTT_GetAvailWriteSpace:0000000000000000 SEGGER_RTT_GetAvailWriteSpace
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3869   .text.SEGGER_RTT_GetAvailWriteSpace:0000000000000014 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3874   .text.SEGGER_RTT_GetBytesInBuffer:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3881   .text.SEGGER_RTT_GetBytesInBuffer:0000000000000000 SEGGER_RTT_GetBytesInBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3947   .text.SEGGER_RTT_GetBytesInBuffer:0000000000000030 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3956   .bss._ActiveTerminal:0000000000000000 _ActiveTerminal
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3957   .bss._ActiveTerminal:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3959   .bss._acDownBuffer:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3963   .bss._acDownBuffer:0000000000000000 _acDownBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3966   .bss._acUpBuffer:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3970   .bss._acUpBuffer:0000000000000000 _acUpBuffer
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3973   .rodata._DoInit.str1.4:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3982   .rodata._aTerminalId:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s:3986   .rodata._aTerminalId:0000000000000000 _aTerminalId
 
 UNDEFINED SYMBOLS
 memcpy
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccGgzdrE.s 			page 114
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccWkV1vc.s 			page 114
 
 
 strlen

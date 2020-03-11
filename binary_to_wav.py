@@ -29,21 +29,32 @@ import sys
 
 # Constants
 AUDIO_FREQ = 44.1 * 1000
-AUDIO_WIDTH_BYTES = 3
+AUDIO_WIDTH_BYTES = 4
 
 
 def read_stuff(fname):
-    read_data = []
+    read_data_L = []
+    read_data_R = []
+    right_channel = False; 
     with open(fname, mode="rb") as f:
+        print(fname)
         while True:
-            # Read in 4 bytes at a time
             data = f.read(4)
             if len(data) < 4:
                 # End of file if there's less than 4 bytes of data
-                return read_data
-            # Unpack as little-endian, 32 bit numbers
+                return read_data_L, read_data_R
+            # Read in 4 bytes at a time
             data = struct.unpack("<i", data)[0]
-            read_data.append(int(data))
+
+            if right_channel:
+                read_data_R.append(int(data))
+            else:
+                read_data_L.append(int(data))
+
+            # Unpack as little-endian, 32 bit numbers
+
+            right_channel = not right_channel
+
 
 
 # Prompt the user for the file to convert
@@ -57,8 +68,14 @@ file_to_convert = int(input("Choose a binary file to be converted into wav\n"))
 file_name = files[file_to_convert]
 print("Converting {}...".format(file_name))
 
-audio_data = read_stuff(files[file_to_convert])
-audio_data = np.asarray(audio_data, "int32")
+audio_L, audio_R = read_stuff(files[file_to_convert])
+audio_L_array = np.asarray((audio_L), "int32")
+audio_R_array = np.asarray((audio_R), "int32")
+print(audio_L_array)
+audio_data = np.array([audio_L_array, audio_R_array], np.int32)
+audio_data = np.transpose(audio_data)
+
+print(audio_data)
 
 # Set output file name. Path is current directory of the script
 if len(sys.argv) > 1:
@@ -67,7 +84,7 @@ else:
     output_file = file_name.split("/")[3][:-4] + ".wav"
 
 wavio.write(
-    output_file, audio_data, AUDIO_FREQ, sampwidth=AUDIO_WIDTH_BYTES, scale="none"
+    output_file, audio_data, AUDIO_FREQ, sampwidth=AUDIO_WIDTH_BYTES
 )
 
 
