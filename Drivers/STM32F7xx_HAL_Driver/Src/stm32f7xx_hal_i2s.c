@@ -866,10 +866,15 @@ HAL_StatusTypeDef HAL_I2S_Transmit(I2S_HandleTypeDef *hi2s, uint16_t *pData, uin
   *         in continuous way and as the I2S is not disabled at the end of the I2S transaction.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t* status, uint16_t Size, uint32_t Timeout)
+HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t* status, uint16_t Size, uint32_t Timeout, uint8_t* OverRun)
 {
   uint32_t tmpreg_cfgr;
   uint16_t* tmp_status;
+  uint16_t tmp_status_val;
+  uint16_t tmp_data;
+  uint8_t Retry = 0;
+
+  *OverRun = 0; 
 
   if ((pData == NULL) || (Size == 0U))
   {
@@ -904,6 +909,11 @@ HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint
     hi2s->RxXferCount = Size;
   }
 
+  // if (__HAL_I2S_GET_FLAG(hi2s, I2S_FLAG_OVR) == SET) {
+  //   __HAL_I2S_DISABLE(hi2s);
+  //   __HAL_I2S_ENABLE(hi2s);
+  // }
+
   /* Check if the I2S is already enabled */
   if ((hi2s->Instance->I2SCFGR & SPI_I2SCFGR_I2SE) != SPI_I2SCFGR_I2SE)
   {
@@ -914,8 +924,8 @@ HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint
   /* Check if Master Receiver mode is selected */
   if ((hi2s->Instance->I2SCFGR & SPI_I2SCFGR_I2SCFG) == I2S_MODE_MASTER_RX)
   {
-    /* Clear the Overrun Flag by a read operation on the SPI_DR register followed by a read
-    access to the SPI_SR register. */
+    //  Clear the Overrun Flag by a read operation on the SPI_DR register followed by a read
+    // access to the SPI_SR register. 
     __HAL_I2S_CLEAR_OVRFLAG(hi2s);
   }
 
@@ -932,13 +942,39 @@ HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint
       return HAL_ERROR;
     }
 
-    (*hi2s->pRxBuffPtr) = (uint16_t)hi2s->Instance->DR;
-    (*tmp_status) = (uint16_t)hi2s->Instance->SR;
+    /* Check if an overrun occurs */
+    if (__HAL_I2S_GET_FLAG(hi2s, I2S_FLAG_OVR) == SET)
+    {
+      /* Clear overrun flag */
+      __HAL_I2S_CLEAR_OVRFLAG(hi2s);
+
+      hi2s->State = HAL_I2S_STATE_READY;
+
+      __HAL_UNLOCK(hi2s);
+
+      /* Set the error code */
+      SET_BIT(hi2s->ErrorCode, HAL_I2S_ERROR_OVR);
+    }
+
+    tmp_data = (uint16_t)hi2s->Instance->DR;
+    tmp_status_val = (uint16_t)hi2s->Instance->SR;
+
+    if (hi2s->RxXferCount == 1 && !Retry){
+      if (*(tmp_status-1) != tmp_status_val) {
+        *(hi2s->pRxBuffPtr - 1) = tmp_data;
+        *(tmp_status - 1) = tmp_status_val;
+        Retry = 1;
+        (*OverRun)++;
+        continue;
+      }
+    }
+
+    *tmp_status = tmp_status_val;
+    *(hi2s->pRxBuffPtr) = tmp_data;
     tmp_status++;
     hi2s->pRxBuffPtr++;
     hi2s->RxXferCount--;
 
-    /* Check if an overrun occurs */
     if (__HAL_I2S_GET_FLAG(hi2s, I2S_FLAG_OVR) == SET)
     {
       /* Clear overrun flag */
@@ -947,6 +983,7 @@ HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint
       /* Set the error code */
       SET_BIT(hi2s->ErrorCode, HAL_I2S_ERROR_OVR);
     }
+
   }
 
   hi2s->State = HAL_I2S_STATE_READY;

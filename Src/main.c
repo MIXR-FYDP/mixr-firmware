@@ -39,8 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLE_COUNT 262144
-#define SAMPLE_BUFFER_SIZE 16384
+#define SAMPLE_COUNT 262144 * 4
+#define SAMPLE_BUFFER_SIZE 32768
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -185,93 +185,44 @@ int main(void)
   uint16_t status[2] = {0};
   uint32_t bw0;
   uint32_t bw1;
+  uint8_t overrun = 0; 
+  uint32_t overrun_count = 0; 
+  uint32_t out_of_sync_count = 0;
 
   while(count < SAMPLE_COUNT) {
-    HAL_I2S_Receive(&hi2s1, data, status, 1, 100);
-    if(status[0] == status[1]) {
-      channel = (uint8_t) status[0] & 0x4;
-      if(channel != last_channel) {
-        switch(channel) {
-          case 0x0:
-            I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8;
-            break;
-          case 0x4:
-            I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8; 
-            break;
-        }
-        last_channel = channel;
-        count++;
-      }
+    HAL_I2S_Receive(&hi2s1, data, status, 1, 10, &overrun);
+    overrun_count += overrun; 
+    channel = (uint8_t) status[0] & 0x4;
+    if (status[0] != status[1]) {
+      out_of_sync_count++; 
     }
-    if(count % (SAMPLE_BUFFER_SIZE * 2) == 0 && count != 0) {
+
+    switch(channel) {
+      case 0x0:
+        I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8;
+        break;
+      case 0x4:
+        I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8; 
+        break;
+    }
+
+    if(I2S_RxBuffer_L_Index == SAMPLE_BUFFER_SIZE - 1) {
+      f_write(&ch0, I2S_RxBuffer_L, SAMPLE_BUFFER_SIZE * 4, &bw0);
       I2S_RxBuffer_L_Index = 0;
-      I2S_RxBuffer_R_Index = 0;
-      fres = f_write(&ch0, I2S_RxBuffer_L, SAMPLE_BUFFER_SIZE * 4, &bw0);
-      if(fres != FR_OK) {
-        myprintf("not good\r\n");
-      }
-      f_write(&ch1, I2S_RxBuffer_R, SAMPLE_BUFFER_SIZE * 4, &bw1);
     }
+
+    if(I2S_RxBuffer_R_Index == SAMPLE_BUFFER_SIZE - 1) {
+      f_write(&ch1, I2S_RxBuffer_R, SAMPLE_BUFFER_SIZE * 4, &bw1);
+      I2S_RxBuffer_R_Index = 0;
+    }
+
+    count++;
   }
 
   /* FatFS teardown */
   f_close(&ch0);
   f_close(&ch1);
   f_mount(NULL, "", 0);
-
-  /* SD Card Initialization and test. */
-
-  // if (fres == FR_OK) {
-  //     strcpy(buffer, "/");
-  //     fres = scan_files(buffer);
-  // }
-
-  // //Try to open file
-  // fres = f_open(&fil, "test.txt", FA_READ);
-  // if (fres != FR_OK) {
-  //   myprintf("f_open error (%i)\r\n", fres);
-  //   while(1);
-  // }
-  // myprintf("I was able to open 'test.txt' for reading!\r\n");
-
-  // BYTE readBuf[30];
-  
-  // //We can either use f_read OR f_gets to get data out of files
-  // //f_gets is a wrapper on f_read that does some string formatting for us
-  // TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
-  // if(rres != 0) {
-  //   myprintf("Read string from 'test.txt' contents: ");
-  //   SEGGER_RTT_WriteString(0, readBuf);
-  //   SEGGER_RTT_WriteString(0, "\r\n");
-
-  // } else {
-  //   myprintf("f_gets error (%i)\r\n", fres);
-  // }
-  
-  // //Close file, don't forget this!
-  // f_close(&fil);
-
-  // fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
-  // if(fres == FR_OK) {
-  //   myprintf("I was able to open 'write.txt' for writing\r\n");
-  // } else {
-  //   myprintf("f_open error (%i)\r\n", fres);
-  // }
-
-  // strncpy((char*)readBuf, "hello from mixr!", 19);
-  // UINT bytesWrote; 
-  // fres = f_write(&fil, readBuf, 19, &bytesWrote);
-  // if(fres == FR_OK) {
-  //   myprintf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
-  // } else {
-  //   myprintf("f_write error (%i)\r\n");
-  // }
-
-  // //Close file, don't forget this!
-  // f_close(&fil);
-
-  // //De-mount drive
-  // f_mount(NULL, "", 0);
   
   while (1)
   {
