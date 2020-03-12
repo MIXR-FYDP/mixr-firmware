@@ -1,0 +1,1666 @@
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"AWECoreUtils.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.tuningResetByteEncoderUART,"ax",%progbits
+  17              		.align	1
+  18              		.global	tuningResetByteEncoderUART
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-d16
+  25              	tuningResetByteEncoderUART:
+  26              	.LFB3:
+  27              		.file 1 "Src/AWECoreUtils.c"
+   1:Src/AWECoreUtils.c **** /**
+   2:Src/AWECoreUtils.c ****  **************************************************************************
+   3:Src/AWECoreUtils.c ****  * @defgroup Tuning AWE Utilities and Helper Functions
+   4:Src/AWECoreUtils.c ****  * @{
+   5:Src/AWECoreUtils.c ****  **************************************************************************
+   6:Src/AWECoreUtils.c ****  *
+   7:Src/AWECoreUtils.c ****  * @file AWEUtils.c
+   8:Src/AWECoreUtils.c ****  * @brief Helper functions and utilities.
+   9:Src/AWECoreUtils.c ****  *
+  10:Src/AWECoreUtils.c ****  * @details These helper functions aid the user with tuning, and generating replies
+  11:Src/AWECoreUtils.c ****  *
+  12:Src/AWECoreUtils.c ****  ***************************************************************************/
+  13:Src/AWECoreUtils.c **** #include "AWECoreUtils.h"
+  14:Src/AWECoreUtils.c **** #include <string.h>
+  15:Src/AWECoreUtils.c **** 
+  16:Src/AWECoreUtils.c **** #if defined(__ADSP21000__) || defined(__ADSPBLACKFIN__)
+  17:Src/AWECoreUtils.c **** #pragma default_section(SWITCH, "awe_fw_slowanydata")
+  18:Src/AWECoreUtils.c **** #endif
+  19:Src/AWECoreUtils.c **** 
+  20:Src/AWECoreUtils.c **** /* ----------------------------------------------------------------------------
+  21:Src/AWECoreUtils.c ****  *   Local Variables
+  22:Src/AWECoreUtils.c ****  * ------------------------------------------------------------------------- */
+  23:Src/AWECoreUtils.c **** 
+  24:Src/AWECoreUtils.c **** /** Transmit message state. */
+  25:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static tMsgState s_state = tMS_Rx_CmdSTX;
+  26:Src/AWECoreUtils.c **** 
+  27:Src/AWECoreUtils.c **** /** Message sequence number. */
+  28:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static INT8 s_msg_seq = 0;
+  29:Src/AWECoreUtils.c **** 
+  30:Src/AWECoreUtils.c **** /** Message sequence number (previous). */
+  31:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static INT8 s_msg_seqlast = 0;
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 2
+
+
+  32:Src/AWECoreUtils.c **** 
+  33:Src/AWECoreUtils.c **** /** Message size. */
+  34:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static size_t s_msg_size = 0u;
+  35:Src/AWECoreUtils.c **** 
+  36:Src/AWECoreUtils.c **** /** Message offset. */
+  37:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static size_t s_msg_offs = 0u;
+  38:Src/AWECoreUtils.c **** 
+  39:Src/AWECoreUtils.c **** /** Message processing word. */
+  40:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static UINT32 s_msg_word = 0u;
+  41:Src/AWECoreUtils.c **** 
+  42:Src/AWECoreUtils.c **** /** Message processing word index. */
+  43:Src/AWECoreUtils.c **** AWE_FW_SLOW_ANY_DATA static UINT32 s_msg_wordpos = 0u;
+  44:Src/AWECoreUtils.c **** 
+  45:Src/AWECoreUtils.c **** /** Flag indicating that the message is processed and the reply is ready to transmit */
+  46:Src/AWECoreUtils.c **** static volatile INT32 s_msg_transmit = 0;
+  47:Src/AWECoreUtils.c **** 
+  48:Src/AWECoreUtils.c **** static UINT32 readIndex = 0;
+  49:Src/AWECoreUtils.c **** 
+  50:Src/AWECoreUtils.c **** AWE_OPTIMIZE_FOR_SPEED
+  51:Src/AWECoreUtils.c **** AWE_FW_FAST_CODE
+  52:Src/AWECoreUtils.c **** void tuningResetByteEncoderUART(void)
+  53:Src/AWECoreUtils.c **** {
+  28              		.loc 1 53 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  54:Src/AWECoreUtils.c **** 	s_state = tMS_Rx_CmdSTX;
+  33              		.loc 1 54 2 view .LVU1
+  34              		.loc 1 54 10 is_stmt 0 view .LVU2
+  35 0000 0023     		movs	r3, #0
+  36 0002 074A     		ldr	r2, .L2
+  37 0004 1370     		strb	r3, [r2]
+  55:Src/AWECoreUtils.c **** 	s_msg_seq = 0;
+  38              		.loc 1 55 2 is_stmt 1 view .LVU3
+  39              		.loc 1 55 12 is_stmt 0 view .LVU4
+  40 0006 074A     		ldr	r2, .L2+4
+  41 0008 1370     		strb	r3, [r2]
+  56:Src/AWECoreUtils.c **** 	s_msg_seqlast = 0;
+  42              		.loc 1 56 2 is_stmt 1 view .LVU5
+  43              		.loc 1 56 16 is_stmt 0 view .LVU6
+  44 000a 074A     		ldr	r2, .L2+8
+  45 000c 1370     		strb	r3, [r2]
+  57:Src/AWECoreUtils.c **** 	s_msg_size = 0u;
+  46              		.loc 1 57 2 is_stmt 1 view .LVU7
+  47              		.loc 1 57 13 is_stmt 0 view .LVU8
+  48 000e 074A     		ldr	r2, .L2+12
+  49 0010 1360     		str	r3, [r2]
+  58:Src/AWECoreUtils.c **** 	s_msg_offs = 0u;
+  50              		.loc 1 58 2 is_stmt 1 view .LVU9
+  51              		.loc 1 58 13 is_stmt 0 view .LVU10
+  52 0012 074A     		ldr	r2, .L2+16
+  53 0014 1360     		str	r3, [r2]
+  59:Src/AWECoreUtils.c **** 	s_msg_word = 0u;
+  54              		.loc 1 59 2 is_stmt 1 view .LVU11
+  55              		.loc 1 59 13 is_stmt 0 view .LVU12
+  56 0016 074A     		ldr	r2, .L2+20
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 3
+
+
+  57 0018 1360     		str	r3, [r2]
+  60:Src/AWECoreUtils.c **** 	s_msg_wordpos = 0u;
+  58              		.loc 1 60 2 is_stmt 1 view .LVU13
+  59              		.loc 1 60 16 is_stmt 0 view .LVU14
+  60 001a 074A     		ldr	r2, .L2+24
+  61 001c 1360     		str	r3, [r2]
+  61:Src/AWECoreUtils.c **** 
+  62:Src/AWECoreUtils.c **** }	// End tuningResetByteEncoderUART
+  62              		.loc 1 62 1 view .LVU15
+  63 001e 7047     		bx	lr
+  64              	.L3:
+  65              		.align	2
+  66              	.L2:
+  67 0020 00000000 		.word	.LANCHOR0
+  68 0024 00000000 		.word	.LANCHOR1
+  69 0028 00000000 		.word	.LANCHOR2
+  70 002c 00000000 		.word	.LANCHOR3
+  71 0030 00000000 		.word	.LANCHOR4
+  72 0034 00000000 		.word	.LANCHOR5
+  73 0038 00000000 		.word	.LANCHOR6
+  74              		.cfi_endproc
+  75              	.LFE3:
+  77              		.section	.text.tuningEncodeByteUART,"ax",%progbits
+  78              		.align	1
+  79              		.global	tuningEncodeByteUART
+  80              		.syntax unified
+  81              		.thumb
+  82              		.thumb_func
+  83              		.fpu fpv5-d16
+  85              	tuningEncodeByteUART:
+  86              	.LVL0:
+  87              	.LFB4:
+  63:Src/AWECoreUtils.c **** 
+  64:Src/AWECoreUtils.c **** 
+  65:Src/AWECoreUtils.c **** /**
+  66:Src/AWECoreUtils.c ****  * @brief Handler for byte communication transmitter ready.
+  67:Src/AWECoreUtils.c ****  * @details This method is typically called in the transmit holding buffer empty interrupt handler.
+  68:Src/AWECoreUtils.c ****  * @param[out] ch       Character to transmit.
+  69:Src/AWECoreUtils.c ****  * @return              FALSE - message not complete; a character is returned and should be transmi
+  70:Src/AWECoreUtils.c ****  * @return              TRUE - message complete; no more characters to transmit
+  71:Src/AWECoreUtils.c ****  */
+  72:Src/AWECoreUtils.c **** AWE_OPTIMIZE_FOR_SPEED
+  73:Src/AWECoreUtils.c **** AWE_FW_FAST_CODE
+  74:Src/AWECoreUtils.c **** INT32 tuningEncodeByteUART(UINT32 *packetBuffer, UINT8 * ch)
+  75:Src/AWECoreUtils.c **** {
+  88              		.loc 1 75 1 is_stmt 1 view -0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 0
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		@ link register save eliminated.
+  76:Src/AWECoreUtils.c ****     /* Switch on the module state. */
+  77:Src/AWECoreUtils.c ****     switch (s_state)
+  93              		.loc 1 77 5 view .LVU17
+  94 0000 3A4B     		ldr	r3, .L23
+  95 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  96 0004 042B     		cmp	r3, #4
+  97 0006 0FD0     		beq	.L5
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 4
+
+
+  98 0008 052B     		cmp	r3, #5
+  99 000a 19D0     		beq	.L6
+ 100 000c 032B     		cmp	r3, #3
+ 101 000e 01D0     		beq	.L21
+  78:Src/AWECoreUtils.c ****     {
+  79:Src/AWECoreUtils.c ****         case tMS_Tx_RspSTX:
+  80:Src/AWECoreUtils.c ****             s_msg_size = PACKET_LENGTH_WORDS(packetBuffer);
+  81:Src/AWECoreUtils.c ****             s_state = tMS_Tx_RspSeq;
+  82:Src/AWECoreUtils.c ****             *ch = 0x02;
+  83:Src/AWECoreUtils.c ****             return 0;
+  84:Src/AWECoreUtils.c **** 
+  85:Src/AWECoreUtils.c ****         case tMS_Tx_RspSeq:
+  86:Src/AWECoreUtils.c ****             s_state = tMS_Tx_RspData;
+  87:Src/AWECoreUtils.c ****             *ch = s_msg_seq;
+  88:Src/AWECoreUtils.c ****             s_msg_offs = 0u;
+  89:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+  90:Src/AWECoreUtils.c ****             return 0;
+  91:Src/AWECoreUtils.c **** 
+  92:Src/AWECoreUtils.c ****         case tMS_Tx_RspData:
+  93:Src/AWECoreUtils.c ****             /* Test if we need the next word. */
+  94:Src/AWECoreUtils.c ****             if (s_msg_wordpos == 0)
+  95:Src/AWECoreUtils.c ****             {
+  96:Src/AWECoreUtils.c ****                 /* Check for end of data. */
+  97:Src/AWECoreUtils.c ****                 if (s_msg_offs == s_msg_size)
+  98:Src/AWECoreUtils.c ****                 {
+  99:Src/AWECoreUtils.c ****                     /* Transmit the ETX and finish. */
+ 100:Src/AWECoreUtils.c ****                     s_state = tMS_Rx_CmdSTX;
+ 101:Src/AWECoreUtils.c ****                     *ch = 0x03;
+ 102:Src/AWECoreUtils.c ****                     return 0;
+ 103:Src/AWECoreUtils.c ****                 }
+ 104:Src/AWECoreUtils.c **** 
+ 105:Src/AWECoreUtils.c ****                 /* Consume the next word. */
+ 106:Src/AWECoreUtils.c ****                 s_msg_word = packetBuffer[s_msg_offs++];
+ 107:Src/AWECoreUtils.c ****             }
+ 108:Src/AWECoreUtils.c **** 
+ 109:Src/AWECoreUtils.c ****             /* Send the word pieces. */
+ 110:Src/AWECoreUtils.c ****             switch (s_msg_wordpos)
+ 111:Src/AWECoreUtils.c ****             {
+ 112:Src/AWECoreUtils.c ****                 case 0u: *ch = (UINT8)(0x80 | (s_msg_word & 0x7F)); s_msg_wordpos = 1u; break;
+ 113:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ 114:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 115:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 116:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 117:Src/AWECoreUtils.c ****             }
+ 118:Src/AWECoreUtils.c ****             return 0;
+ 119:Src/AWECoreUtils.c **** 
+ 120:Src/AWECoreUtils.c **** 		default:
+ 121:Src/AWECoreUtils.c **** 			;
+ 122:Src/AWECoreUtils.c ****     }
+ 123:Src/AWECoreUtils.c **** 
+ 124:Src/AWECoreUtils.c ****     return COMPLETE_NEW_PACKET;
+ 102              		.loc 1 124 12 is_stmt 0 view .LVU18
+ 103 0010 0120     		movs	r0, #1
+ 104              	.LVL1:
+ 125:Src/AWECoreUtils.c **** 
+ 126:Src/AWECoreUtils.c **** }   // End tuningEncodeByteUART
+ 105              		.loc 1 126 1 view .LVU19
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 5
+
+
+ 106 0012 7047     		bx	lr
+ 107              	.LVL2:
+ 108              	.L21:
+  80:Src/AWECoreUtils.c ****             s_state = tMS_Tx_RspSeq;
+ 109              		.loc 1 80 13 is_stmt 1 view .LVU20
+  80:Src/AWECoreUtils.c ****             s_state = tMS_Tx_RspSeq;
+ 110              		.loc 1 80 26 is_stmt 0 view .LVU21
+ 111 0014 4288     		ldrh	r2, [r0, #2]
+  80:Src/AWECoreUtils.c ****             s_state = tMS_Tx_RspSeq;
+ 112              		.loc 1 80 24 view .LVU22
+ 113 0016 364B     		ldr	r3, .L23+4
+ 114 0018 1A60     		str	r2, [r3]
+  81:Src/AWECoreUtils.c ****             *ch = 0x02;
+ 115              		.loc 1 81 13 is_stmt 1 view .LVU23
+  81:Src/AWECoreUtils.c ****             *ch = 0x02;
+ 116              		.loc 1 81 21 is_stmt 0 view .LVU24
+ 117 001a 344B     		ldr	r3, .L23
+ 118 001c 0422     		movs	r2, #4
+ 119 001e 1A70     		strb	r2, [r3]
+  82:Src/AWECoreUtils.c ****             return 0;
+ 120              		.loc 1 82 13 is_stmt 1 view .LVU25
+  82:Src/AWECoreUtils.c ****             return 0;
+ 121              		.loc 1 82 17 is_stmt 0 view .LVU26
+ 122 0020 0223     		movs	r3, #2
+ 123 0022 0B70     		strb	r3, [r1]
+  83:Src/AWECoreUtils.c **** 
+ 124              		.loc 1 83 13 is_stmt 1 view .LVU27
+  83:Src/AWECoreUtils.c **** 
+ 125              		.loc 1 83 20 is_stmt 0 view .LVU28
+ 126 0024 0020     		movs	r0, #0
+ 127              	.LVL3:
+  83:Src/AWECoreUtils.c **** 
+ 128              		.loc 1 83 20 view .LVU29
+ 129 0026 7047     		bx	lr
+ 130              	.LVL4:
+ 131              	.L5:
+  86:Src/AWECoreUtils.c ****             *ch = s_msg_seq;
+ 132              		.loc 1 86 13 is_stmt 1 view .LVU30
+  86:Src/AWECoreUtils.c ****             *ch = s_msg_seq;
+ 133              		.loc 1 86 21 is_stmt 0 view .LVU31
+ 134 0028 304B     		ldr	r3, .L23
+ 135 002a 0522     		movs	r2, #5
+ 136 002c 1A70     		strb	r2, [r3]
+  87:Src/AWECoreUtils.c ****             s_msg_offs = 0u;
+ 137              		.loc 1 87 13 is_stmt 1 view .LVU32
+  87:Src/AWECoreUtils.c ****             s_msg_offs = 0u;
+ 138              		.loc 1 87 17 is_stmt 0 view .LVU33
+ 139 002e 314B     		ldr	r3, .L23+8
+ 140 0030 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 141 0032 0B70     		strb	r3, [r1]
+  88:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ 142              		.loc 1 88 13 is_stmt 1 view .LVU34
+  88:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ 143              		.loc 1 88 24 is_stmt 0 view .LVU35
+ 144 0034 0020     		movs	r0, #0
+ 145              	.LVL5:
+  88:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 6
+
+
+ 146              		.loc 1 88 24 view .LVU36
+ 147 0036 304B     		ldr	r3, .L23+12
+ 148 0038 1860     		str	r0, [r3]
+  89:Src/AWECoreUtils.c ****             return 0;
+ 149              		.loc 1 89 13 is_stmt 1 view .LVU37
+  89:Src/AWECoreUtils.c ****             return 0;
+ 150              		.loc 1 89 27 is_stmt 0 view .LVU38
+ 151 003a 304B     		ldr	r3, .L23+16
+ 152 003c 1860     		str	r0, [r3]
+  90:Src/AWECoreUtils.c **** 
+ 153              		.loc 1 90 13 is_stmt 1 view .LVU39
+  90:Src/AWECoreUtils.c **** 
+ 154              		.loc 1 90 20 is_stmt 0 view .LVU40
+ 155 003e 7047     		bx	lr
+ 156              	.LVL6:
+ 157              	.L6:
+  75:Src/AWECoreUtils.c ****     /* Switch on the module state. */
+ 158              		.loc 1 75 1 view .LVU41
+ 159 0040 30B4     		push	{r4, r5}
+ 160              	.LCFI0:
+ 161              		.cfi_def_cfa_offset 8
+ 162              		.cfi_offset 4, -8
+ 163              		.cfi_offset 5, -4
+  94:Src/AWECoreUtils.c ****             {
+ 164              		.loc 1 94 13 is_stmt 1 view .LVU42
+  94:Src/AWECoreUtils.c ****             {
+ 165              		.loc 1 94 31 is_stmt 0 view .LVU43
+ 166 0042 2E4B     		ldr	r3, .L23+16
+ 167 0044 1B68     		ldr	r3, [r3]
+  94:Src/AWECoreUtils.c ****             {
+ 168              		.loc 1 94 16 view .LVU44
+ 169 0046 63B9     		cbnz	r3, .L8
+  97:Src/AWECoreUtils.c ****                 {
+ 170              		.loc 1 97 17 is_stmt 1 view .LVU45
+  97:Src/AWECoreUtils.c ****                 {
+ 171              		.loc 1 97 32 is_stmt 0 view .LVU46
+ 172 0048 2B4A     		ldr	r2, .L23+12
+ 173 004a 1268     		ldr	r2, [r2]
+ 174 004c 284C     		ldr	r4, .L23+4
+ 175 004e 2468     		ldr	r4, [r4]
+  97:Src/AWECoreUtils.c ****                 {
+ 176              		.loc 1 97 20 view .LVU47
+ 177 0050 A242     		cmp	r2, r4
+ 178 0052 0DD0     		beq	.L22
+ 106:Src/AWECoreUtils.c ****             }
+ 179              		.loc 1 106 17 is_stmt 1 view .LVU48
+ 106:Src/AWECoreUtils.c ****             }
+ 180              		.loc 1 106 53 is_stmt 0 view .LVU49
+ 181 0054 551C     		adds	r5, r2, #1
+ 182 0056 284C     		ldr	r4, .L23+12
+ 183 0058 2560     		str	r5, [r4]
+ 106:Src/AWECoreUtils.c ****             }
+ 184              		.loc 1 106 42 view .LVU50
+ 185 005a 50F82200 		ldr	r0, [r0, r2, lsl #2]
+ 186              	.LVL7:
+ 106:Src/AWECoreUtils.c ****             }
+ 187              		.loc 1 106 28 view .LVU51
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 7
+
+
+ 188 005e 284A     		ldr	r2, .L23+20
+ 189 0060 1060     		str	r0, [r2]
+ 190              	.L8:
+ 110:Src/AWECoreUtils.c ****             {
+ 191              		.loc 1 110 13 is_stmt 1 view .LVU52
+ 192 0062 042B     		cmp	r3, #4
+ 193 0064 40D8     		bhi	.L17
+ 194 0066 DFE803F0 		tbb	[pc, r3]
+ 195              	.L11:
+ 196 006a 09       		.byte	(.L15-.L11)/2
+ 197 006b 14       		.byte	(.L14-.L11)/2
+ 198 006c 1F       		.byte	(.L13-.L11)/2
+ 199 006d 2A       		.byte	(.L12-.L11)/2
+ 200 006e 35       		.byte	(.L10-.L11)/2
+ 201              	.LVL8:
+ 202 006f 00       		.p2align 1
+ 203              	.L22:
+ 100:Src/AWECoreUtils.c ****                     *ch = 0x03;
+ 204              		.loc 1 100 21 view .LVU53
+ 100:Src/AWECoreUtils.c ****                     *ch = 0x03;
+ 205              		.loc 1 100 29 is_stmt 0 view .LVU54
+ 206 0070 0020     		movs	r0, #0
+ 207              	.LVL9:
+ 100:Src/AWECoreUtils.c ****                     *ch = 0x03;
+ 208              		.loc 1 100 29 view .LVU55
+ 209 0072 1E4B     		ldr	r3, .L23
+ 210 0074 1870     		strb	r0, [r3]
+ 101:Src/AWECoreUtils.c ****                     return 0;
+ 211              		.loc 1 101 21 is_stmt 1 view .LVU56
+ 101:Src/AWECoreUtils.c ****                     return 0;
+ 212              		.loc 1 101 25 is_stmt 0 view .LVU57
+ 213 0076 0323     		movs	r3, #3
+ 214 0078 0B70     		strb	r3, [r1]
+ 102:Src/AWECoreUtils.c ****                 }
+ 215              		.loc 1 102 21 is_stmt 1 view .LVU58
+ 102:Src/AWECoreUtils.c ****                 }
+ 216              		.loc 1 102 28 is_stmt 0 view .LVU59
+ 217 007a 08E0     		b	.L4
+ 218              	.L15:
+ 112:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ 219              		.loc 1 112 26 is_stmt 1 view .LVU60
+ 112:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ 220              		.loc 1 112 32 is_stmt 0 view .LVU61
+ 221 007c 204B     		ldr	r3, .L23+20
+ 222 007e 1B68     		ldr	r3, [r3]
+ 223 0080 63F07F03 		orn	r3, r3, #127
+ 112:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ 224              		.loc 1 112 30 view .LVU62
+ 225 0084 0B70     		strb	r3, [r1]
+ 112:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ 226              		.loc 1 112 69 is_stmt 1 view .LVU63
+ 112:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ 227              		.loc 1 112 83 is_stmt 0 view .LVU64
+ 228 0086 1D4B     		ldr	r3, .L23+16
+ 229 0088 0122     		movs	r2, #1
+ 230 008a 1A60     		str	r2, [r3]
+ 112:Src/AWECoreUtils.c ****                 case 1u: *ch = (UINT8)(0x80 | ((s_msg_word >>  7) & 0x7F)); s_msg_wordpos = 2u; bre
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 8
+
+
+ 231              		.loc 1 112 89 is_stmt 1 view .LVU65
+ 118:Src/AWECoreUtils.c **** 
+ 232              		.loc 1 118 20 is_stmt 0 view .LVU66
+ 233 008c 0020     		movs	r0, #0
+ 234              	.L4:
+ 235              		.loc 1 126 1 view .LVU67
+ 236 008e 30BC     		pop	{r4, r5}
+ 237              	.LCFI1:
+ 238              		.cfi_remember_state
+ 239              		.cfi_restore 5
+ 240              		.cfi_restore 4
+ 241              		.cfi_def_cfa_offset 0
+ 242 0090 7047     		bx	lr
+ 243              	.L14:
+ 244              	.LCFI2:
+ 245              		.cfi_restore_state
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 246              		.loc 1 113 26 is_stmt 1 view .LVU68
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 247              		.loc 1 113 60 is_stmt 0 view .LVU69
+ 248 0092 1B4B     		ldr	r3, .L23+20
+ 249 0094 1B68     		ldr	r3, [r3]
+ 250 0096 DB09     		lsrs	r3, r3, #7
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 251              		.loc 1 113 32 view .LVU70
+ 252 0098 63F07F03 		orn	r3, r3, #127
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 253              		.loc 1 113 30 view .LVU71
+ 254 009c 0B70     		strb	r3, [r1]
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 255              		.loc 1 113 77 is_stmt 1 view .LVU72
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 256              		.loc 1 113 91 is_stmt 0 view .LVU73
+ 257 009e 174B     		ldr	r3, .L23+16
+ 258 00a0 0222     		movs	r2, #2
+ 259 00a2 1A60     		str	r2, [r3]
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 260              		.loc 1 113 97 is_stmt 1 view .LVU74
+ 118:Src/AWECoreUtils.c **** 
+ 261              		.loc 1 118 20 is_stmt 0 view .LVU75
+ 262 00a4 0020     		movs	r0, #0
+ 113:Src/AWECoreUtils.c ****                 case 2u: *ch = (UINT8)(0x80 | ((s_msg_word >> 14) & 0x7F)); s_msg_wordpos = 3u; bre
+ 263              		.loc 1 113 17 view .LVU76
+ 264 00a6 F2E7     		b	.L4
+ 265              	.L13:
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 266              		.loc 1 114 26 is_stmt 1 view .LVU77
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 267              		.loc 1 114 60 is_stmt 0 view .LVU78
+ 268 00a8 154B     		ldr	r3, .L23+20
+ 269 00aa 1B68     		ldr	r3, [r3]
+ 270 00ac 9B0B     		lsrs	r3, r3, #14
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 271              		.loc 1 114 32 view .LVU79
+ 272 00ae 63F07F03 		orn	r3, r3, #127
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 273              		.loc 1 114 30 view .LVU80
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 9
+
+
+ 274 00b2 0B70     		strb	r3, [r1]
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 275              		.loc 1 114 77 is_stmt 1 view .LVU81
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 276              		.loc 1 114 91 is_stmt 0 view .LVU82
+ 277 00b4 114B     		ldr	r3, .L23+16
+ 278 00b6 0322     		movs	r2, #3
+ 279 00b8 1A60     		str	r2, [r3]
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 280              		.loc 1 114 97 is_stmt 1 view .LVU83
+ 118:Src/AWECoreUtils.c **** 
+ 281              		.loc 1 118 20 is_stmt 0 view .LVU84
+ 282 00ba 0020     		movs	r0, #0
+ 114:Src/AWECoreUtils.c ****                 case 3u: *ch = (UINT8)(0x80 | ((s_msg_word >> 21) & 0x7F)); s_msg_wordpos = 4u; bre
+ 283              		.loc 1 114 17 view .LVU85
+ 284 00bc E7E7     		b	.L4
+ 285              	.L12:
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 286              		.loc 1 115 26 is_stmt 1 view .LVU86
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 287              		.loc 1 115 60 is_stmt 0 view .LVU87
+ 288 00be 104B     		ldr	r3, .L23+20
+ 289 00c0 1B68     		ldr	r3, [r3]
+ 290 00c2 5B0D     		lsrs	r3, r3, #21
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 291              		.loc 1 115 32 view .LVU88
+ 292 00c4 63F07F03 		orn	r3, r3, #127
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 293              		.loc 1 115 30 view .LVU89
+ 294 00c8 0B70     		strb	r3, [r1]
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 295              		.loc 1 115 77 is_stmt 1 view .LVU90
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 296              		.loc 1 115 91 is_stmt 0 view .LVU91
+ 297 00ca 0C4B     		ldr	r3, .L23+16
+ 298 00cc 0422     		movs	r2, #4
+ 299 00ce 1A60     		str	r2, [r3]
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 300              		.loc 1 115 97 is_stmt 1 view .LVU92
+ 118:Src/AWECoreUtils.c **** 
+ 301              		.loc 1 118 20 is_stmt 0 view .LVU93
+ 302 00d0 0020     		movs	r0, #0
+ 115:Src/AWECoreUtils.c ****                 case 4u: *ch = (UINT8)(0x80 | ((s_msg_word >> 28) & 0x7F)); s_msg_wordpos = 0u; bre
+ 303              		.loc 1 115 17 view .LVU94
+ 304 00d2 DCE7     		b	.L4
+ 305              	.L10:
+ 116:Src/AWECoreUtils.c ****             }
+ 306              		.loc 1 116 26 is_stmt 1 view .LVU95
+ 116:Src/AWECoreUtils.c ****             }
+ 307              		.loc 1 116 60 is_stmt 0 view .LVU96
+ 308 00d4 0A4B     		ldr	r3, .L23+20
+ 309 00d6 1B68     		ldr	r3, [r3]
+ 310 00d8 1B0F     		lsrs	r3, r3, #28
+ 116:Src/AWECoreUtils.c ****             }
+ 311              		.loc 1 116 32 view .LVU97
+ 312 00da 43F08003 		orr	r3, r3, #128
+ 116:Src/AWECoreUtils.c ****             }
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 10
+
+
+ 313              		.loc 1 116 30 view .LVU98
+ 314 00de 0B70     		strb	r3, [r1]
+ 116:Src/AWECoreUtils.c ****             }
+ 315              		.loc 1 116 77 is_stmt 1 view .LVU99
+ 116:Src/AWECoreUtils.c ****             }
+ 316              		.loc 1 116 91 is_stmt 0 view .LVU100
+ 317 00e0 0020     		movs	r0, #0
+ 318 00e2 064B     		ldr	r3, .L23+16
+ 319 00e4 1860     		str	r0, [r3]
+ 116:Src/AWECoreUtils.c ****             }
+ 320              		.loc 1 116 97 is_stmt 1 view .LVU101
+ 116:Src/AWECoreUtils.c ****             }
+ 321              		.loc 1 116 17 is_stmt 0 view .LVU102
+ 322 00e6 D2E7     		b	.L4
+ 323              	.L17:
+ 118:Src/AWECoreUtils.c **** 
+ 324              		.loc 1 118 20 view .LVU103
+ 325 00e8 0020     		movs	r0, #0
+ 326 00ea D0E7     		b	.L4
+ 327              	.L24:
+ 328              		.align	2
+ 329              	.L23:
+ 330 00ec 00000000 		.word	.LANCHOR0
+ 331 00f0 00000000 		.word	.LANCHOR3
+ 332 00f4 00000000 		.word	.LANCHOR1
+ 333 00f8 00000000 		.word	.LANCHOR4
+ 334 00fc 00000000 		.word	.LANCHOR6
+ 335 0100 00000000 		.word	.LANCHOR5
+ 336              		.cfi_endproc
+ 337              	.LFE4:
+ 339              		.section	.text.tuningDecodeByteUART,"ax",%progbits
+ 340              		.align	1
+ 341              		.global	tuningDecodeByteUART
+ 342              		.syntax unified
+ 343              		.thumb
+ 344              		.thumb_func
+ 345              		.fpu fpv5-d16
+ 347              	tuningDecodeByteUART:
+ 348              	.LVL10:
+ 349              	.LFB5:
+ 127:Src/AWECoreUtils.c **** 
+ 128:Src/AWECoreUtils.c **** 
+ 129:Src/AWECoreUtils.c **** /**
+ 130:Src/AWECoreUtils.c ****  * @brief Handler for data ready in the byte communication interface.
+ 131:Src/AWECoreUtils.c ****  * @param[in] ch  Received character to be placed in the message packet..
+ 132:Src/AWECoreUtils.c ****  */
+ 133:Src/AWECoreUtils.c **** AWE_OPTIMIZE_FOR_SPEED
+ 134:Src/AWECoreUtils.c **** AWE_FW_SLOW_CODE
+ 135:Src/AWECoreUtils.c **** INT32 tuningDecodeByteUART(UINT32 *packetBuffer, UINT8 ch)
+ 136:Src/AWECoreUtils.c **** {
+ 350              		.loc 1 136 1 is_stmt 1 view -0
+ 351              		.cfi_startproc
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354              		@ link register save eliminated.
+ 137:Src/AWECoreUtils.c ****     /* Switch on the module state. */
+ 138:Src/AWECoreUtils.c ****     switch (s_state)
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 11
+
+
+ 355              		.loc 1 138 5 view .LVU105
+ 356 0000 414B     		ldr	r3, .L44
+ 357 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 358 0004 012B     		cmp	r3, #1
+ 359 0006 0ED0     		beq	.L26
+ 360 0008 5AB2     		sxtb	r2, r3
+ 361 000a 1AB1     		cbz	r2, .L27
+ 362 000c 022B     		cmp	r3, #2
+ 363 000e 15D0     		beq	.L28
+ 139:Src/AWECoreUtils.c ****     {
+ 140:Src/AWECoreUtils.c ****         case tMS_Rx_CmdSTX:
+ 141:Src/AWECoreUtils.c ****             if (ch == 0x02u)
+ 142:Src/AWECoreUtils.c ****             {
+ 143:Src/AWECoreUtils.c ****                 s_state = tMS_Rx_CmdSeq;
+ 144:Src/AWECoreUtils.c ****             }
+ 145:Src/AWECoreUtils.c ****             break;
+ 146:Src/AWECoreUtils.c **** 
+ 147:Src/AWECoreUtils.c ****         case tMS_Rx_CmdSeq:
+ 148:Src/AWECoreUtils.c ****             s_msg_seq = ch;
+ 149:Src/AWECoreUtils.c ****             s_msg_size = 0u;
+ 150:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ 151:Src/AWECoreUtils.c ****             s_state = tMS_Rx_CmdData;
+ 152:Src/AWECoreUtils.c ****             break;
+ 153:Src/AWECoreUtils.c **** 
+ 154:Src/AWECoreUtils.c ****         case tMS_Rx_CmdData:
+ 155:Src/AWECoreUtils.c ****             /* Process end of data. */
+ 156:Src/AWECoreUtils.c ****             if (ch == 0x03u)
+ 157:Src/AWECoreUtils.c ****             {
+ 158:Src/AWECoreUtils.c ****                 if (s_msg_wordpos != 0 )
+ 159:Src/AWECoreUtils.c ****                 {
+ 160:Src/AWECoreUtils.c ****                     /* Bad packet, ignore. */
+ 161:Src/AWECoreUtils.c ****                     s_state = tMS_Rx_CmdSTX;
+ 162:Src/AWECoreUtils.c ****                 }
+ 163:Src/AWECoreUtils.c ****                 else
+ 164:Src/AWECoreUtils.c ****                 {
+ 165:Src/AWECoreUtils.c ****                     /* New command, process. */
+ 166:Src/AWECoreUtils.c ****                     s_msg_seqlast  = s_msg_seq;
+ 167:Src/AWECoreUtils.c ****                     s_state = tMS_Tx_RspSTX;
+ 168:Src/AWECoreUtils.c **** 
+ 169:Src/AWECoreUtils.c ****                     /* Set the return flag indicating that a complete message has arrived. */
+ 170:Src/AWECoreUtils.c **** 					return COMPLETE_NEW_PACKET;
+ 171:Src/AWECoreUtils.c ****                 }
+ 172:Src/AWECoreUtils.c ****             }
+ 173:Src/AWECoreUtils.c ****             else if (s_msg_seq != s_msg_seqlast)
+ 174:Src/AWECoreUtils.c ****             {
+ 175:Src/AWECoreUtils.c ****                 /* Process word data. */
+ 176:Src/AWECoreUtils.c ****                 switch (s_msg_wordpos)
+ 177:Src/AWECoreUtils.c ****                 {
+ 178:Src/AWECoreUtils.c ****                     case 0u: s_msg_word  =  (ch & 0x7F);        s_msg_wordpos = 1u; break;
+ 179:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 180:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 181:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 182:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 183:Src/AWECoreUtils.c ****                     default:
+ 184:Src/AWECoreUtils.c ****                     	;
+ 185:Src/AWECoreUtils.c ****                 }
+ 186:Src/AWECoreUtils.c **** 
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 12
+
+
+ 187:Src/AWECoreUtils.c ****                 /* Save complete words. */
+ 188:Src/AWECoreUtils.c ****                 if (s_msg_wordpos == 0u)
+ 189:Src/AWECoreUtils.c ****                 {
+ 190:Src/AWECoreUtils.c ****                 	packetBuffer[s_msg_size++] = s_msg_word;
+ 191:Src/AWECoreUtils.c ****                 }
+ 192:Src/AWECoreUtils.c ****             }
+ 193:Src/AWECoreUtils.c ****             break;
+ 194:Src/AWECoreUtils.c **** 
+ 195:Src/AWECoreUtils.c ****         default:
+ 196:Src/AWECoreUtils.c ****         	;
+ 197:Src/AWECoreUtils.c ****     }	// End switch
+ 198:Src/AWECoreUtils.c **** 
+ 199:Src/AWECoreUtils.c ****     return 0;
+ 364              		.loc 1 199 12 is_stmt 0 view .LVU106
+ 365 0010 0020     		movs	r0, #0
+ 366              	.LVL11:
+ 367              		.loc 1 199 12 view .LVU107
+ 368 0012 7047     		bx	lr
+ 369              	.LVL12:
+ 370              	.L27:
+ 141:Src/AWECoreUtils.c ****             {
+ 371              		.loc 1 141 13 is_stmt 1 view .LVU108
+ 141:Src/AWECoreUtils.c ****             {
+ 372              		.loc 1 141 16 is_stmt 0 view .LVU109
+ 373 0014 0229     		cmp	r1, #2
+ 374 0016 01D0     		beq	.L42
+ 375              		.loc 1 199 12 view .LVU110
+ 376 0018 0020     		movs	r0, #0
+ 377              	.LVL13:
+ 378              		.loc 1 199 12 view .LVU111
+ 379 001a 7047     		bx	lr
+ 380              	.LVL14:
+ 381              	.L42:
+ 143:Src/AWECoreUtils.c ****             }
+ 382              		.loc 1 143 17 is_stmt 1 view .LVU112
+ 143:Src/AWECoreUtils.c ****             }
+ 383              		.loc 1 143 25 is_stmt 0 view .LVU113
+ 384 001c 3A4B     		ldr	r3, .L44
+ 385 001e 0122     		movs	r2, #1
+ 386 0020 1A70     		strb	r2, [r3]
+ 387              		.loc 1 199 12 view .LVU114
+ 388 0022 0020     		movs	r0, #0
+ 389              	.LVL15:
+ 390              		.loc 1 199 12 view .LVU115
+ 391 0024 7047     		bx	lr
+ 392              	.LVL16:
+ 393              	.L26:
+ 148:Src/AWECoreUtils.c ****             s_msg_size = 0u;
+ 394              		.loc 1 148 13 is_stmt 1 view .LVU116
+ 148:Src/AWECoreUtils.c ****             s_msg_size = 0u;
+ 395              		.loc 1 148 23 is_stmt 0 view .LVU117
+ 396 0026 394B     		ldr	r3, .L44+4
+ 397 0028 1970     		strb	r1, [r3]
+ 149:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ 398              		.loc 1 149 13 is_stmt 1 view .LVU118
+ 149:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ 399              		.loc 1 149 24 is_stmt 0 view .LVU119
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 13
+
+
+ 400 002a 0020     		movs	r0, #0
+ 401              	.LVL17:
+ 149:Src/AWECoreUtils.c ****             s_msg_wordpos = 0u;
+ 402              		.loc 1 149 24 view .LVU120
+ 403 002c 384B     		ldr	r3, .L44+8
+ 404 002e 1860     		str	r0, [r3]
+ 150:Src/AWECoreUtils.c ****             s_state = tMS_Rx_CmdData;
+ 405              		.loc 1 150 13 is_stmt 1 view .LVU121
+ 150:Src/AWECoreUtils.c ****             s_state = tMS_Rx_CmdData;
+ 406              		.loc 1 150 27 is_stmt 0 view .LVU122
+ 407 0030 384B     		ldr	r3, .L44+12
+ 408 0032 1860     		str	r0, [r3]
+ 151:Src/AWECoreUtils.c ****             break;
+ 409              		.loc 1 151 13 is_stmt 1 view .LVU123
+ 151:Src/AWECoreUtils.c ****             break;
+ 410              		.loc 1 151 21 is_stmt 0 view .LVU124
+ 411 0034 344B     		ldr	r3, .L44
+ 412 0036 0222     		movs	r2, #2
+ 413 0038 1A70     		strb	r2, [r3]
+ 152:Src/AWECoreUtils.c **** 
+ 414              		.loc 1 152 13 is_stmt 1 view .LVU125
+ 415 003a 7047     		bx	lr
+ 416              	.LVL18:
+ 417              	.L28:
+ 156:Src/AWECoreUtils.c ****             {
+ 418              		.loc 1 156 13 view .LVU126
+ 156:Src/AWECoreUtils.c ****             {
+ 419              		.loc 1 156 16 is_stmt 0 view .LVU127
+ 420 003c 0329     		cmp	r1, #3
+ 421 003e 10D0     		beq	.L43
+ 173:Src/AWECoreUtils.c ****             {
+ 422              		.loc 1 173 18 is_stmt 1 view .LVU128
+ 173:Src/AWECoreUtils.c ****             {
+ 423              		.loc 1 173 32 is_stmt 0 view .LVU129
+ 424 0040 324B     		ldr	r3, .L44+4
+ 425 0042 93F90020 		ldrsb	r2, [r3]
+ 426 0046 344B     		ldr	r3, .L44+16
+ 427 0048 93F90030 		ldrsb	r3, [r3]
+ 173:Src/AWECoreUtils.c ****             {
+ 428              		.loc 1 173 21 view .LVU130
+ 429 004c 9A42     		cmp	r2, r3
+ 430 004e 57D0     		beq	.L40
+ 176:Src/AWECoreUtils.c ****                 {
+ 431              		.loc 1 176 17 is_stmt 1 view .LVU131
+ 432 0050 304B     		ldr	r3, .L44+12
+ 433 0052 1B68     		ldr	r3, [r3]
+ 434 0054 042B     		cmp	r3, #4
+ 435 0056 1BD8     		bhi	.L32
+ 436 0058 DFE803F0 		tbb	[pc, r3]
+ 437              	.L34:
+ 438 005c 13       		.byte	(.L38-.L34)/2
+ 439 005d 28       		.byte	(.L37-.L34)/2
+ 440 005e 33       		.byte	(.L36-.L34)/2
+ 441 005f 3E       		.byte	(.L35-.L34)/2
+ 442 0060 49       		.byte	(.L33-.L34)/2
+ 443 0061 00       		.p2align 1
+ 444              	.L43:
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 14
+
+
+ 158:Src/AWECoreUtils.c ****                 {
+ 445              		.loc 1 158 17 view .LVU132
+ 158:Src/AWECoreUtils.c ****                 {
+ 446              		.loc 1 158 35 is_stmt 0 view .LVU133
+ 447 0062 2C4B     		ldr	r3, .L44+12
+ 448 0064 1B68     		ldr	r3, [r3]
+ 158:Src/AWECoreUtils.c ****                 {
+ 449              		.loc 1 158 20 view .LVU134
+ 450 0066 1BB1     		cbz	r3, .L31
+ 161:Src/AWECoreUtils.c ****                 }
+ 451              		.loc 1 161 21 is_stmt 1 view .LVU135
+ 161:Src/AWECoreUtils.c ****                 }
+ 452              		.loc 1 161 29 is_stmt 0 view .LVU136
+ 453 0068 0020     		movs	r0, #0
+ 454              	.LVL19:
+ 161:Src/AWECoreUtils.c ****                 }
+ 455              		.loc 1 161 29 view .LVU137
+ 456 006a 274B     		ldr	r3, .L44
+ 457 006c 1870     		strb	r0, [r3]
+ 458 006e 7047     		bx	lr
+ 459              	.LVL20:
+ 460              	.L31:
+ 166:Src/AWECoreUtils.c ****                     s_state = tMS_Tx_RspSTX;
+ 461              		.loc 1 166 21 is_stmt 1 view .LVU138
+ 166:Src/AWECoreUtils.c ****                     s_state = tMS_Tx_RspSTX;
+ 462              		.loc 1 166 36 is_stmt 0 view .LVU139
+ 463 0070 264B     		ldr	r3, .L44+4
+ 464 0072 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 465 0074 284B     		ldr	r3, .L44+16
+ 466 0076 1A70     		strb	r2, [r3]
+ 167:Src/AWECoreUtils.c **** 
+ 467              		.loc 1 167 21 is_stmt 1 view .LVU140
+ 167:Src/AWECoreUtils.c **** 
+ 468              		.loc 1 167 29 is_stmt 0 view .LVU141
+ 469 0078 234B     		ldr	r3, .L44
+ 470 007a 0322     		movs	r2, #3
+ 471 007c 1A70     		strb	r2, [r3]
+ 170:Src/AWECoreUtils.c ****                 }
+ 472              		.loc 1 170 6 is_stmt 1 view .LVU142
+ 170:Src/AWECoreUtils.c ****                 }
+ 473              		.loc 1 170 13 is_stmt 0 view .LVU143
+ 474 007e 0120     		movs	r0, #1
+ 475              	.LVL21:
+ 170:Src/AWECoreUtils.c ****                 }
+ 476              		.loc 1 170 13 view .LVU144
+ 477 0080 7047     		bx	lr
+ 478              	.LVL22:
+ 479              	.L38:
+ 178:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 480              		.loc 1 178 30 is_stmt 1 view .LVU145
+ 178:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 481              		.loc 1 178 49 is_stmt 0 view .LVU146
+ 482 0082 01F07F01 		and	r1, r1, #127
+ 483              	.LVL23:
+ 178:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 484              		.loc 1 178 42 view .LVU147
+ 485 0086 254B     		ldr	r3, .L44+20
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 15
+
+
+ 486 0088 1960     		str	r1, [r3]
+ 178:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 487              		.loc 1 178 65 is_stmt 1 view .LVU148
+ 178:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 488              		.loc 1 178 79 is_stmt 0 view .LVU149
+ 489 008a 224B     		ldr	r3, .L44+12
+ 490 008c 0122     		movs	r2, #1
+ 491 008e 1A60     		str	r2, [r3]
+ 178:Src/AWECoreUtils.c ****                     case 1u: s_msg_word |= ((ch & 0x7F) <<  7); s_msg_wordpos = 2u; break;
+ 492              		.loc 1 178 85 is_stmt 1 view .LVU150
+ 493              	.L32:
+ 184:Src/AWECoreUtils.c ****                 }
+ 494              		.loc 1 184 22 view .LVU151
+ 188:Src/AWECoreUtils.c ****                 {
+ 495              		.loc 1 188 17 view .LVU152
+ 188:Src/AWECoreUtils.c ****                 {
+ 496              		.loc 1 188 35 is_stmt 0 view .LVU153
+ 497 0090 204B     		ldr	r3, .L44+12
+ 498 0092 1B68     		ldr	r3, [r3]
+ 188:Src/AWECoreUtils.c ****                 {
+ 499              		.loc 1 188 20 view .LVU154
+ 500 0094 002B     		cmp	r3, #0
+ 501 0096 35D1     		bne	.L41
+ 190:Src/AWECoreUtils.c ****                 }
+ 502              		.loc 1 190 18 is_stmt 1 view .LVU155
+ 190:Src/AWECoreUtils.c ****                 }
+ 503              		.loc 1 190 41 is_stmt 0 view .LVU156
+ 504 0098 1D4A     		ldr	r2, .L44+8
+ 505 009a 1368     		ldr	r3, [r2]
+ 506 009c 591C     		adds	r1, r3, #1
+ 507 009e 1160     		str	r1, [r2]
+ 190:Src/AWECoreUtils.c ****                 }
+ 508              		.loc 1 190 45 view .LVU157
+ 509 00a0 1E4A     		ldr	r2, .L44+20
+ 510 00a2 1268     		ldr	r2, [r2]
+ 511 00a4 40F82320 		str	r2, [r0, r3, lsl #2]
+ 512              		.loc 1 199 12 view .LVU158
+ 513 00a8 0020     		movs	r0, #0
+ 514              	.LVL24:
+ 515              		.loc 1 199 12 view .LVU159
+ 516 00aa 7047     		bx	lr
+ 517              	.LVL25:
+ 518              	.L37:
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 519              		.loc 1 179 30 is_stmt 1 view .LVU160
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 520              		.loc 1 179 57 is_stmt 0 view .LVU161
+ 521 00ac C901     		lsls	r1, r1, #7
+ 522              	.LVL26:
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 523              		.loc 1 179 57 view .LVU162
+ 524 00ae 01F47E51 		and	r1, r1, #16256
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 525              		.loc 1 179 41 view .LVU163
+ 526 00b2 1A4A     		ldr	r2, .L44+20
+ 527 00b4 1368     		ldr	r3, [r2]
+ 528 00b6 1943     		orrs	r1, r1, r3
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 16
+
+
+ 529 00b8 1160     		str	r1, [r2]
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 530              		.loc 1 179 65 is_stmt 1 view .LVU164
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 531              		.loc 1 179 79 is_stmt 0 view .LVU165
+ 532 00ba 164B     		ldr	r3, .L44+12
+ 533 00bc 0222     		movs	r2, #2
+ 534 00be 1A60     		str	r2, [r3]
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 535              		.loc 1 179 85 is_stmt 1 view .LVU166
+ 179:Src/AWECoreUtils.c ****                     case 2u: s_msg_word |= ((ch & 0x7F) << 14); s_msg_wordpos = 3u; break;
+ 536              		.loc 1 179 21 is_stmt 0 view .LVU167
+ 537 00c0 E6E7     		b	.L32
+ 538              	.LVL27:
+ 539              	.L36:
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 540              		.loc 1 180 30 is_stmt 1 view .LVU168
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 541              		.loc 1 180 57 is_stmt 0 view .LVU169
+ 542 00c2 8903     		lsls	r1, r1, #14
+ 543              	.LVL28:
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 544              		.loc 1 180 57 view .LVU170
+ 545 00c4 01F4FE11 		and	r1, r1, #2080768
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 546              		.loc 1 180 41 view .LVU171
+ 547 00c8 144A     		ldr	r2, .L44+20
+ 548 00ca 1368     		ldr	r3, [r2]
+ 549 00cc 1943     		orrs	r1, r1, r3
+ 550 00ce 1160     		str	r1, [r2]
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 551              		.loc 1 180 65 is_stmt 1 view .LVU172
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 552              		.loc 1 180 79 is_stmt 0 view .LVU173
+ 553 00d0 104B     		ldr	r3, .L44+12
+ 554 00d2 0322     		movs	r2, #3
+ 555 00d4 1A60     		str	r2, [r3]
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 556              		.loc 1 180 85 is_stmt 1 view .LVU174
+ 180:Src/AWECoreUtils.c ****                     case 3u: s_msg_word |= ((ch & 0x7F) << 21); s_msg_wordpos = 4u; break;
+ 557              		.loc 1 180 21 is_stmt 0 view .LVU175
+ 558 00d6 DBE7     		b	.L32
+ 559              	.LVL29:
+ 560              	.L35:
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 561              		.loc 1 181 30 is_stmt 1 view .LVU176
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 562              		.loc 1 181 57 is_stmt 0 view .LVU177
+ 563 00d8 4905     		lsls	r1, r1, #21
+ 564              	.LVL30:
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 565              		.loc 1 181 57 view .LVU178
+ 566 00da 01F07E61 		and	r1, r1, #266338304
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 567              		.loc 1 181 41 view .LVU179
+ 568 00de 0F4A     		ldr	r2, .L44+20
+ 569 00e0 1368     		ldr	r3, [r2]
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 17
+
+
+ 570 00e2 1943     		orrs	r1, r1, r3
+ 571 00e4 1160     		str	r1, [r2]
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 572              		.loc 1 181 65 is_stmt 1 view .LVU180
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 573              		.loc 1 181 79 is_stmt 0 view .LVU181
+ 574 00e6 0B4B     		ldr	r3, .L44+12
+ 575 00e8 0422     		movs	r2, #4
+ 576 00ea 1A60     		str	r2, [r3]
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 577              		.loc 1 181 85 is_stmt 1 view .LVU182
+ 181:Src/AWECoreUtils.c ****                     case 4u: s_msg_word |= ((ch & 0x7F) << 28); s_msg_wordpos = 0u; break;
+ 578              		.loc 1 181 21 is_stmt 0 view .LVU183
+ 579 00ec D0E7     		b	.L32
+ 580              	.LVL31:
+ 581              	.L33:
+ 182:Src/AWECoreUtils.c ****                     default:
+ 582              		.loc 1 182 30 is_stmt 1 view .LVU184
+ 182:Src/AWECoreUtils.c ****                     default:
+ 583              		.loc 1 182 41 is_stmt 0 view .LVU185
+ 584 00ee 0B4A     		ldr	r2, .L44+20
+ 585 00f0 1368     		ldr	r3, [r2]
+ 586 00f2 43EA0171 		orr	r1, r3, r1, lsl #28
+ 587              	.LVL32:
+ 182:Src/AWECoreUtils.c ****                     default:
+ 588              		.loc 1 182 41 view .LVU186
+ 589 00f6 1160     		str	r1, [r2]
+ 182:Src/AWECoreUtils.c ****                     default:
+ 590              		.loc 1 182 65 is_stmt 1 view .LVU187
+ 182:Src/AWECoreUtils.c ****                     default:
+ 591              		.loc 1 182 79 is_stmt 0 view .LVU188
+ 592 00f8 064B     		ldr	r3, .L44+12
+ 593 00fa 0022     		movs	r2, #0
+ 594 00fc 1A60     		str	r2, [r3]
+ 182:Src/AWECoreUtils.c ****                     default:
+ 595              		.loc 1 182 85 is_stmt 1 view .LVU189
+ 182:Src/AWECoreUtils.c ****                     default:
+ 596              		.loc 1 182 21 is_stmt 0 view .LVU190
+ 597 00fe C7E7     		b	.L32
+ 598              	.LVL33:
+ 599              	.L40:
+ 600              		.loc 1 199 12 view .LVU191
+ 601 0100 0020     		movs	r0, #0
+ 602              	.LVL34:
+ 603              		.loc 1 199 12 view .LVU192
+ 604 0102 7047     		bx	lr
+ 605              	.LVL35:
+ 606              	.L41:
+ 607              		.loc 1 199 12 view .LVU193
+ 608 0104 0020     		movs	r0, #0
+ 609              	.LVL36:
+ 200:Src/AWECoreUtils.c **** 
+ 201:Src/AWECoreUtils.c **** }   // End tuningDecodeByteUART
+ 610              		.loc 1 201 1 view .LVU194
+ 611 0106 7047     		bx	lr
+ 612              	.L45:
+ 613              		.align	2
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 18
+
+
+ 614              	.L44:
+ 615 0108 00000000 		.word	.LANCHOR0
+ 616 010c 00000000 		.word	.LANCHOR1
+ 617 0110 00000000 		.word	.LANCHOR3
+ 618 0114 00000000 		.word	.LANCHOR6
+ 619 0118 00000000 		.word	.LANCHOR2
+ 620 011c 00000000 		.word	.LANCHOR5
+ 621              		.cfi_endproc
+ 622              	.LFE5:
+ 624              		.section	.text.ComputeCheckSumPublic,"ax",%progbits
+ 625              		.align	1
+ 626              		.global	ComputeCheckSumPublic
+ 627              		.syntax unified
+ 628              		.thumb
+ 629              		.thumb_func
+ 630              		.fpu fpv5-d16
+ 632              	ComputeCheckSumPublic:
+ 633              	.LVL37:
+ 634              	.LFB6:
+ 202:Src/AWECoreUtils.c **** 
+ 203:Src/AWECoreUtils.c **** /*The following helper functions are currently not working, but they demonstrate how our SPI state 
+ 204:Src/AWECoreUtils.c **** /**
+ 205:Src/AWECoreUtils.c ****  * @brief Handler for data ready in the word communication interface.
+ 206:Src/AWECoreUtils.c ****  * @param[in] word      32-bit word received
+ 207:Src/AWECoreUtils.c ****  * @return              Returns 1 when a complete message is received.  Otherwise 0.
+ 208:Src/AWECoreUtils.c ****  * @private
+ 209:Src/AWECoreUtils.c **** 
+ 210:Src/AWECoreUtils.c ****  */
+ 211:Src/AWECoreUtils.c **** //AWE_OPTIMIZE_FOR_SPEED
+ 212:Src/AWECoreUtils.c **** //AWE_FW_SLOW_CODE
+ 213:Src/AWECoreUtils.c **** //BOOL awe_tuningRxCmdWordSPI(AWEInstance * pAWE, UINT32 word)
+ 214:Src/AWECoreUtils.c **** //{
+ 215:Src/AWECoreUtils.c **** //    /* Check for the first word (header word) */
+ 216:Src/AWECoreUtils.c **** //    if (s_msg_wordpos == 0)
+ 217:Src/AWECoreUtils.c **** //    {
+ 218:Src/AWECoreUtils.c **** //        /* First word of the packet so get the message length */
+ 219:Src/AWECoreUtils.c **** //        s_msg_size = (word >> 16) & MAX_MSG_SIZE;
+ 220:Src/AWECoreUtils.c **** //
+ 221:Src/AWECoreUtils.c **** //        if( (s_msg_size < 2) || (s_msg_size > pAWE->packetBufferSize) )	//Invalid message
+ 222:Src/AWECoreUtils.c **** //        {
+ 223:Src/AWECoreUtils.c **** //        	return FALSE;
+ 224:Src/AWECoreUtils.c **** //        }
+ 225:Src/AWECoreUtils.c **** //    }
+ 226:Src/AWECoreUtils.c **** //
+ 227:Src/AWECoreUtils.c **** //    pAWE->pPacketBuffer[s_msg_wordpos++] = word;
+ 228:Src/AWECoreUtils.c **** //
+ 229:Src/AWECoreUtils.c **** //    if (s_msg_wordpos >= s_msg_size)
+ 230:Src/AWECoreUtils.c **** //    {
+ 231:Src/AWECoreUtils.c **** //        /* Complete message received */
+ 232:Src/AWECoreUtils.c **** //        pAWE->nPacketReceived = NEW_PACKET;
+ 233:Src/AWECoreUtils.c **** //
+ 234:Src/AWECoreUtils.c **** //        s_msg_transmit = 1;
+ 235:Src/AWECoreUtils.c **** //
+ 236:Src/AWECoreUtils.c **** //        return TRUE;
+ 237:Src/AWECoreUtils.c **** //    }
+ 238:Src/AWECoreUtils.c **** //
+ 239:Src/AWECoreUtils.c **** //    return FALSE;
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 19
+
+
+ 240:Src/AWECoreUtils.c **** //
+ 241:Src/AWECoreUtils.c **** //}   // End awe_tuningRxCmdWordSPI
+ 242:Src/AWECoreUtils.c **** 
+ 243:Src/AWECoreUtils.c **** 
+ 244:Src/AWECoreUtils.c **** /**
+ 245:Src/AWECoreUtils.c ****  * @brief Handler for data word communication transmitter ready.
+ 246:Src/AWECoreUtils.c ****  * @param[in] word      32-bit word to
+ 247:Src/AWECoreUtils.c ****  * @return              Returns 1 when a complete message is transmitted.  Otherwise 0.
+ 248:Src/AWECoreUtils.c ****  * @private
+ 249:Src/AWECoreUtils.c ****  */
+ 250:Src/AWECoreUtils.c **** //AWE_OPTIMIZE_FOR_SPEED
+ 251:Src/AWECoreUtils.c **** //AWE_FW_SLOW_CODE
+ 252:Src/AWECoreUtils.c **** //BOOL awe_tuningGetReplyWordSPI(AWEInstance * pAWE, UINT32 *word)
+ 253:Src/AWECoreUtils.c **** //{
+ 254:Src/AWECoreUtils.c **** //	/* Check the message received and processed */
+ 255:Src/AWECoreUtils.c **** //	if (s_msg_transmit)
+ 256:Src/AWECoreUtils.c **** //	{
+ 257:Src/AWECoreUtils.c **** //		s_msg_transmit = 0;
+ 258:Src/AWECoreUtils.c **** //
+ 259:Src/AWECoreUtils.c **** //		/* Save the reply packet length. */
+ 260:Src/AWECoreUtils.c **** //        s_msg_size = (pAWE->pPacketBuffer[0] >> 16);
+ 261:Src/AWECoreUtils.c **** //
+ 262:Src/AWECoreUtils.c **** //        s_msg_wordpos = 0;
+ 263:Src/AWECoreUtils.c **** //	}
+ 264:Src/AWECoreUtils.c **** //
+ 265:Src/AWECoreUtils.c **** //	if (s_msg_wordpos >= s_msg_size)
+ 266:Src/AWECoreUtils.c **** //	{
+ 267:Src/AWECoreUtils.c **** //		/* Reply message transmit completed */
+ 268:Src/AWECoreUtils.c **** //		s_msg_wordpos = 0;
+ 269:Src/AWECoreUtils.c **** //
+ 270:Src/AWECoreUtils.c **** //		return TRUE;
+ 271:Src/AWECoreUtils.c **** //	}
+ 272:Src/AWECoreUtils.c **** //
+ 273:Src/AWECoreUtils.c **** //	*word = pAWE->pPacketBuffer[s_msg_wordpos++];
+ 274:Src/AWECoreUtils.c **** //
+ 275:Src/AWECoreUtils.c **** //	return FALSE;
+ 276:Src/AWECoreUtils.c **** //
+ 277:Src/AWECoreUtils.c **** //}   // End awe_tuningGetReplyWordSPI
+ 278:Src/AWECoreUtils.c **** /*-----------------------------END SPI/UART HELPER FUNCTIONS------------------------------------- *
+ 279:Src/AWECoreUtils.c **** 
+ 280:Src/AWECoreUtils.c **** 
+ 281:Src/AWECoreUtils.c **** void ComputeCheckSumPublic(UINT32 * pPacketBuffer)
+ 282:Src/AWECoreUtils.c **** {
+ 635              		.loc 1 282 1 is_stmt 1 view -0
+ 636              		.cfi_startproc
+ 637              		@ args = 0, pretend = 0, frame = 0
+ 638              		@ frame_needed = 0, uses_anonymous_args = 0
+ 639              		@ link register save eliminated.
+ 640              		.loc 1 282 1 is_stmt 0 view .LVU196
+ 641 0000 10B4     		push	{r4}
+ 642              	.LCFI3:
+ 643              		.cfi_def_cfa_offset 4
+ 644              		.cfi_offset 4, -4
+ 283:Src/AWECoreUtils.c **** 
+ 284:Src/AWECoreUtils.c **** 	UINT32 i;
+ 645              		.loc 1 284 2 is_stmt 1 view .LVU197
+ 285:Src/AWECoreUtils.c **** 	UINT32 nLen = pPacketBuffer[0] >> 16;
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 20
+
+
+ 646              		.loc 1 285 2 view .LVU198
+ 647              		.loc 1 285 9 is_stmt 0 view .LVU199
+ 648 0002 4488     		ldrh	r4, [r0, #2]
+ 649              	.LVL38:
+ 286:Src/AWECoreUtils.c **** 
+ 287:Src/AWECoreUtils.c **** 	UINT32 nCRC = 0;
+ 650              		.loc 1 287 2 is_stmt 1 view .LVU200
+ 288:Src/AWECoreUtils.c **** 
+ 289:Src/AWECoreUtils.c **** 	for (i = 0; i < (nLen - 1); i++)
+ 651              		.loc 1 289 2 view .LVU201
+ 287:Src/AWECoreUtils.c **** 
+ 652              		.loc 1 287 9 is_stmt 0 view .LVU202
+ 653 0004 0022     		movs	r2, #0
+ 654              		.loc 1 289 9 view .LVU203
+ 655 0006 1346     		mov	r3, r2
+ 656              	.LVL39:
+ 657              	.L47:
+ 658              		.loc 1 289 24 discriminator 1 view .LVU204
+ 659 0008 611E     		subs	r1, r4, #1
+ 660              		.loc 1 289 2 discriminator 1 view .LVU205
+ 661 000a 9942     		cmp	r1, r3
+ 662 000c 04D9     		bls	.L50
+ 290:Src/AWECoreUtils.c **** 	{
+ 291:Src/AWECoreUtils.c **** 		nCRC ^= pPacketBuffer[i];
+ 663              		.loc 1 291 3 is_stmt 1 discriminator 3 view .LVU206
+ 664              		.loc 1 291 24 is_stmt 0 discriminator 3 view .LVU207
+ 665 000e 50F82310 		ldr	r1, [r0, r3, lsl #2]
+ 666              		.loc 1 291 8 discriminator 3 view .LVU208
+ 667 0012 4A40     		eors	r2, r2, r1
+ 668              	.LVL40:
+ 289:Src/AWECoreUtils.c **** 	{
+ 669              		.loc 1 289 31 discriminator 3 view .LVU209
+ 670 0014 0133     		adds	r3, r3, #1
+ 671              	.LVL41:
+ 289:Src/AWECoreUtils.c **** 	{
+ 672              		.loc 1 289 31 discriminator 3 view .LVU210
+ 673 0016 F7E7     		b	.L47
+ 674              	.L50:
+ 292:Src/AWECoreUtils.c **** 	}
+ 293:Src/AWECoreUtils.c **** 
+ 294:Src/AWECoreUtils.c **** 	pPacketBuffer[nLen - 1] = nCRC;
+ 675              		.loc 1 294 2 is_stmt 1 view .LVU211
+ 676              		.loc 1 294 15 is_stmt 0 view .LVU212
+ 677 0018 6FF04043 		mvn	r3, #-1073741824
+ 678              	.LVL42:
+ 679              		.loc 1 294 15 view .LVU213
+ 680 001c 2344     		add	r3, r3, r4
+ 681              		.loc 1 294 26 view .LVU214
+ 682 001e 40F82320 		str	r2, [r0, r3, lsl #2]
+ 295:Src/AWECoreUtils.c **** 
+ 296:Src/AWECoreUtils.c **** }	// End ComputeCheckSumPublic
+ 683              		.loc 1 296 1 view .LVU215
+ 684 0022 5DF8044B 		ldr	r4, [sp], #4
+ 685              	.LCFI4:
+ 686              		.cfi_restore 4
+ 687              		.cfi_def_cfa_offset 0
+ 688              	.LVL43:
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 21
+
+
+ 689              		.loc 1 296 1 view .LVU216
+ 690 0026 7047     		bx	lr
+ 691              		.cfi_endproc
+ 692              	.LFE6:
+ 694              		.section	.text.GenerateInstanceTableReply,"ax",%progbits
+ 695              		.align	1
+ 696              		.global	GenerateInstanceTableReply
+ 697              		.syntax unified
+ 698              		.thumb
+ 699              		.thumb_func
+ 700              		.fpu fpv5-d16
+ 702              	GenerateInstanceTableReply:
+ 703              	.LVL44:
+ 704              	.LFB7:
+ 297:Src/AWECoreUtils.c **** 
+ 298:Src/AWECoreUtils.c **** 
+ 299:Src/AWECoreUtils.c **** void GenerateInstanceTableReply(UINT32 * pPacketBuffer, UINT32 numInstances, UINT32 * pInstanceTabl
+ 300:Src/AWECoreUtils.c **** {
+ 705              		.loc 1 300 1 is_stmt 1 view -0
+ 706              		.cfi_startproc
+ 707              		@ args = 0, pretend = 0, frame = 0
+ 708              		@ frame_needed = 0, uses_anonymous_args = 0
+ 709              		.loc 1 300 1 is_stmt 0 view .LVU218
+ 710 0000 10B5     		push	{r4, lr}
+ 711              	.LCFI5:
+ 712              		.cfi_def_cfa_offset 8
+ 713              		.cfi_offset 4, -8
+ 714              		.cfi_offset 14, -4
+ 715 0002 0446     		mov	r4, r0
+ 716 0004 0B46     		mov	r3, r1
+ 717 0006 1146     		mov	r1, r2
+ 718              	.LVL45:
+ 301:Src/AWECoreUtils.c **** 	pPacketBuffer[0] = ((3 + numInstances) << 16);
+ 719              		.loc 1 301 2 is_stmt 1 view .LVU219
+ 720              		.loc 1 301 25 is_stmt 0 view .LVU220
+ 721 0008 DA1C     		adds	r2, r3, #3
+ 722              	.LVL46:
+ 723              		.loc 1 301 41 view .LVU221
+ 724 000a 1204     		lsls	r2, r2, #16
+ 725              		.loc 1 301 19 view .LVU222
+ 726 000c 0260     		str	r2, [r0]
+ 302:Src/AWECoreUtils.c **** 	pPacketBuffer[1] = numInstances;
+ 727              		.loc 1 302 2 is_stmt 1 view .LVU223
+ 728              		.loc 1 302 19 is_stmt 0 view .LVU224
+ 729 000e 4360     		str	r3, [r0, #4]
+ 303:Src/AWECoreUtils.c **** 	memcpy(&pPacketBuffer[2], (void *)pInstanceTable, numInstances * sizeof(UINT32));
+ 730              		.loc 1 303 2 is_stmt 1 view .LVU225
+ 731 0010 9A00     		lsls	r2, r3, #2
+ 732 0012 0830     		adds	r0, r0, #8
+ 733              	.LVL47:
+ 734              		.loc 1 303 2 is_stmt 0 view .LVU226
+ 735 0014 FFF7FEFF 		bl	memcpy
+ 736              	.LVL48:
+ 304:Src/AWECoreUtils.c **** 	ComputeCheckSumPublic(pPacketBuffer);
+ 737              		.loc 1 304 2 is_stmt 1 view .LVU227
+ 738 0018 2046     		mov	r0, r4
+ 739 001a FFF7FEFF 		bl	ComputeCheckSumPublic
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 22
+
+
+ 740              	.LVL49:
+ 305:Src/AWECoreUtils.c **** }	// End GenerateInstanceTableReply
+ 741              		.loc 1 305 1 is_stmt 0 view .LVU228
+ 742 001e 10BD     		pop	{r4, pc}
+ 743              		.loc 1 305 1 view .LVU229
+ 744              		.cfi_endproc
+ 745              	.LFE7:
+ 747              		.section	.text.float_to_fract32,"ax",%progbits
+ 748              		.align	1
+ 749              		.global	float_to_fract32
+ 750              		.syntax unified
+ 751              		.thumb
+ 752              		.thumb_func
+ 753              		.fpu fpv5-d16
+ 755              	float_to_fract32:
+ 756              	.LVL50:
+ 757              	.LFB8:
+ 306:Src/AWECoreUtils.c **** 
+ 307:Src/AWECoreUtils.c **** 
+ 308:Src/AWECoreUtils.c **** INT32 float_to_fract32(FLOAT32 x)
+ 309:Src/AWECoreUtils.c **** {
+ 758              		.loc 1 309 1 is_stmt 1 view -0
+ 759              		.cfi_startproc
+ 760              		@ args = 0, pretend = 0, frame = 8
+ 761              		@ frame_needed = 0, uses_anonymous_args = 0
+ 762              		@ link register save eliminated.
+ 763              		.loc 1 309 1 is_stmt 0 view .LVU231
+ 764 0000 82B0     		sub	sp, sp, #8
+ 765              	.LCFI6:
+ 766              		.cfi_def_cfa_offset 8
+ 310:Src/AWECoreUtils.c ****     // Clip to the allowable range
+ 311:Src/AWECoreUtils.c **** 	FLOAT32 temp;
+ 767              		.loc 1 311 2 is_stmt 1 view .LVU232
+ 312:Src/AWECoreUtils.c **** 
+ 313:Src/AWECoreUtils.c ****     if (x < -1.0f)
+ 768              		.loc 1 313 5 view .LVU233
+ 769              		.loc 1 313 8 is_stmt 0 view .LVU234
+ 770 0002 FFEE007A 		vmov.f32	s15, #-1.0e+0
+ 771 0006 B4EEE70A 		vcmpe.f32	s0, s15
+ 772 000a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 773 000e 1DD4     		bmi	.L57
+ 314:Src/AWECoreUtils.c ****     {
+ 315:Src/AWECoreUtils.c ****         return (INT32)0x80000000;
+ 316:Src/AWECoreUtils.c ****     }
+ 317:Src/AWECoreUtils.c **** 
+ 318:Src/AWECoreUtils.c ****     if (x >= 1.0f)
+ 774              		.loc 1 318 5 is_stmt 1 view .LVU235
+ 775              		.loc 1 318 8 is_stmt 0 view .LVU236
+ 776 0010 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 777 0014 B4EEE70A 		vcmpe.f32	s0, s15
+ 778 0018 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 779 001c 1ADA     		bge	.L58
+ 319:Src/AWECoreUtils.c ****     {
+ 320:Src/AWECoreUtils.c ****         return 0x7FFFFFFF;
+ 321:Src/AWECoreUtils.c ****     }
+ 322:Src/AWECoreUtils.c **** 
+ 323:Src/AWECoreUtils.c **** 	temp = x * 2147483648.0f;
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 23
+
+
+ 780              		.loc 1 323 2 is_stmt 1 view .LVU237
+ 781              		.loc 1 323 7 is_stmt 0 view .LVU238
+ 782 001e DFED0F7A 		vldr.32	s15, .L63
+ 783 0022 20EE270A 		vmul.f32	s0, s0, s15
+ 784              	.LVL51:
+ 324:Src/AWECoreUtils.c **** 	temp += temp > 0.0f? 0.5f : -0.5f;
+ 785              		.loc 1 324 2 is_stmt 1 view .LVU239
+ 786              		.loc 1 324 28 is_stmt 0 view .LVU240
+ 787 0026 B5EEC00A 		vcmpe.f32	s0, #0
+ 788 002a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 789 002e 0ADD     		ble	.L61
+ 790 0030 F6EE007A 		vmov.f32	s15, #5.0e-1
+ 791              	.L55:
+ 792              		.loc 1 324 7 discriminator 4 view .LVU241
+ 793 0034 37EE800A 		vadd.f32	s0, s15, s0
+ 794              	.LVL52:
+ 325:Src/AWECoreUtils.c **** 
+ 326:Src/AWECoreUtils.c ****     // Multiply by 2^31
+ 327:Src/AWECoreUtils.c ****     return (INT32)temp;
+ 795              		.loc 1 327 5 is_stmt 1 discriminator 4 view .LVU242
+ 796              		.loc 1 327 12 is_stmt 0 discriminator 4 view .LVU243
+ 797 0038 FDEEC07A 		vcvt.s32.f32	s15, s0
+ 798 003c CDED017A 		vstr.32	s15, [sp, #4]	@ int
+ 799              	.LVL53:
+ 800              	.L53:
+ 328:Src/AWECoreUtils.c **** 
+ 329:Src/AWECoreUtils.c **** }	// End float_to_fract32
+ 801              		.loc 1 329 1 view .LVU244
+ 802 0040 0198     		ldr	r0, [sp, #4]
+ 803 0042 02B0     		add	sp, sp, #8
+ 804              	.LCFI7:
+ 805              		.cfi_remember_state
+ 806              		.cfi_def_cfa_offset 0
+ 807              		@ sp needed
+ 808 0044 7047     		bx	lr
+ 809              	.LVL54:
+ 810              	.L61:
+ 811              	.LCFI8:
+ 812              		.cfi_restore_state
+ 324:Src/AWECoreUtils.c **** 
+ 813              		.loc 1 324 28 view .LVU245
+ 814 0046 FEEE007A 		vmov.f32	s15, #-5.0e-1
+ 815 004a F3E7     		b	.L55
+ 816              	.LVL55:
+ 817              	.L57:
+ 315:Src/AWECoreUtils.c ****     }
+ 818              		.loc 1 315 16 view .LVU246
+ 819 004c 4FF00043 		mov	r3, #-2147483648
+ 820 0050 0193     		str	r3, [sp, #4]
+ 821 0052 F5E7     		b	.L53
+ 822              	.L58:
+ 320:Src/AWECoreUtils.c ****     }
+ 823              		.loc 1 320 16 view .LVU247
+ 824 0054 6FF00043 		mvn	r3, #-2147483648
+ 825 0058 0193     		str	r3, [sp, #4]
+ 826 005a F1E7     		b	.L53
+ 827              	.L64:
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 24
+
+
+ 828              		.align	2
+ 829              	.L63:
+ 830 005c 0000004F 		.word	1325400064
+ 831              		.cfi_endproc
+ 832              	.LFE8:
+ 834              		.section	.text.fract32_to_float,"ax",%progbits
+ 835              		.align	1
+ 836              		.global	fract32_to_float
+ 837              		.syntax unified
+ 838              		.thumb
+ 839              		.thumb_func
+ 840              		.fpu fpv5-d16
+ 842              	fract32_to_float:
+ 843              	.LVL56:
+ 844              	.LFB9:
+ 330:Src/AWECoreUtils.c **** 
+ 331:Src/AWECoreUtils.c **** 
+ 332:Src/AWECoreUtils.c **** FLOAT32 fract32_to_float(INT32 x)
+ 333:Src/AWECoreUtils.c **** {
+ 845              		.loc 1 333 1 is_stmt 1 view -0
+ 846              		.cfi_startproc
+ 847              		@ args = 0, pretend = 0, frame = 0
+ 848              		@ frame_needed = 0, uses_anonymous_args = 0
+ 849              		@ link register save eliminated.
+ 334:Src/AWECoreUtils.c **** 	// Multiply by 2^(-31)
+ 335:Src/AWECoreUtils.c **** 	return ((FLOAT32)x * 4.6566128731e-010f);
+ 850              		.loc 1 335 2 view .LVU249
+ 851              		.loc 1 335 10 is_stmt 0 view .LVU250
+ 852 0000 07EE900A 		vmov	s15, r0	@ int
+ 853 0004 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 336:Src/AWECoreUtils.c **** }	// End fract32_to_float
+ 854              		.loc 1 336 1 view .LVU251
+ 855 0008 DFED027A 		vldr.32	s15, .L66
+ 856 000c 20EE270A 		vmul.f32	s0, s0, s15
+ 857 0010 7047     		bx	lr
+ 858              	.L67:
+ 859 0012 00BF     		.align	2
+ 860              	.L66:
+ 861 0014 00000030 		.word	805306368
+ 862              		.cfi_endproc
+ 863              	.LFE9:
+ 865              		.section	.text.awe_getNextAWBCmd,"ax",%progbits
+ 866              		.align	1
+ 867              		.global	awe_getNextAWBCmd
+ 868              		.syntax unified
+ 869              		.thumb
+ 870              		.thumb_func
+ 871              		.fpu fpv5-d16
+ 873              	awe_getNextAWBCmd:
+ 874              	.LVL57:
+ 875              	.LFB10:
+ 337:Src/AWECoreUtils.c **** 
+ 338:Src/AWECoreUtils.c **** 
+ 339:Src/AWECoreUtils.c **** INT32 awe_getNextAWBCmd(const UINT32 *pArray, UINT32 arraySize, UINT32 * pErrorOffset, UINT32 *pPac
+ 340:Src/AWECoreUtils.c **** {
+ 876              		.loc 1 340 1 is_stmt 1 view -0
+ 877              		.cfi_startproc
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 25
+
+
+ 878              		@ args = 0, pretend = 0, frame = 0
+ 879              		@ frame_needed = 0, uses_anonymous_args = 0
+ 880              		.loc 1 340 1 is_stmt 0 view .LVU253
+ 881 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 882              	.LCFI9:
+ 883              		.cfi_def_cfa_offset 24
+ 884              		.cfi_offset 3, -24
+ 885              		.cfi_offset 4, -20
+ 886              		.cfi_offset 5, -16
+ 887              		.cfi_offset 6, -12
+ 888              		.cfi_offset 7, -8
+ 889              		.cfi_offset 14, -4
+ 341:Src/AWECoreUtils.c **** 	UINT32 length = PACKET_LENGTH_WORDS((pArray + readIndex)) - 1;
+ 890              		.loc 1 341 2 is_stmt 1 view .LVU254
+ 891              		.loc 1 341 18 is_stmt 0 view .LVU255
+ 892 0002 104C     		ldr	r4, .L72
+ 893 0004 2468     		ldr	r4, [r4]
+ 894 0006 00EB8407 		add	r7, r0, r4, lsl #2
+ 895 000a 50F82450 		ldr	r5, [r0, r4, lsl #2]
+ 896              	.LVL58:
+ 342:Src/AWECoreUtils.c **** 
+ 343:Src/AWECoreUtils.c **** 	if (readIndex >= (arraySize - 1) )
+ 897              		.loc 1 343 2 is_stmt 1 view .LVU256
+ 898              		.loc 1 343 30 is_stmt 0 view .LVU257
+ 899 000e 0139     		subs	r1, r1, #1
+ 900              	.LVL59:
+ 901              		.loc 1 343 5 view .LVU258
+ 902 0010 8C42     		cmp	r4, r1
+ 903 0012 04D3     		bcc	.L69
+ 344:Src/AWECoreUtils.c **** 	{
+ 345:Src/AWECoreUtils.c **** 		readIndex = 0;
+ 904              		.loc 1 345 3 is_stmt 1 view .LVU259
+ 905              		.loc 1 345 13 is_stmt 0 view .LVU260
+ 906 0014 0B4B     		ldr	r3, .L72
+ 907              	.LVL60:
+ 908              		.loc 1 345 13 view .LVU261
+ 909 0016 0022     		movs	r2, #0
+ 910              	.LVL61:
+ 911              		.loc 1 345 13 view .LVU262
+ 912 0018 1A60     		str	r2, [r3]
+ 346:Src/AWECoreUtils.c **** 		return AWB_DONE;
+ 913              		.loc 1 346 3 is_stmt 1 view .LVU263
+ 914              		.loc 1 346 10 is_stmt 0 view .LVU264
+ 915 001a 0120     		movs	r0, #1
+ 916              	.LVL62:
+ 917              	.L68:
+ 347:Src/AWECoreUtils.c **** 	}
+ 348:Src/AWECoreUtils.c **** 	else
+ 349:Src/AWECoreUtils.c **** 	{
+ 350:Src/AWECoreUtils.c **** 		memcpy(pPacketBuffer, (pArray + readIndex), length * sizeof(UINT32));
+ 351:Src/AWECoreUtils.c **** 		ComputeCheckSumPublic(pPacketBuffer);
+ 352:Src/AWECoreUtils.c **** 		readIndex += length;
+ 353:Src/AWECoreUtils.c **** 		*pErrorOffset = readIndex;
+ 354:Src/AWECoreUtils.c **** 		return AWB_NOT_DONE;
+ 355:Src/AWECoreUtils.c **** 	}
+ 356:Src/AWECoreUtils.c **** 
+ 357:Src/AWECoreUtils.c **** }	// End awe_getNextAWBCmd
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 26
+
+
+ 918              		.loc 1 357 1 view .LVU265
+ 919 001c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 920              	.LVL63:
+ 921              	.L69:
+ 922              		.loc 1 357 1 view .LVU266
+ 923 001e 2D0C     		lsrs	r5, r5, #16
+ 924              	.LVL64:
+ 925              		.loc 1 357 1 view .LVU267
+ 926 0020 013D     		subs	r5, r5, #1
+ 927 0022 1C46     		mov	r4, r3
+ 928              	.LVL65:
+ 929              		.loc 1 357 1 view .LVU268
+ 930 0024 1646     		mov	r6, r2
+ 350:Src/AWECoreUtils.c **** 		ComputeCheckSumPublic(pPacketBuffer);
+ 931              		.loc 1 350 3 is_stmt 1 view .LVU269
+ 932 0026 AA00     		lsls	r2, r5, #2
+ 933              	.LVL66:
+ 350:Src/AWECoreUtils.c **** 		ComputeCheckSumPublic(pPacketBuffer);
+ 934              		.loc 1 350 3 is_stmt 0 view .LVU270
+ 935 0028 3946     		mov	r1, r7
+ 936 002a 1846     		mov	r0, r3
+ 937              	.LVL67:
+ 350:Src/AWECoreUtils.c **** 		ComputeCheckSumPublic(pPacketBuffer);
+ 938              		.loc 1 350 3 view .LVU271
+ 939 002c FFF7FEFF 		bl	memcpy
+ 940              	.LVL68:
+ 351:Src/AWECoreUtils.c **** 		readIndex += length;
+ 941              		.loc 1 351 3 is_stmt 1 view .LVU272
+ 942 0030 2046     		mov	r0, r4
+ 943 0032 FFF7FEFF 		bl	ComputeCheckSumPublic
+ 944              	.LVL69:
+ 352:Src/AWECoreUtils.c **** 		*pErrorOffset = readIndex;
+ 945              		.loc 1 352 3 view .LVU273
+ 352:Src/AWECoreUtils.c **** 		*pErrorOffset = readIndex;
+ 946              		.loc 1 352 13 is_stmt 0 view .LVU274
+ 947 0036 034B     		ldr	r3, .L72
+ 948 0038 1A68     		ldr	r2, [r3]
+ 949 003a 1544     		add	r5, r5, r2
+ 950 003c 1D60     		str	r5, [r3]
+ 353:Src/AWECoreUtils.c **** 		return AWB_NOT_DONE;
+ 951              		.loc 1 353 3 is_stmt 1 view .LVU275
+ 353:Src/AWECoreUtils.c **** 		return AWB_NOT_DONE;
+ 952              		.loc 1 353 17 is_stmt 0 view .LVU276
+ 953 003e 3560     		str	r5, [r6]
+ 354:Src/AWECoreUtils.c **** 	}
+ 954              		.loc 1 354 3 is_stmt 1 view .LVU277
+ 354:Src/AWECoreUtils.c **** 	}
+ 955              		.loc 1 354 10 is_stmt 0 view .LVU278
+ 956 0040 0020     		movs	r0, #0
+ 957 0042 EBE7     		b	.L68
+ 958              	.L73:
+ 959              		.align	2
+ 960              	.L72:
+ 961 0044 00000000 		.word	.LANCHOR7
+ 962              		.cfi_endproc
+ 963              	.LFE10:
+ 965              		.section	.bss.readIndex,"aw",%nobits
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 27
+
+
+ 966              		.align	2
+ 967              		.set	.LANCHOR7,. + 0
+ 970              	readIndex:
+ 971 0000 00000000 		.space	4
+ 972              		.section	.bss.s_msg_offs,"aw",%nobits
+ 973              		.align	2
+ 974              		.set	.LANCHOR4,. + 0
+ 977              	s_msg_offs:
+ 978 0000 00000000 		.space	4
+ 979              		.section	.bss.s_msg_seq,"aw",%nobits
+ 980              		.set	.LANCHOR1,. + 0
+ 983              	s_msg_seq:
+ 984 0000 00       		.space	1
+ 985              		.section	.bss.s_msg_seqlast,"aw",%nobits
+ 986              		.set	.LANCHOR2,. + 0
+ 989              	s_msg_seqlast:
+ 990 0000 00       		.space	1
+ 991              		.section	.bss.s_msg_size,"aw",%nobits
+ 992              		.align	2
+ 993              		.set	.LANCHOR3,. + 0
+ 996              	s_msg_size:
+ 997 0000 00000000 		.space	4
+ 998              		.section	.bss.s_msg_transmit,"aw",%nobits
+ 999              		.align	2
+ 1002              	s_msg_transmit:
+ 1003 0000 00000000 		.space	4
+ 1004              		.section	.bss.s_msg_word,"aw",%nobits
+ 1005              		.align	2
+ 1006              		.set	.LANCHOR5,. + 0
+ 1009              	s_msg_word:
+ 1010 0000 00000000 		.space	4
+ 1011              		.section	.bss.s_msg_wordpos,"aw",%nobits
+ 1012              		.align	2
+ 1013              		.set	.LANCHOR6,. + 0
+ 1016              	s_msg_wordpos:
+ 1017 0000 00000000 		.space	4
+ 1018              		.section	.bss.s_state,"aw",%nobits
+ 1019              		.set	.LANCHOR0,. + 0
+ 1022              	s_state:
+ 1023 0000 00       		.space	1
+ 1024              		.text
+ 1025              	.Letext0:
+ 1026              		.file 2 "Inc/Generic_TargetProcessor.h"
+ 1027              		.file 3 "Inc/AWECoreUtils.h"
+ 1028              		.file 4 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/lib/gcc/arm-none-eabi/8.3.1/
+ 1029              		.file 5 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/_t
+ 1030              		.file 6 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/re
+ 1031              		.file 7 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/lo
+ 1032              		.file 8 "<built-in>"
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s 			page 28
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 AWECoreUtils.c
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:17     .text.tuningResetByteEncoderUART:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:25     .text.tuningResetByteEncoderUART:0000000000000000 tuningResetByteEncoderUART
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:67     .text.tuningResetByteEncoderUART:0000000000000020 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:78     .text.tuningEncodeByteUART:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:85     .text.tuningEncodeByteUART:0000000000000000 tuningEncodeByteUART
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:196    .text.tuningEncodeByteUART:000000000000006a $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:330    .text.tuningEncodeByteUART:00000000000000ec $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:340    .text.tuningDecodeByteUART:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:347    .text.tuningDecodeByteUART:0000000000000000 tuningDecodeByteUART
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:438    .text.tuningDecodeByteUART:000000000000005c $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:615    .text.tuningDecodeByteUART:0000000000000108 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:625    .text.ComputeCheckSumPublic:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:632    .text.ComputeCheckSumPublic:0000000000000000 ComputeCheckSumPublic
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:695    .text.GenerateInstanceTableReply:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:702    .text.GenerateInstanceTableReply:0000000000000000 GenerateInstanceTableReply
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:748    .text.float_to_fract32:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:755    .text.float_to_fract32:0000000000000000 float_to_fract32
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:830    .text.float_to_fract32:000000000000005c $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:835    .text.fract32_to_float:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:842    .text.fract32_to_float:0000000000000000 fract32_to_float
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:861    .text.fract32_to_float:0000000000000014 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:866    .text.awe_getNextAWBCmd:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:873    .text.awe_getNextAWBCmd:0000000000000000 awe_getNextAWBCmd
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:961    .text.awe_getNextAWBCmd:0000000000000044 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:966    .bss.readIndex:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:970    .bss.readIndex:0000000000000000 readIndex
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:973    .bss.s_msg_offs:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:977    .bss.s_msg_offs:0000000000000000 s_msg_offs
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:983    .bss.s_msg_seq:0000000000000000 s_msg_seq
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:984    .bss.s_msg_seq:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:989    .bss.s_msg_seqlast:0000000000000000 s_msg_seqlast
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:990    .bss.s_msg_seqlast:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:992    .bss.s_msg_size:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:996    .bss.s_msg_size:0000000000000000 s_msg_size
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:999    .bss.s_msg_transmit:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1002   .bss.s_msg_transmit:0000000000000000 s_msg_transmit
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1005   .bss.s_msg_word:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1009   .bss.s_msg_word:0000000000000000 s_msg_word
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1012   .bss.s_msg_wordpos:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1016   .bss.s_msg_wordpos:0000000000000000 s_msg_wordpos
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1022   .bss.s_state:0000000000000000 s_state
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:1023   .bss.s_state:0000000000000000 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:202    .text.tuningEncodeByteUART:000000000000006f $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:202    .text.tuningEncodeByteUART:0000000000000070 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:443    .text.tuningDecodeByteUART:0000000000000061 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccSbSroC.s:443    .text.tuningDecodeByteUART:0000000000000062 $t
+
+UNDEFINED SYMBOLS
+memcpy
