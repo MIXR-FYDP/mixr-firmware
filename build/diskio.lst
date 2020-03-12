@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
   28:Middlewares/Third_Party/FatFs/src/diskio.c **** /* Private function prototypes -----------------------------------------------*/
   29:Middlewares/Third_Party/FatFs/src/diskio.c **** /* Private functions ---------------------------------------------------------*/
   30:Middlewares/Third_Party/FatFs/src/diskio.c **** 
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 2
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 2
 
 
   31:Middlewares/Third_Party/FatFs/src/diskio.c **** /**
@@ -118,7 +118,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
   70              		.fpu fpv5-d16
   72              	disk_initialize:
   73              	.LVL3:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 3
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 3
 
 
   74              	.LFB142:
@@ -178,7 +178,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
  112 001c 00E0     		b	.L6
  113              	.LVL7:
  114              	.L7:
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 4
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 4
 
 
   55:Middlewares/Third_Party/FatFs/src/diskio.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
  151              		.cfi_offset 14, -4
   80:Middlewares/Third_Party/FatFs/src/diskio.c ****   DRESULT res;
  152              		.loc 1 80 3 is_stmt 1 view .LVU29
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 5
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 5
 
 
   81:Middlewares/Third_Party/FatFs/src/diskio.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
  188              		.loc 1 101 1 is_stmt 1 view -0
  189              		.cfi_startproc
  190              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 6
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 6
 
 
  191              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -358,7 +358,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
  113:Middlewares/Third_Party/FatFs/src/diskio.c ****   * @param  *buff: Buffer to send/receive control data
  114:Middlewares/Third_Party/FatFs/src/diskio.c ****   * @retval DRESULT: Operation result
  115:Middlewares/Third_Party/FatFs/src/diskio.c ****   */
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 7
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 7
 
 
  116:Middlewares/Third_Party/FatFs/src/diskio.c **** #if _USE_IOCTL == 1
@@ -418,7 +418,7 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
  280              	.LFB146:
  128:Middlewares/Third_Party/FatFs/src/diskio.c **** #endif /* _USE_IOCTL == 1 */
  129:Middlewares/Third_Party/FatFs/src/diskio.c **** 
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 8
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 8
 
 
  130:Middlewares/Third_Party/FatFs/src/diskio.c **** /**
@@ -456,28 +456,28 @@ ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 1
  305              		.file 12 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/sys/l
  306              		.file 13 "/Users/evan/mixr/software/gcc-arm-none-eabi-8-2019-q3-update/arm-none-eabi/include/stdli
  307              		.file 14 "Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
-ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s 			page 9
+ARM GAS  /var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 diskio.c
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:17     .text.disk_status:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:25     .text.disk_status:0000000000000000 disk_status
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:60     .text.disk_status:0000000000000014 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:65     .text.disk_initialize:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:72     .text.disk_initialize:0000000000000000 disk_initialize
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:125    .text.disk_initialize:0000000000000024 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:130    .text.disk_read:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:137    .text.disk_read:0000000000000000 disk_read
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:173    .text.disk_read:0000000000000014 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:178    .text.disk_write:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:185    .text.disk_write:0000000000000000 disk_write
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:221    .text.disk_write:0000000000000014 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:226    .text.disk_ioctl:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:233    .text.disk_ioctl:0000000000000000 disk_ioctl
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:267    .text.disk_ioctl:0000000000000014 $d
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:272    .text.get_fattime:0000000000000000 $t
-/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//ccuYUqvD.s:279    .text.get_fattime:0000000000000000 get_fattime
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:17     .text.disk_status:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:25     .text.disk_status:0000000000000000 disk_status
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:60     .text.disk_status:0000000000000014 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:65     .text.disk_initialize:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:72     .text.disk_initialize:0000000000000000 disk_initialize
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:125    .text.disk_initialize:0000000000000024 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:130    .text.disk_read:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:137    .text.disk_read:0000000000000000 disk_read
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:173    .text.disk_read:0000000000000014 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:178    .text.disk_write:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:185    .text.disk_write:0000000000000000 disk_write
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:221    .text.disk_write:0000000000000014 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:226    .text.disk_ioctl:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:233    .text.disk_ioctl:0000000000000000 disk_ioctl
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:267    .text.disk_ioctl:0000000000000014 $d
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:272    .text.get_fattime:0000000000000000 $t
+/var/folders/4f/bvl6__ys6qq7h5n0wwljfc200000gn/T//cceD1OVC.s:279    .text.get_fattime:0000000000000000 get_fattime
 
 UNDEFINED SYMBOLS
 disk

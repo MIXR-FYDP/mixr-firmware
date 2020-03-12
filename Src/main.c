@@ -39,7 +39,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLE_COUNT 262144
+#define SAMPLE_COUNT 262144 * 8
 #define SAMPLE_BUFFER_SIZE 8192
 /* USER CODE END PD */
 
