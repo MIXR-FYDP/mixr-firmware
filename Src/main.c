@@ -145,122 +145,136 @@ int main(void)
   MX_FATFS_Init();
   HAL_Delay(10);
 
-  /* Init FatFS and data files. */
-  FIL ch0, ch1;
-  FRESULT fres;
-
-  fres = f_mount(&SDFatFS, SDPath, 1); //1=mount now
-  if (fres != FR_OK) {
-    segger_debug("f_mount error (%i)\r\n", fres);
-    Error_Handler();
-  }
-  
-  /* Uncomment for 4-bit SDIO, will not work with DMA though */
-
-  // if (HAL_SD_ConfigWideBusOperation(&hsd2, SDMMC_BUS_WIDE_4B) != HAL_OK)
-  // {
-  //   segger_debug("Could not config wide bus operation!\r\n");
-  // }
-
-  fres = f_open(&ch0, "0.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
-  if(fres == FR_OK) {
-    segger_debug("I was able to open '0.txt' for writing\r\n");
-  } else {
-    segger_debug("f_open error (%i)\r\n", fres);
-  }
-
-  fres = f_open(&ch1, "1.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
-  if(fres == FR_OK) {
-    segger_debug("I was able to open '1.txt' for writing\r\n");
-  } else {
-    segger_debug("f_open error (%i)\r\n", fres);
-  }
-
-  uint32_t bwt;
-  uint16_t msg = 12345;
-  fres = f_write(&ch0, msg, 2, &bwt);
-  fres = f_write(&ch1, msg, 2, &bwt);
-  if(fres == FR_OK) {
-    segger_debug("I was able to open write!\r\n");
-  } else {
-    segger_debug("f_write error (%i)\r\n", fres);
-  }
-
-  HAL_Delay(1);
-
-  f_sync(&ch0);
-  f_sync(&ch1);
-
-  f_close(&ch0);
-  f_close(&ch1);
-
-  f_open(&ch0, "0.txt", FA_WRITE | FA_READ);
-  f_open(&ch1, "1.txt", FA_WRITE | FA_READ);
-
-  /* I2S Acquisition */
-  uint32_t count = 0;
-  uint8_t channel = 0;
-  uint8_t last_channel = 0;
-  uint16_t data[2] = {0};
-  uint16_t status[1] = {0};
-  uint32_t bw0;
-  uint32_t bw1;
-  uint8_t overrun = 0; 
-  uint32_t overrun_count = 0; 
-
-  uint32_t out_of_sync_count = 0; 
-  while(count < SAMPLE_COUNT) {
-    HAL_I2S_Receive(&hi2s1, data, status, 1, 10, &overrun);
-    overrun_count += overrun; 
-    channel = (uint8_t) status[0] & 0x4;
-    if (status[0] != status[1]) {
-      out_of_sync_count++; 
-    }
-    switch(channel) {
-      case 0x0:
-        I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8;
-        break;
-      case 0x4:
-        I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8; 
-        break;
-    }
-
-    if(I2S_RxBuffer_L_Index == SAMPLE_BUFFER_SIZE - 1) {
-      f_write(&ch0, I2S_RxBuffer_L, SAMPLE_BUFFER_SIZE * 4, &bw0);
-      I2S_RxBuffer_L_Index = 0;
-    }
-
-    if(I2S_RxBuffer_R_Index == SAMPLE_BUFFER_SIZE - 1) {
-      f_write(&ch1, I2S_RxBuffer_R, SAMPLE_BUFFER_SIZE * 4, &bw1);
-      I2S_RxBuffer_R_Index = 0;
-    }
-    count++;
-  }
-
-  /* FatFS teardown */
-  f_close(&ch0);
-  f_close(&ch1);
-  f_mount(NULL, "", 0);
-
-  // SEGGER_RTT_printf(0, "Out of sync: %d\n", out_of_sync_count);
-  // SEGGER_RTT_printf(0, "Overrun: %d\n", overrun_count);
-
-  // count = 0;
-  // char str[20];
-  // while(count < SAMPLE_BUFFER_SIZE / 2)
-  // {
-  //   snprintf(str, 20, "%ld, %ld\n", I2S_RxBuffer_L[count], I2S_RxBuffer_R[count]);
-  //   SEGGER_RTT_WriteString(0, str);
-  //   HAL_Delay(1);
-  //   count++;
-  // }
-
-  while (1)
+  while(1)
   {
-    /* USER CODE END WHILE */
-    HAL_GPIO_TogglePin(DEBUG_LED_0_GPIO_Port, DEBUG_LED_0_Pin);
-    HAL_Delay(500);
-    /* USER CODE BEGIN 3 */
+    /* Block until ESP signals to start recording. */
+    while(HAL_GPIO_ReadPin(STM32_PA3_UART_RX_ESP32_TX_GPIO_Port, STM32_PA3_UART_RX_ESP32_TX_Pin) != GPIO_PIN_SET) {
+      HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
+      HAL_Delay(100);
+    }
+    HAL_GPIO_WritePin(STM32_PA2_UART2_TX_ESP32_RX_GPIO_Port, STM32_PA2_UART2_TX_ESP32_RX_Pin, GPIO_PIN_SET);
+    HAL_Delay(100);
+    HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_SET);
+
+    /* Init FatFS and data files. */
+    FIL ch0, ch1;
+    FRESULT fres;
+
+    fres = f_mount(&SDFatFS, SDPath, 1); //1=mount now
+    if (fres != FR_OK) {
+      segger_debug("f_mount error (%i)\r\n", fres);
+      Error_Handler();
+    }
+    
+    /* Uncomment for 4-bit SDIO, will not work with DMA though */
+
+    // if (HAL_SD_ConfigWideBusOperation(&hsd2, SDMMC_BUS_WIDE_4B) != HAL_OK)
+    // {
+    //   segger_debug("Could not config wide bus operation!\r\n");
+    // }
+
+    fres = f_open(&ch0, "0.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+    if(fres == FR_OK) {
+      segger_debug("I was able to open '0.txt' for writing\r\n");
+    } else {
+      segger_debug("f_open error (%i)\r\n", fres);
+    }
+
+    fres = f_open(&ch1, "1.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+    if(fres == FR_OK) {
+      segger_debug("I was able to open '1.txt' for writing\r\n");
+    } else {
+      segger_debug("f_open error (%i)\r\n", fres);
+    }
+
+    uint32_t bwt;
+    uint16_t msg = 12345;
+    fres = f_write(&ch0, msg, 2, &bwt);
+    fres = f_write(&ch1, msg, 2, &bwt);
+    if(fres == FR_OK) {
+      segger_debug("I was able to open write!\r\n");
+    } else {
+      segger_debug("f_write error (%i)\r\n", fres);
+    }
+
+    HAL_Delay(1);
+
+    f_sync(&ch0);
+    f_sync(&ch1);
+
+    f_close(&ch0);
+    f_close(&ch1);
+
+    f_open(&ch0, "0.txt", FA_WRITE | FA_READ);
+    f_open(&ch1, "1.txt", FA_WRITE | FA_READ);
+
+    /* I2S Acquisition */
+    uint32_t count = 0;
+    uint8_t channel = 0;
+    uint8_t last_channel = 0;
+    uint16_t data[2] = {0};
+    uint16_t status[1] = {0};
+    uint32_t bw0;
+    uint32_t bw1;
+    uint8_t overrun = 0;
+    uint32_t overrun_count = 0;
+    uint32_t out_of_sync_count = 0;
+
+    while(1)
+    {
+      HAL_I2S_Receive(&hi2s1, data, status, 1, 10, &overrun);
+      overrun_count += overrun; 
+      channel = (uint8_t) status[0] & 0x4;
+      if (status[0] != status[1]) {
+        out_of_sync_count++; 
+      }
+      switch(channel) {
+        case 0x0:
+          I2S_RxBuffer_L[I2S_RxBuffer_L_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8;
+          break;
+        case 0x4:
+          I2S_RxBuffer_R[I2S_RxBuffer_R_Index++] = ((int32_t) data[0] << 16 | data[1]) >> 8; 
+          break;
+      }
+
+      if(I2S_RxBuffer_L_Index == SAMPLE_BUFFER_SIZE - 1) {
+        f_write(&ch0, I2S_RxBuffer_L, SAMPLE_BUFFER_SIZE * 4, &bw0);
+        I2S_RxBuffer_L_Index = 0;
+      }
+
+      if(I2S_RxBuffer_R_Index == SAMPLE_BUFFER_SIZE - 1) {
+        f_write(&ch1, I2S_RxBuffer_R, SAMPLE_BUFFER_SIZE * 4, &bw1);
+        I2S_RxBuffer_R_Index = 0;
+      }
+
+      if(HAL_GPIO_ReadPin(GPIOA, STM32_PA3_UART_RX_ESP32_TX_Pin) == GPIO_PIN_RESET) {
+        break;
+      }
+
+      count++;
+    }
+
+    /* FatFS teardown */
+    f_close(&ch0);
+    f_close(&ch1);
+    f_mount(NULL, "", 0);
+
+    HAL_Delay(100);
+    HAL_GPIO_WritePin(GPIOA, STM32_PA2_UART2_TX_ESP32_RX_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_RESET);
+
+    // SEGGER_RTT_printf(0, "Out of sync: %d\n", out_of_sync_count);
+    // SEGGER_RTT_printf(0, "Overrun: %d\n", overrun_count);
+
+    // count = 0;
+    // char str[20];
+    // while(count < SAMPLE_BUFFER_SIZE / 2)
+    // {
+    //   snprintf(str, 20, "%ld, %ld\n", I2S_RxBuffer_L[count], I2S_RxBuffer_R[count]);
+    //   SEGGER_RTT_WriteString(0, str);
+    //   HAL_Delay(1);
+    //   count++;
+    // }
   }
 
   /* USER CODE END 3 */
@@ -622,6 +636,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /* ESP pins */
+  GPIO_InitStruct.Pin = STM32_PA3_UART_RX_ESP32_TX_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = STM32_PA2_UART2_TX_ESP32_RX_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 
